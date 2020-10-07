@@ -8,7 +8,7 @@ import "../css/Pocket.css"
 
 const useStyles = makeStyles({
     large: {
-        width: "10%",
+        width: "13%",
         height: "50%",
         margin: "5px"
     },
