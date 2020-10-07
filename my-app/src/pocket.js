@@ -1,10 +1,11 @@
-import React from 'react'
+import React from 'react';
+
 
 const Pocket = () => {
     return(
-        <div>
-
-        </div>
+        <>
+            <Avatar alt="Pocket" src="./pocket.jpg" className={classes.large} />
+        </>
     )
 }
 
