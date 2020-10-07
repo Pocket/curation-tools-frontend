@@ -8,9 +8,7 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles({
-  root: {
-    maxWidth: 345,
-  },
+  root: {},
   media: {
     height: 140,
   },
