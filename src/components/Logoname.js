@@ -7,7 +7,7 @@ function Logoname() {
         <div>
             <img src={require('../images/pocket_logo1.jpg')} alt="Pocket Logo"></img>
             <div>
-                <Button variant="contained" color="primary">Debjani</Button>
+                <Button variant="contained" color="primary">Debjani Paul</Button>
             </div>
         </div>
 
