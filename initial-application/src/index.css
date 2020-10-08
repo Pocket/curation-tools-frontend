@@ -10,22 +10,4 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
-.app-container {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
 
-.logo {
-  height: 15rem;
-  margin-top: 2rem;
-}
-
-a,
-a:link,
-a:visited,
-a:active {
-  text-decoration: none;
-}
