@@ -1,9 +1,11 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('renders learn react link', () => {
+test('renders Pocket Logo and name', () => {
   const { getByText } = render(<App />);
-  const linkElement = getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+  const pocketLogo = screen.getByRole('img');
+  const myName = getByText('Hope Ngerebara');
+  expect(pocketLogo).toHaveAttribute('src', 'Pocket_logo.png');
+  expect(myName).toBeInTheDocument();
 });
