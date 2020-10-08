@@ -1,6 +1,6 @@
-import React from 'react';
-import '../css/App.css';
-import Pocket from "./Pocket"
+import React from "react";
+import "../css/App.css";
+import Pocket from "./Pocket";
 
 function App() {
   return (
