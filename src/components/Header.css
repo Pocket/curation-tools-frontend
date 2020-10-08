@@ -1,0 +1,14 @@
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 10px;
+  width: 100%;
+  background-color: white;
+}
+.header__icon {
+  object-fit: contain;
+  height: 100px;
+  padding: 10px;
+}
