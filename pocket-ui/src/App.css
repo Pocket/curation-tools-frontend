@@ -1,0 +1,26 @@
+.App {
+  text-align: center;
+}
+
+.Center {
+  display: block;
+
+  width: 15%;
+  height: 15%;
+  transition: all 800ms ease-in-out;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .Center:hover {
+    transform: rotateY(180deg);
+  }
+}
+
+@keyframes Center-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
