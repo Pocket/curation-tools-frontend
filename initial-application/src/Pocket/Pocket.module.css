@@ -1,0 +1,10 @@
+.Pocket {
+    margin: 40px auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.PocketImg {
+    height: 130px;
+    margin-bottom: 20px;
+}
