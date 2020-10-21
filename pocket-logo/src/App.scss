@@ -1,0 +1,22 @@
+#root {
+  width: 100%;
+  height: 100%;
+}
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+.button {
+  display: flex;
+  justify-content: center;
+  margin-top: 5%;
+}
+.pocketlogo {
+  width: 12vw;
+  align-self: center;
+}
+.pocket {
+  fill: #ffffff;
+}
