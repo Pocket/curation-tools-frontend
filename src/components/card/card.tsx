@@ -39,14 +39,18 @@ const useStyles = makeStyles(() =>
     })
 );
 
-const PocketCard: React.FC = () => {
+interface PocketCardProps {
+    imagePath: string;
+}
+
+const PocketCard: React.FC<PocketCardProps> = (props) => {
     const classes = useStyles();
 
     return (
         <Card className={classes.root}>
             <Grid container spacing={2}>
                 <Grid item className={classes.leftColumn}>
-                    <CardMedia component="img" image="/pocket-shield@2x.png" />
+                    <CardMedia component="img" image={props.imagePath} />
                 </Grid>
                 <Grid item className={classes.rightColumn}>
                     <Typography
@@ -72,7 +76,6 @@ const PocketCard: React.FC = () => {
                     item
                     className={`${classes.leftColumn} ${classes.bottomLeftCell}`}
                 >
-                    <CardMedia image="../../../public/pocket-shield@2x.png" />
                     <Typography variant="subtitle1" align="left">
                         Tag 1 · Tag 2
                     </Typography>
