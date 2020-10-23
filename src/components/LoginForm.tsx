@@ -14,6 +14,8 @@ const useStyles = makeStyles(() =>
     },
     img: {
       width: '50%',
+      paddingBottom:0,
+      margin:'auto'
     },
     btn: {
       backgroundColor: 'teal ',
@@ -21,10 +23,7 @@ const useStyles = makeStyles(() =>
       margin: '1.5em auto',
       textTransform: 'capitalize',
     },
-    input: {
-      marginTop: '2em',
-      paddingTop: '1em',
-    },
+    
   })
 );
 const LoginForm: React.FC = () => {
@@ -34,13 +33,15 @@ const LoginForm: React.FC = () => {
       <form noValidate autoComplete='off' className={classes.form}>
         <img src={logo} alt='Pockets Logo' className={classes.img} />
         <TextField id='outlined-basic' label='Your Email' variant='outlined' />
-        <TextField
+      <br/> <br/> 
+       <TextField
           id='outlined-basic'
           label='Password'
+          type="password"
           variant='outlined'
-          className={classes.input}
+         
         />
-        <Button
+        <Button 
           variant='contained'
           color='inherit'
           className={classes.btn}
