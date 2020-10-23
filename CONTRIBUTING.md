@@ -4,7 +4,7 @@ Thank you for checking out our Curation Tools Frontend work. We welcome contribu
 
 ### Asking questions / receiving updates
 
-* Matrix channel: [pocket-outreachy-applicants]([https://matrix.to/#/!JxCLOcZqUzctTkouqk:mozilla.org?via=mozilla.org&via=matrix.org)
+* Matrix channel: [pocket-outreachy-applicants](https://matrix.to/#/!JxCLOcZqUzctTkouqk:mozilla.org?via=mozilla.org&via=matrix.org)
 
 * File issues/questions on Github: [https://github.com/Pocket/curation-tools-frontend/issues](https://github.com/Pocket/curation-tools-frontend/issues).
 
