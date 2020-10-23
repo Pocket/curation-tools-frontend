@@ -1,7 +1,7 @@
 import React from 'react';
 //import logo from './logo.svg';
 import './App.css';
-import PocketCard from './components/Ccard/Ccard';
+import PocketCard from './components/Card/Card';
 
 function App() {
     return (
