@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from '../assets/logo.png';
+import logo from '../assets/logo.svg';
 import { TextField, Button } from '@material-ui/core';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 
@@ -10,11 +10,11 @@ const useStyles = makeStyles(() =>
       display: 'flex',
       flexDirection: 'column',
       width: '30%',
-      margin: 'auto',
+      margin: ' 5em auto',
     },
     img: {
       width: '50%',
-      paddingBottom:0,
+      paddingBottom:'2em',
       margin:'auto'
     },
     btn: {
