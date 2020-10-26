@@ -1,90 +1,50 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from "@material-ui/core/Button";
+import Green from "@material-ui/core/colors/green";
+import { fade } from "@material-ui/core/styles/colorManipulator";
 
-const useStyles = makeStyles({
-  body: {
-    margin :0,
-    padding: "20px"
+const useStyles = makeStyles(theme => ({
+  root:{
+    '& > *': {
+      margin: theme.spacing(1)
+    },
   },
-  column:{
-    display: "flex",
-    flexDirection: "column",
-    marginTop: "10px"
+  positive: {
+    background: `${Green[500]}`,
+    color: "#fff",
     
-
-  },
-  nav: {
-    display: "flex",
-    justifyContent: "flex-end"
-    
-    
-  },
-  threebuttons: {
-    display: "flex",
-    justifyContent: "center",
-    marginTop: "30px"
-  },
-  positive : {
-    backgroundColor:"  #17bbbc",
-    border: "1px solid  #17bbbc",
-    padding: "10px",
-    borderRadius: "4px",
-    color: "white",
-    "&:hover":{
-      backgroundColor: "white",
-      color: "#17bbbc"
+    "&:hover": {
+      border: `1px solid ${Green[700]}`,
+      background: "Green"
     }
-  },
-  negative : {
-    backgroundColor:" #b74a0e",
-    border: "1px solid #b74a0e",
-    marginRight: "20px",
-    padding: "10px",
-    borderRadius: "4px",
-    color: "white",
-    "&:hover":{
-      backgroundColor: "white",
-      color: "#b74a0e"
+    },
+    positiveOutlined: {
+      border: `1px solid ${fade(Green[500], 0.5)}`,
+      "&:hover": {
+        border: `1px solid ${Green[500]}`
+      }
     }
+})
+);
     
-  }, 
-  neutral : {
-    backgroundColor:" #686767",
-    border: "1px solid #686767",
-    marginRight: "20px",
-    padding: "10px",
-    borderRadius: "4px",
-    color: "white",
-    "&:hover":{
-      backgroundColor: "white",
-      color: "#686767"
-    }
-  },
-  hollow: {
-    backgroundColor: "white",
-    color: "#17bbbc",
-    padding: "10px",
-    marginLeft: "20px",
-    border: "1px solid #17bbbc",
-  }
-}); 
-
-function ButtonComponent() {
+function ButtonComponent( ) {
   const classes = useStyles();
-    return (
-<div className= {classes.column}>
-         <div className = {classes.nav}>
-           <Button className={classes.positive} > Add Story </Button>
-          <Button className={classes.hollow} > Log Out </Button>
-        </div>
-        <div className = {classes.threebuttons}>
-        <Button className={classes.negative} > Reject </Button>
-        <Button className={classes.neutral} > Snooze </Button>
-        <Button className={classes.positive} > Edit & Approve </Button>
-      </div>
-      </div>
-    );
+  return(
+  <div className={classes.root}>
+    <div className={classes.root}>
+    <Button variant="contained" className={classes.positive}>  Add Story </Button>
+    <Button variant="outlined" className={classes.positiveOutlined}>  Log Out </Button>
+    </div>
+    <div className={classes.root}>
+    <Button variant="contained" color="secondary"> Reject </Button>
+    <Button variant="contained"> Snooze </Button>
+    <Button variant="contained" className={classes.positive}>
+      Edit & Approve
+    </Button>
+    </div>
+  </div>
+  );
   }
   
   export default ButtonComponent;
