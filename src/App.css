@@ -1,0 +1,15 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+
+  pointer-events: none;
+}
+
+.personal-name {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
