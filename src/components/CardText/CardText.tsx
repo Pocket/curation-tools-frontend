@@ -5,11 +5,6 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
   card: {
-    /* note: these classes are only needed to demo the component on the home page */
-    maxWidth: 375,
-    margin: "auto",
-    border: "1px solid #cccccc",
-    /* end of demo classes */
     borderRadius: 0,
     boxShadow: "none",
   },
