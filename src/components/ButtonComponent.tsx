@@ -7,30 +7,43 @@ interface Props extends ButtonProps {
   text:string;
   buttonType?: "positive" | "negative" | "neutral" | "hollow";
 }
-
 const GetStyles = makeStyles((theme) => ({
-  
   positive: {
     background: "green",
-    color: "white"
+    color: "white",
+    "&:hover": {
+      background:"darkgreen",
+      boxShadow:" 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)"
+    }
   },
 
   negative: {
     background: "red",
     color: "white",
-    marginRight: "10px"
+    marginRight: "10px",
+    "&:hover": {
+      background:"darkred",
+      boxShadow:" 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)"
+    }
   },
 
   neutral: {
-    background: "grey",
+    background: "darkgrey",
     color: "white",
-    marginRight: "10px"
+    marginRight: "10px",
+    "&:hover": {
+      background:"grey",
+      boxShadow:" 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)"
+    }
   },
 
   hollow: {
     border: "1px solid green",
     color: "green",
-    marginLeft: "10px"
+    marginLeft: "10px",
+    "&:hover": {
+    boxShadow:" 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)"
+    }
   }
 
 }));
