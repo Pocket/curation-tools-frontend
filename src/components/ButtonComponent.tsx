@@ -2,50 +2,35 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button as BaseButton } from "@material-ui/core";
 import { ButtonProps } from "@material-ui/core";
+import Green from "@material-ui/core/colors/green";
+import { fade } from "@material-ui/core/styles/colorManipulator";
+import Grey from "@material-ui/core/colors/grey";
 
 interface Props extends ButtonProps {
   text:string;
-  buttonType?: "positive" | "negative" | "neutral" | "hollow";
+  buttonType?: "positive" | "hollow" | "neutral";
 }
 const GetStyles = makeStyles((theme) => ({
-  positive: {
-    background: "green",
-    color: "white",
+  positive: { 
+    background: `${Green[500]}`,
+    color: "#fff",
     "&:hover": {
-      background:"darkgreen",
-      boxShadow:" 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)"
-    }
-  },
-
-  negative: {
-    background: "red",
-    color: "white",
-    marginRight: "10px",
-    "&:hover": {
-      background:"darkred",
-      boxShadow:" 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)"
-    }
-  },
-
-  neutral: {
-    background: "darkgrey",
-    color: "white",
-    marginRight: "10px",
-    "&:hover": {
-      background:"grey",
-      boxShadow:" 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)"
-    }
-  },
-
+  	      border: `1px solid ${Green[700]}`,
+        background: "Green"
+      }},
   hollow: {
-    border: "1px solid green",
-    color: "green",
-    marginLeft: "10px",
+    border: `1px solid ${fade(Green[500], 0.5)}`,
+    color: "Green",
     "&:hover": {
-    boxShadow:" 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)"
-    }
-  }
-
+      border: `1px solid ${Green[500]}`
+    }},
+  neutral: {
+    background: `${Grey[500]}`,
+    color: "#fff",
+    "&:hover": {
+  	      border: `1px solid ${Grey[700]}`,
+        background: "Grey"
+      }},
 }));
 
 export const Button = ({ buttonType, ...props }: Props) => {
@@ -54,6 +39,7 @@ export const Button = ({ buttonType, ...props }: Props) => {
     className={buttonType && GetStyles()[buttonType]}
     variant={props.variant}
     size={props.size}
+    color={props.color}
     {...props}>
       {props.text}
     </BaseButton>

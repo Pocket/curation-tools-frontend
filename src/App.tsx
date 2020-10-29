@@ -11,13 +11,13 @@ function App() {
   return (
     <div className="App">
       <Container>
-      <Button text=" Add Story " size="large" buttonType="positive"/>
-      <Button text=" Log Out " size="small" buttonType="hollow"/>
+      <Button text=" Add Story " variant="contained" size="large"  buttonType="positive"/>
+      <Button text=" Log Out " variant="outlined" size="small"  buttonType="hollow"/>
       </Container>
       <Container>
-      <Button text=" Reject " size="small" buttonType="negative"/>
-      <Button text=" Snooze " size="medium" buttonType="neutral"/>
-      <Button text=" Edit & Approve " size="large" buttonType="positive"/>
+      <Button text=" Reject " variant="contained" size="small"  color="secondary"/>
+      <Button text=" Snooze " variant="contained" size="medium" buttonType="neutral"/>
+      <Button text=" Edit & Approve " variant="contained" size="large" buttonType="positive"/>
       </Container>
     </div>
   );
