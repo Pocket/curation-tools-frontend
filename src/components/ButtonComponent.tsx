@@ -15,21 +15,17 @@ const GetStyles = makeStyles((theme) => ({
     background: `${Green[500]}`,
     color: "#fff",
     "&:hover": {
-  	      border: `1px solid ${Green[700]}`,
-        background: "Green"
+        background: `${Green[700]}`
       }},
   hollow: {
     border: `1px solid ${fade(Green[500], 0.5)}`,
-    color: "Green",
-    "&:hover": {
-      border: `1px solid ${Green[500]}`
-    }},
+    color: "Green"
+  },
   neutral: {
     background: `${Grey[500]}`,
     color: "#fff",
     "&:hover": {
-  	      border: `1px solid ${Grey[700]}`,
-        background: "Grey"
+        background: `${Grey[700]}`
       }},
 }));
 
