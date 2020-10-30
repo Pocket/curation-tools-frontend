@@ -5,7 +5,7 @@ import './App.css';
 function App() {
   return (
     <div className="App">
-      <!-- your component goes here to test the rendering! -->
+    <!-- your component goes here to test the rendering! -->
     </div>
   );
 }
