@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from '../assets/logo.svg';
+import logo from '../assets/PKTLogoRounded_RGB.png';
 import { TextField, Button } from '@material-ui/core';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 
