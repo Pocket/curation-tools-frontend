@@ -1,11 +1,13 @@
 import React from 'react';
-import logo from './logo.svg';
+import './components/Wrapper.css';
+import Wrapper from './components/Wrapper';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <!-- your component goes here to test the rendering! -->
+      {/* <!-- your component goes here to test the rendering! --> */}
+      <Wrapper data-testid="wrapper-component" />
     </div>
   );
 }

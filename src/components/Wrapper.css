@@ -1,0 +1,11 @@
+/* This file is the css style-sheet for the Wrapper component to prevent css from overwriting the css of other components of the application*/
+
+/* css styling for the wrapper component */
+.Wrapper {
+  background-color: #f1f1f1;
+  width: 768px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* height: 100vh; */
+}
