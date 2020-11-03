@@ -49,14 +49,14 @@ interface TabContent {
     BadgeTab: number;
 }
 
-interface TabNavigationProps {
+interface TabsNavigationProps {
     children: Array<TabContent>;
 }
 
 /**
  * Creation of the "TabsNavigation" component.
  */
-const TabsNavigation: React.FC<TabNavigationProps> = (props) => {
+const TabsNavigation: React.FC<TabsNavigationProps> = (props) => {
     const classes = useStyles();
 
     const [value, setValue] = useState(0);
