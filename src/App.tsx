@@ -1,11 +1,24 @@
 import React from 'react';
-import logo from './logo.svg';
+import { Button } from './components/ButtonComponent/ButtonComponent';
 import './App.css';
+import styled from "styled-components";
+
+const Container = styled.div`
+display:flex;
+`;
 
 function App() {
   return (
     <div className="App">
-      <!-- your component goes here to test the rendering! -->
+      <Container>
+      <Button text=" Add Story " variant="contained" size="large"  buttonType="positive"/>
+      <Button text=" Log Out " variant="outlined" size="small"  buttonType="hollow"/>
+      </Container>
+      <Container>
+      <Button text=" Reject " variant="contained" size="small"  color="secondary"/>
+      <Button text=" Snooze " variant="contained" size="medium" buttonType="neutral"/>
+      <Button text=" Edit & Approve " variant="contained" size="large" buttonType="positive"/>
+      </Container>
     </div>
   );
 }
