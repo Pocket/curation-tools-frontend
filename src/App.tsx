@@ -1,13 +1,31 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { ModalComponent } from './components/ModalComponent';
+import { Button } from './components/Button';
 
-function App() {
+import styled from 'styled-components';
+import { CircularProgress } from '@material-ui/core';
+
+const Container = styled.div`
+margin-left: 10px
+`;
+function App(){
+  const [isModalOpen, setModalState] = React.useState(false);
+  const toggleModal = () => setModalState(!isModalOpen);
   return (
-    <div className="App">
-      <!-- your component goes here to test the rendering! -->
+    <div className="app">
+      <Button
+        onClick={toggleModal} text="Parse" buttonType="positive" size="small"
+      />
+      <ModalComponent
+        title={'Data is loading'}
+        isOpen={isModalOpen}
+        onClose={toggleModal}
+      >
+        <Container>
+          <CircularProgress/>
+        </Container>
+      </ModalComponent>
     </div>
   );
-}
-
+};
 export default App;
