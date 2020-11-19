@@ -20,6 +20,9 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent:"center",
       alignItems: "center"
     },  
+    picture: {
+      height:100
+    }
   }),
 );
 export const Modal: React.FC<ModalProps> = ({ title, isOpen, image, onClose}) => {
@@ -28,7 +31,7 @@ export const Modal: React.FC<ModalProps> = ({ title, isOpen, image, onClose}) =>
       <Dialog open={isOpen} onBackdropClick={onClose}>
           <div className={classes.paper}>
             <div id="simple-modal-title"> {title} </div>
-            <img src={image} alt="loading gif to show that data is loading"/>
+            <img src={image} className={classes.picture} alt="loading gif to show that data is loading"/>
           </div>
         </Dialog>
   
