@@ -28,28 +28,22 @@ const StyledBadge = withStyles({
 })(Badge);
 
 /**
- * Creation of TypeScript interface for the PocketTab component props.
+ * Creation of TypeScript interface for the CustomTab component props.
  */
-interface TabContent {
+interface CustomTabProps {
   title: string;
-  badge: string | number;
+  badge: number;
 }
 
 /**
- * Creation of the "PocketTab" component.
+ * Creation of the "CustomTab" component.
  */
-const PocketTab: React.FC<TabContent> = ({ ...props }) => {
+const CustomTab: React.FC<CustomTabProps> = ({ ...props }) => {
   return (
     <StyledTab
       {...props}
       label={
-        <StyledBadge
-          badgeContent={
-            typeof props.badge === 'string' ? +props.badge : props.badge
-          }
-          max={999}
-          color="secondary"
-        >
+        <StyledBadge badgeContent={props.badge} max={999} color="secondary">
           {props.title}
         </StyledBadge>
       }
@@ -57,4 +51,4 @@ const PocketTab: React.FC<TabContent> = ({ ...props }) => {
   );
 };
 
-export default PocketTab;
+export default CustomTab;
