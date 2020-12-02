@@ -1,11 +1,14 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import { MainContentWrapper } from "./components/MainContentWrapper/MainContentWrapper";
 
 function App() {
   return (
     <div className="App">
-      <!-- your component goes here to test the rendering! -->
+      <MainContentWrapper>
+        <h1>Hello World!</h1>
+      </MainContentWrapper>
     </div>
   );
 }
