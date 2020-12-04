@@ -4,15 +4,13 @@ import { Card } from './Card';
 
 describe('The Card component', () => {
   it('renders with image', () => {
-    render(
-      <Card
-        imageUrl="https://images.dog.ceo/breeds/bulldog-english/jager-2.jpg"
-        title="English Bulldog"
-      />
-    );
+    const testUrl = 'https://images.dog.ceo/breeds/bulldog-english/jager-2.jpg';
+    const testTitle = 'English Bulldog';
 
-    const image = document.querySelector('img') as HTMLImageElement;
-    expect(image.alt).toContain('English Bulldog');
+    render(<Card imageUrl={testUrl} title={testTitle} />);
+
+    const image = screen.getByAltText(testTitle);
+    expect(image).toBeInTheDocument();
 
     const buttons = screen.getAllByRole('button');
     expect(buttons.length).toEqual(3);
