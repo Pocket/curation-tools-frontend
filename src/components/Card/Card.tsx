@@ -44,20 +44,23 @@ const useStyles = makeStyles(() =>
 );
 
 interface CardProps {
-  imagePath: string;
+  imageUrl: string;
+  title: string;
 }
 
 export const Card: React.FC<CardProps> = (props) => {
   const classes = useStyles();
 
+  const { imageUrl, title } = props;
+
   return (
     <MuiCard className={classes.root}>
       <Grid container spacing={2}>
         <Grid item className={classes.leftColumn}>
-          <CardMedia component="img" image={props.imagePath} />
+          <CardMedia component="img" src={imageUrl} alt={title} />
         </Grid>
         <Grid item className={classes.rightColumn}>
-          <CardText />
+          <CardText title={title} />
         </Grid>
         <Grid
           item
