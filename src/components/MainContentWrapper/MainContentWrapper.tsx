@@ -1,10 +1,11 @@
-import React from "react";
-import { Container } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import React from 'react';
+import { Container } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
   mainContent: {
     maxWidth: 768,
+    marginTop: '3rem',
   },
 });
 

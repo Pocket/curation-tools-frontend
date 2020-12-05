@@ -1,14 +1,19 @@
 import React from 'react';
-import './App.css';
-import { MainContentWrapper } from './components/MainContentWrapper/MainContentWrapper';
+
 import { Header } from './components/Header/Header';
+import { MainContentWrapper } from './components/MainContentWrapper/MainContentWrapper';
+import { TabNavigation } from './components/TabNavigation/TabNavigation';
+import { Tab } from './components/Tab/Tab';
 
 function App() {
   return (
-    <div className="App">
+    <div>
       <Header />
       <MainContentWrapper>
-        <h1>Hello World!</h1>
+        <TabNavigation>
+          <Tab label="Live" articleCount={123} />
+          <Tab label="Scheduled" articleCount={345} />
+        </TabNavigation>
       </MainContentWrapper>
     </div>
   );
