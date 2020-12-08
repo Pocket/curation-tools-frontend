@@ -5,20 +5,25 @@ import { Tab } from '../Tab/Tab';
 import userEvent from '@testing-library/user-event';
 
 describe('The TabNavigation component', () => {
-  render(
-    <TabNavigation>
-      <Tab label="Live" articleCount={222} />
-      <Tab label="Scheduled" articleCount={333} />
-    </TabNavigation>
-  );
-  const tabNavigation = screen.getByRole('tablist');
-  let tabs = within(tabNavigation).getAllByRole('tab');
+  let tabNavigation: any;
+  let tabs: any;
+
+  beforeEach(() => {
+    render(
+      <TabNavigation>
+        <Tab label="Live" articleCount={222} />
+        <Tab label="Scheduled" articleCount={333} />
+      </TabNavigation>
+    );
+    tabNavigation = screen.getByRole('tablist');
+    tabs = within(tabNavigation).getAllByRole('tab');
+  });
 
   it('renders successfully', () => {
     expect(tabNavigation).toBeInTheDocument();
     expect(tabs.length).toEqual(2);
 
-    tabs.forEach((tab) => {
+    tabs.forEach((tab: HTMLButtonElement) => {
       expect(tab).toBeInTheDocument();
     });
   });
@@ -28,7 +33,7 @@ describe('The TabNavigation component', () => {
     expect(tabs[1].getAttribute('aria-selected')).toEqual('false');
   });
 
-  xit('shows selected tab in the foreground', () => {
+  it('shows selected tab in the foreground', () => {
     expect(tabs[0].getAttribute('aria-selected')).toEqual('true');
 
     userEvent.click(tabs[1]);

@@ -3,8 +3,12 @@ import { render, fireEvent, screen } from '@testing-library/react';
 import { AddStory } from './AddStory';
 
 describe('The AddStory component', () => {
-  render(<AddStory />);
-  const input = screen.getByLabelText(/^Story URL$/i) as HTMLInputElement;
+  let input: any;
+
+  beforeEach(() => {
+    render(<AddStory />);
+    input = screen.getByLabelText(/^Story URL$/i) as HTMLInputElement;
+  });
 
   it('renders successfully', () => {
     expect(input).toBeInTheDocument();

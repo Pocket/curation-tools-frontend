@@ -3,9 +3,14 @@ import { render, fireEvent, screen } from '@testing-library/react';
 import { LoginForm } from './LoginForm';
 
 describe('The LoginForm component', () => {
-  render(<LoginForm />);
-  const email = screen.getByLabelText(/your email/i) as HTMLInputElement;
-  const password = screen.getByLabelText(/password/i) as HTMLInputElement;
+  let email: any;
+  let password: any;
+
+  beforeEach(() => {
+    render(<LoginForm />);
+    email = screen.getByLabelText(/your email/i) as HTMLInputElement;
+    password = screen.getByLabelText(/password/i) as HTMLInputElement;
+  });
 
   it('renders successfully', () => {
     expect(screen.getByRole('form')).toBeInTheDocument();
