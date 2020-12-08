@@ -19,19 +19,15 @@ const useStyles = makeStyles(() => ({
 /**
  * Creation of TypeScript interface for the TabsNavigation component props.
  */
-interface TabsNavigationProps {
+interface TabNavigationProps {
   children: Array<JSX.Element>;
 }
 
 /**
- * Creation of the "TabsNavigation" component.
- *
- * ATTENTION --> In order to create each Tab, when you are in the file that will render the component,
- *               you need to import the "Tab" custom component that you can find in the same folder of
- *               this TabsNavigation component ("Tab.tsx"). You have to nest in the "TabsNavigation"
- *               component as many "Tab" components as tabs you may want.
+ * TabNavigation - a wrapper component for custom tabs (see Tab.tsx)
+ * that are passed as children.
  */
-const TabsNavigation: React.FC<TabsNavigationProps> = props => {
+export const TabNavigation: React.FC<TabNavigationProps> = (props) => {
   const classes = useStyles();
 
   const [value, setValue] = useState(0);
@@ -61,5 +57,3 @@ const TabsNavigation: React.FC<TabsNavigationProps> = props => {
     </AppBar>
   );
 };
-
-export default TabsNavigation;

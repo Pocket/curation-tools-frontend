@@ -1,8 +1,6 @@
 import React from 'react';
+import { Tab as MuiTab, Badge } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-
-import Tab from '@material-ui/core/Tab';
-import Badge from '@material-ui/core/Badge';
 
 /**
  * Creation of a customized "Tab" Material-UI component.
@@ -16,7 +14,7 @@ const StyledTab = withStyles({
       backgroundColor: '#3F51B5',
     },
   },
-})(Tab);
+})(MuiTab);
 
 const StyledBadge = withStyles({
   anchorOriginTopRightRectangle: {
@@ -28,27 +26,26 @@ const StyledBadge = withStyles({
 })(Badge);
 
 /**
- * Creation of TypeScript interface for the CustomTab component props.
+ * Creation of TypeScript interface for the Tab component props.
  */
-interface CustomTabProps {
-  title: string;
-  badge: number;
+interface TabProps {
+  label: string;
+  articleCount: number;
 }
 
 /**
- * Creation of the "CustomTab" component.
+ * A custom Tab component containing a badge with the number of articles
+ * under each tab.
  */
-const CustomTab: React.FC<CustomTabProps> = ({ ...props }) => {
+export const Tab: React.FC<TabProps> = ({ label, articleCount, ...props }) => {
   return (
     <StyledTab
       {...props}
       label={
-        <StyledBadge badgeContent={props.badge} max={999} color="secondary">
-          {props.title}
+        <StyledBadge badgeContent={articleCount} max={999} color="secondary">
+          {label}
         </StyledBadge>
       }
     />
   );
 };
-
-export default CustomTab;
