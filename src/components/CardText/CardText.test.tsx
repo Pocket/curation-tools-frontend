@@ -19,7 +19,7 @@ describe('The CardText component', () => {
       author: 'Test author',
       url: 'https://www.testnewspaper.com/article/test-title/',
       title: 'Test title',
-      shortDesc:
+      excerpt:
         "This is a test string that represents a short description of the article's contents.",
     };
 
@@ -34,7 +34,7 @@ describe('The CardText component', () => {
     expect(screen.getByRole('link')).toHaveAttribute('href', expectedProps.url);
     expect(screen.getByRole('heading')).toHaveTextContent(expectedProps.title);
     expect(screen.getByText(/test string/i)).toHaveTextContent(
-      expectedProps.shortDesc
+      expectedProps.excerpt
     );
   });
 });

@@ -7,7 +7,9 @@ describe('The Card component', () => {
     const testUrl = 'https://images.dog.ceo/breeds/bulldog-english/jager-2.jpg';
     const testTitle = 'English Bulldog';
 
-    render(<Card imageUrl={testUrl} title={testTitle} />);
+    render(
+      <Card title={testTitle} thumbnailUrl={testUrl} altText={testTitle} />
+    );
 
     const image = screen.getByAltText(testTitle);
     expect(image).toBeInTheDocument();

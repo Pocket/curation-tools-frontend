@@ -1,8 +1,6 @@
 import React from 'react';
 import pocketLogo from '../../assets/PKTLogoRounded_RGB.png';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Button from '@material-ui/core/Button';
+import { Tabs, Tab, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 const GRADIENT =
@@ -36,22 +34,10 @@ const useStyles = makeStyles({
   rightContent: {
     display: 'flex',
   },
-  addButton: {
+  button: {
     height: 40,
-    alignSelf: 'center',
-    marginRight: 10,
-    backgroundColor: '#008078',
-    fontWeight: 'bold',
-    color: 'white',
-    textTransform: 'capitalize',
-  },
-  outButton: {
-    height: 40,
-    alignSelf: 'center',
-    border: '2px solid #008078',
-    color: '#008078',
-    fontWeight: 'bold',
-    textTransform: 'capitalize',
+    marginRight: 15,
+    marginTop: 15,
   },
   tab: {
     minWidth: '100px',
@@ -114,10 +100,20 @@ export const Header = (): JSX.Element => {
             <Tab className={classes.tab} label="Content" />
           </Tabs>
 
-          <Button className={classes.addButton} variant="contained">
+          <Button
+            color="primary"
+            variant="contained"
+            size="large"
+            className={classes.button}
+          >
             Add Story
           </Button>
-          <Button className={classes.outButton} variant="outlined">
+          <Button
+            color="primary"
+            variant="outlined"
+            size="large"
+            className={classes.button}
+          >
             Log Out
           </Button>
         </div>

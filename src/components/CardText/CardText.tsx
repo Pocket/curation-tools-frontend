@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Card, CardContent, Typography } from '@material-ui/core';
+import { CardContent, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
-  card: {
-    borderRadius: 0,
+  root: {
     boxShadow: 'none',
+    padding: 0,
   },
-  title: {
-    fontSize: 16,
+  headline: {
+    fontSize: '1rem',
     fontWeight: 'bold',
   },
   url: {
@@ -28,62 +28,60 @@ export interface CardTextProps {
    */
   author: string;
   /**
-   * The URL of the article
+   * The URL of the story
    */
   url: string;
   /**
-   * The title of the article
+   * The title of the story
    */
   title: string;
   /**
-   * A short summary of the article
+   * A short summary of the story
    */
-  shortDesc: string;
+  excerpt: string;
 }
 
 /**
- * A card component that displays information about a news article.
+ * A card component that displays information about a story/news article.
  *
  * @param props: CardTextProps
  * @returns JSX.Element The rendered card
  */
 export const CardText = (props: CardTextProps): JSX.Element => {
-  const { publisher, author, url, title, shortDesc } = props;
+  const { publisher, author, url, title, excerpt } = props;
   const classes = useStyles();
 
   return (
-    <Card classes={{ root: classes.card }}>
-      <CardContent>
-        <Typography
-          className={classes.title}
-          variant="h3"
-          align="left"
-          gutterBottom
-        >
-          <a className={classes.url} href={url}>
-            {title}
-          </a>
+    <CardContent className={classes.root}>
+      <Typography
+        className={classes.headline}
+        variant="h3"
+        align="left"
+        gutterBottom
+      >
+        <a className={classes.url} href={url}>
+          {title}
+        </a>
+      </Typography>
+      <Typography
+        component="p"
+        align="left"
+        color="textSecondary"
+        display="block"
+        gutterBottom
+      >
+        <Typography variant="caption" component="span">
+          {publisher}
+        </Typography>{' '}
+        &middot;{' '}
+        <Typography variant="caption" component="span">
+          {author}
         </Typography>
-        <Typography
-          component="p"
-          align="left"
-          color="textSecondary"
-          display="block"
-          gutterBottom
-        >
-          <Typography variant="caption" component="span">
-            {publisher}
-          </Typography>{' '}
-          &middot;{' '}
-          <Typography variant="caption" component="span">
-            {author}
-          </Typography>
-        </Typography>
-        <Typography variant="body1" component="p" align="left">
-          {shortDesc}
-        </Typography>
-      </CardContent>
-    </Card>
+      </Typography>
+      <Typography variant="body1" component="p" align="left">
+        {excerpt}
+      </Typography>
+    </CardContent>
   );
 };
 
@@ -92,7 +90,7 @@ CardText.propTypes = {
   author: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  shortDesc: PropTypes.string.isRequired,
+  excerpt: PropTypes.string.isRequired,
 };
 
 CardText.defaultProps = {
@@ -100,5 +98,5 @@ CardText.defaultProps = {
   author: 'Author',
   url: 'https://www.test.com/',
   title: 'The title of this article is missing',
-  shortDesc: 'This article does not have a description provided.',
+  excerpt: 'This article does not have a description provided.',
 };
