@@ -35,7 +35,10 @@ export const TabNavigation: React.FC<TabNavigationProps> = (props) => {
   /**
    * Callback function required by the props "onChange" of the "Tabs" Material-UI component.
    */
-  const tabChangeHandler = (event: React.ChangeEvent<{}>, newValue: number) => {
+  const tabChangeHandler = (
+    event: React.ChangeEvent<unknown>,
+    newValue: number
+  ) => {
     setValue(newValue);
   };
 

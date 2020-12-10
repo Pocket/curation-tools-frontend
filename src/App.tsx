@@ -5,7 +5,7 @@ import { MainContentWrapper } from './components/MainContentWrapper/MainContentW
 import { TabNavigation } from './components/TabNavigation/TabNavigation';
 import { Tab } from './components/Tab/Tab';
 
-function App() {
+function App(): JSX.Element {
   return (
     <div>
       <Header />
