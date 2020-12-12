@@ -34,7 +34,7 @@ const getStyles = makeStyles(() => ({
   },
 }));
 
-export const Button = ({ buttonType, ...props }: Props) => {
+export const Button = ({ buttonType, ...props }: Props): JSX.Element => {
   return (
     <BaseButton className={buttonType && getStyles()[buttonType]} {...props}>
       {props.children}
