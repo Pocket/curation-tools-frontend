@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Tabs, Tab } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { Link, useLocation } from 'react-router-dom';
 
 import { Button } from '../Button/Button';
 import pocketLogo from '../../assets/PKTLogoRounded_RGB.png';
@@ -57,8 +58,22 @@ const useStyles = makeStyles({
   },
 });
 
-export const Header = (): JSX.Element => {
-  const [value, setValue] = React.useState(0);
+interface HeaderProps {
+  feed: string;
+}
+
+export const Header: React.FC<HeaderProps> = (props): JSX.Element => {
+  const classes = useStyles();
+  const { feed } = props;
+  const { pathname } = useLocation();
+
+  let selectedTab: number | false = false;
+  if (pathname.includes('newtab')) {
+    selectedTab = 0;
+  } else if (pathname.includes('prospects')) {
+    selectedTab = 1;
+  }
+  const [value, setValue] = useState(selectedTab);
 
   const handleChange = (
     event: React.ChangeEvent<unknown>,
@@ -66,8 +81,6 @@ export const Header = (): JSX.Element => {
   ) => {
     setValue(newValue);
   };
-
-  const classes = useStyles();
 
   return (
     <div className={classes.wrapper}>
@@ -98,11 +111,24 @@ export const Header = (): JSX.Element => {
               },
             }}
           >
-            <Tab className={classes.tab} label="New Tab" />
-            <Tab className={classes.tab} label="Content" />
+            <Tab
+              className={classes.tab}
+              component={Link}
+              to={`/${feed}/newtab/live/`}
+              label="New Tab"
+            />
+            <Tab
+              className={classes.tab}
+              component={Link}
+              to={`/${feed}/prospects/`}
+              label="Prospects"
+            />
           </Tabs>
-
-          <Button size="large" className={classes.button}>
+          <Button
+            className={classes.button}
+            component={Link}
+            to={`/${feed}/prospects/article/add/`}
+          >
             Add Story
           </Button>
           <Button buttonType="hollow" size="large" className={classes.button}>

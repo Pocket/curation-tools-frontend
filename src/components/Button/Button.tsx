@@ -9,6 +9,9 @@ interface Props extends ButtonProps {
     | 'neutral' // solid grey
     | 'hollow' // white with green border
     | 'hollow-neutral'; // white with grey border
+  buttonRef?: React.RefObject<HTMLButtonElement>;
+  component?: any;
+  to?: string;
 }
 
 export const Button = ({
@@ -31,7 +34,13 @@ export const Button = ({
   color = buttonType === 'negative' ? 'secondary' : color;
 
   return (
-    <MuiButton variant={variant} color={color} size={size} {...props}>
+    <MuiButton
+      variant={variant}
+      color={color}
+      size={size}
+      ref={props.buttonRef}
+      {...props}
+    >
       {children}
     </MuiButton>
   );

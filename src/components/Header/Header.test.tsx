@@ -1,10 +1,15 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { Header } from './Header';
+import { BrowserRouter } from 'react-router-dom';
 
 describe('The Header component', () => {
   it('renders successfully', () => {
-    render(<Header />);
+    render(
+      <BrowserRouter>
+        <Header feed="de_DE" />
+      </BrowserRouter>
+    );
 
     const logo = screen.getByRole('img');
     expect(logo).toBeInTheDocument();
