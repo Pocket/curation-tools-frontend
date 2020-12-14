@@ -4,7 +4,15 @@ import { Modal } from './Modal';
 
 describe('The Modal component', () => {
   it('renders successfully', () => {
-    render(<Modal title="Loading..." isOpen={true} onClose={() => {}} />);
+    render(
+      <Modal
+        title="Loading..."
+        isOpen={true}
+        onClose={() => {
+          return true;
+        }}
+      />
+    );
     const modal = screen.getByText(/^Loading...$/i);
 
     expect(modal).toBeInTheDocument();

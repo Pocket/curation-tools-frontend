@@ -1,9 +1,9 @@
-import React from "react";
-import { render, screen } from "@testing-library/react";
-import { MainContentWrapper } from "./MainContentWrapper";
+import React from 'react';
+import { render, screen } from '@testing-library/react';
+import { MainContentWrapper } from './MainContentWrapper';
 
-describe("The MainContentWrapper component", () => {
-  it("renders with children elements", () => {
+describe('The MainContentWrapper component', () => {
+  it('renders with children elements', () => {
     render(
       <MainContentWrapper>
         <h1>Hello World!</h1>

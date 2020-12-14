@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render, screen, within } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import { TabNavigation } from './TabNavigation';
 import { Tab } from '../Tab/Tab';
 import userEvent from '@testing-library/user-event';

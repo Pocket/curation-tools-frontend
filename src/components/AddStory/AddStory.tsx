@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, TextField, Divider, Box, Typography } from '@material-ui/core';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
-export const AddStory = () => {
+export const AddStory = (): JSX.Element => {
   const theme = createMuiTheme({
     palette: {
       primary: {

@@ -1,20 +1,20 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Card, CardContent, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Card, CardContent, Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
   card: {
     borderRadius: 0,
-    boxShadow: "none",
+    boxShadow: 'none',
   },
   title: {
     fontSize: 16,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   url: {
-    color: "#000000",
-    textDecoration: "none",
+    color: '#000000',
+    textDecoration: 'none',
   },
 });
 
@@ -73,8 +73,8 @@ export const CardText = (props: CardTextProps): JSX.Element => {
         >
           <Typography variant="caption" component="span">
             {publisher}
-          </Typography>{" "}
-          &middot;{" "}
+          </Typography>{' '}
+          &middot;{' '}
           <Typography variant="caption" component="span">
             {author}
           </Typography>
@@ -96,9 +96,9 @@ CardText.propTypes = {
 };
 
 CardText.defaultProps = {
-  publisher: "Publisher",
-  author: "Author",
-  url: "https://www.test.com/",
-  title: "The title of this article is missing",
-  shortDesc: "This article does not have a description provided.",
+  publisher: 'Publisher',
+  author: 'Author',
+  url: 'https://www.test.com/',
+  title: 'The title of this article is missing',
+  shortDesc: 'This article does not have a description provided.',
 };
