@@ -31,9 +31,6 @@ describe('The EditAndApproveStory component', () => {
     expect(screen.getByText('Reject')).toBeInTheDocument();
     expect(screen.getByText('Snooze')).toBeInTheDocument();
     expect(screen.getByText('Approve')).toBeInTheDocument();
-
-    // check the switch is present
-    expect(screen.getByLabelText('Prioritize this story')).toBeInTheDocument();
   });
 
   it('shows basic story data', () => {

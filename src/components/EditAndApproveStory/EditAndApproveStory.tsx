@@ -5,13 +5,11 @@ import {
   Card,
   CardMedia,
   Divider,
-  FormControlLabel,
   FormHelperText,
   Grid,
   MenuItem,
   TextField,
   Typography,
-  Switch,
 } from '@material-ui/core';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
@@ -272,15 +270,6 @@ export const EditAndApproveStory = (
               multiline
               rows={4}
               variant="outlined"
-            />
-          </Grid>
-
-          <Grid item xs={12} className={classes.alignRight}>
-            <FormControlLabel
-              value="prioritize"
-              control={<Switch color="primary" />}
-              label="Prioritize this story"
-              labelPlacement="start"
             />
           </Grid>
 
