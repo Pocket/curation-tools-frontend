@@ -1,26 +1,12 @@
 import React, { useState } from 'react';
 import logo from '../../assets/PKTLogoRounded_RGB.png';
-import { TextField, Button } from '@material-ui/core';
+import { TextField, Button, Grid } from '@material-ui/core';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(() =>
   createStyles({
-    form: {
-      display: 'flex',
-      flexDirection: 'column',
-      width: '30%',
-      margin: ' 5em auto',
-    },
     img: {
-      width: '50%',
-      paddingBottom: '2em',
-      margin: 'auto',
-    },
-    btn: {
-      backgroundColor: 'teal ',
-      color: 'white',
-      margin: '1.5em auto',
-      textTransform: 'capitalize',
+      width: '60%',
     },
   })
 );
@@ -42,39 +28,54 @@ export const LoginForm: React.FC = () => {
   };
 
   return (
-    <div>
-      <form
-        aria-label="form"
-        noValidate
-        autoComplete="off"
-        className={classes.form}
-      >
-        <img src={logo} alt="Pockets Logo" className={classes.img} />
-        <TextField
-          id="email"
-          label="Your Email"
-          variant="outlined"
-          value={email}
-          onChange={handleEmail}
-        />
-        <br /> <br />
-        <TextField
-          id="password"
-          label="Password"
-          type="password"
-          variant="outlined"
-          value={password}
-          onChange={handlePassword}
-        />
-        <Button
-          variant="contained"
-          color="inherit"
-          className={classes.btn}
-          disableElevation
-        >
-          Log In
-        </Button>
-      </form>
-    </div>
+    <Grid
+      container
+      spacing={0}
+      direction="row"
+      alignItems="center"
+      justify="center"
+      style={{ minHeight: '100vh' }}
+    >
+      <Grid item xs={10} sm={10} md={3}>
+        <form aria-label="form" noValidate autoComplete="off">
+          <Grid container spacing={4} alignItems="center">
+            <Grid item xs={12}>
+              <Grid container justify="center">
+                <img src={logo} alt="Pocket Logo" className={classes.img} />
+              </Grid>
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                id="email"
+                label="Your Email"
+                type="email"
+                fullWidth
+                variant="outlined"
+                value={email}
+                onChange={handleEmail}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                id="password"
+                label="Password"
+                type="password"
+                fullWidth
+                variant="outlined"
+                value={password}
+                onChange={handlePassword}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Grid container justify="center">
+                <Button variant="contained" color="primary" size="large">
+                  Log In
+                </Button>
+              </Grid>
+            </Grid>
+          </Grid>
+        </form>
+      </Grid>
+    </Grid>
   );
 };

@@ -13,7 +13,7 @@ describe('The Button component', () => {
 
   it('renders with custom props', () => {
     render(
-      <Button buttonType="positive" size="large" variant="outlined">
+      <Button buttonType="neutral" size="large">
         Snooze
       </Button>
     );

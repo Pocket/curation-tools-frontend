@@ -1,16 +1,23 @@
 import React, { useState } from 'react';
-import { Button, TextField, Divider, Box, Typography } from '@material-ui/core';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import {
+  Button,
+  TextField,
+  Divider,
+  Box,
+  Typography,
+  Grid,
+} from '@material-ui/core';
+
+import { makeStyles, Theme } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme: Theme) => ({
+  alignRight: {
+    textAlign: 'right',
+  },
+}));
 
 export const AddStory = (): JSX.Element => {
-  const theme = createMuiTheme({
-    palette: {
-      primary: {
-        main: '#00695c',
-        contrastText: '#fff',
-      },
-    },
-  });
+  const classes = useStyles();
 
   const [url, setUrl] = useState('');
 
@@ -20,12 +27,16 @@ export const AddStory = (): JSX.Element => {
 
   return (
     <main>
-      <Box display="flex" justifyContent="space-between" mt="1rem">
-        <Typography variant="h4" component="h1">
-          Add Story
-        </Typography>
-        <Button variant="outlined">Cancel</Button>
-      </Box>
+      <Grid container spacing={3}>
+        <Grid item xs={8}>
+          <Typography variant="h4" component="h1" align="left">
+            Add Story
+          </Typography>
+        </Grid>
+        <Grid item xs={4} className={classes.alignRight}>
+          <Button variant="outlined">Cancel</Button>
+        </Grid>
+      </Grid>
       <form>
         <TextField
           id="add-story"
@@ -42,13 +53,11 @@ export const AddStory = (): JSX.Element => {
           onChange={handleChange}
         />
         <Divider />
-        <ThemeProvider theme={theme}>
-          <Box display="flex" justifyContent="flex-end" mt="1rem">
-            <Button className="parse-btn" variant="contained" color="primary">
-              Parse
-            </Button>
-          </Box>
-        </ThemeProvider>
+        <Box display="flex" justifyContent="flex-end" mt="1rem">
+          <Button color="primary" variant="contained">
+            Parse
+          </Button>
+        </Box>
       </form>
     </main>
   );
