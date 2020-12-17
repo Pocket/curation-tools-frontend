@@ -1,7 +1,9 @@
 import React from 'react';
-import pocketLogo from '../../assets/PKTLogoRounded_RGB.png';
-import { Tabs, Tab, Button } from '@material-ui/core';
+import { Tabs, Tab } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+
+import { Button } from '../Button/Button';
+import pocketLogo from '../../assets/PKTLogoRounded_RGB.png';
 
 const GRADIENT =
   'linear-gradient(to right, #22b3a9, #49ad7b, #77a24a, #a29123, #ca7721, #da6f2e, #e8663d, #f45d4e, #f86e49, #fa7f46, #fa9045, #faa046)';
@@ -100,20 +102,10 @@ export const Header = (): JSX.Element => {
             <Tab className={classes.tab} label="Content" />
           </Tabs>
 
-          <Button
-            color="primary"
-            variant="contained"
-            size="large"
-            className={classes.button}
-          >
+          <Button size="large" className={classes.button}>
             Add Story
           </Button>
-          <Button
-            color="primary"
-            variant="outlined"
-            size="large"
-            className={classes.button}
-          >
+          <Button buttonType="hollow" size="large" className={classes.button}>
             Log Out
           </Button>
         </div>
