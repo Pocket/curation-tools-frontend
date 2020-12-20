@@ -29,7 +29,7 @@ describe('The Header component', () => {
     });
   });
   it('forms URLs correctly', () => {
-    let feed = 'en_US';
+    let feed = 'en-US';
 
     const { rerender } = render(
       <BrowserRouter>
@@ -48,7 +48,7 @@ describe('The Header component', () => {
     );
     expect(addStoryLink).toHaveAttribute('href', expect.stringContaining(feed));
 
-    feed = 'de_DE';
+    feed = 'de-DE';
 
     rerender(
       <BrowserRouter>

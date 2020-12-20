@@ -52,6 +52,7 @@ const useStyles = makeStyles({
   locale: {
     fontWeight: 700,
     color: '#aaaaaa',
+    textTransform: 'uppercase',
   },
   '&$selected': {
     color: '#black',
@@ -87,7 +88,7 @@ export const Header: React.FC<HeaderProps> = (props): JSX.Element => {
       <div className={classes.mainContainer}>
         <div className={classes.leftContent}>
           <img className={classes.logo} src={pocketLogo} alt="pocket-logo" />
-          <p className={classes.locale}>EN-US</p>
+          <p className={classes.locale}>{feed}</p>
         </div>
         <div className={classes.rightContent}>
           <Tabs

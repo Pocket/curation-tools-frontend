@@ -13,7 +13,7 @@ import { ProspectsListPage } from './pages/prospects/ProspectsListPage';
 
 function App(): JSX.Element {
   // hardcoding feed for now
-  const feed = 'en_US';
+  const feed = 'en-US';
 
   return (
     <ThemeProvider theme={theme}>
