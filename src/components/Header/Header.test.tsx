@@ -1,10 +1,15 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { Header } from './Header';
+import { BrowserRouter } from 'react-router-dom';
 
 describe('The Header component', () => {
   it('renders successfully', () => {
-    render(<Header />);
+    render(
+      <BrowserRouter>
+        <Header feed="de_DE" />
+      </BrowserRouter>
+    );
 
     const logo = screen.getByRole('img');
     expect(logo).toBeInTheDocument();
@@ -22,5 +27,40 @@ describe('The Header component', () => {
     tabs.forEach((tab) => {
       expect(tab).toBeInTheDocument();
     });
+  });
+  it('forms URLs correctly', () => {
+    let feed = 'en-US';
+
+    const { rerender } = render(
+      <BrowserRouter>
+        <Header feed={feed} />
+      </BrowserRouter>
+    );
+
+    const newTabLink = screen.getByText('New Tab').closest('a');
+    const prospectsLink = screen.getByText('Prospects').closest('a');
+    const addStoryLink = screen.getByText('Add Story').closest('a');
+
+    expect(newTabLink).toHaveAttribute('href', expect.stringContaining(feed));
+    expect(prospectsLink).toHaveAttribute(
+      'href',
+      expect.stringContaining(feed)
+    );
+    expect(addStoryLink).toHaveAttribute('href', expect.stringContaining(feed));
+
+    feed = 'de-DE';
+
+    rerender(
+      <BrowserRouter>
+        <Header feed={feed} />
+      </BrowserRouter>
+    );
+
+    expect(newTabLink).toHaveAttribute('href', expect.stringContaining(feed));
+    expect(prospectsLink).toHaveAttribute(
+      'href',
+      expect.stringContaining(feed)
+    );
+    expect(addStoryLink).toHaveAttribute('href', expect.stringContaining(feed));
   });
 });

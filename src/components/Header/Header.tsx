@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Tabs, Tab } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { Link, useLocation } from 'react-router-dom';
 
 import { Button } from '../Button/Button';
 import pocketLogo from '../../assets/PKTLogoRounded_RGB.png';
@@ -51,14 +52,29 @@ const useStyles = makeStyles({
   locale: {
     fontWeight: 700,
     color: '#aaaaaa',
+    textTransform: 'uppercase',
   },
   '&$selected': {
     color: '#black',
   },
 });
 
-export const Header = (): JSX.Element => {
-  const [value, setValue] = React.useState(0);
+interface HeaderProps {
+  feed: string;
+}
+
+export const Header: React.FC<HeaderProps> = (props): JSX.Element => {
+  const classes = useStyles();
+  const { feed } = props;
+  const { pathname } = useLocation();
+
+  let selectedTab: number | false = false;
+  if (pathname.includes('newtab')) {
+    selectedTab = 0;
+  } else if (pathname.includes('prospects')) {
+    selectedTab = 1;
+  }
+  const [value, setValue] = useState(selectedTab);
 
   const handleChange = (
     event: React.ChangeEvent<unknown>,
@@ -67,14 +83,12 @@ export const Header = (): JSX.Element => {
     setValue(newValue);
   };
 
-  const classes = useStyles();
-
   return (
     <div className={classes.wrapper}>
       <div className={classes.mainContainer}>
         <div className={classes.leftContent}>
           <img className={classes.logo} src={pocketLogo} alt="pocket-logo" />
-          <p className={classes.locale}>EN-US</p>
+          <p className={classes.locale}>{feed}</p>
         </div>
         <div className={classes.rightContent}>
           <Tabs
@@ -98,11 +112,24 @@ export const Header = (): JSX.Element => {
               },
             }}
           >
-            <Tab className={classes.tab} label="New Tab" />
-            <Tab className={classes.tab} label="Content" />
+            <Tab
+              className={classes.tab}
+              component={Link}
+              to={`/${feed}/newtab/live/`}
+              label="New Tab"
+            />
+            <Tab
+              className={classes.tab}
+              component={Link}
+              to={`/${feed}/prospects/`}
+              label="Prospects"
+            />
           </Tabs>
-
-          <Button size="large" className={classes.button}>
+          <Button
+            className={classes.button}
+            component={Link}
+            to={`/${feed}/prospects/article/add/`}
+          >
             Add Story
           </Button>
           <Button buttonType="hollow" size="large" className={classes.button}>
