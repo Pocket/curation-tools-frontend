@@ -3,40 +3,93 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { ThemeProvider } from '@material-ui/core/styles';
 import theme from './theme';
 
-import { MainContentWrapper } from './components/MainContentWrapper/MainContentWrapper';
-import { Header } from './components/Header/Header';
+// API
+import { client } from './services/clients/AwsAppSync';
+import { ApolloProvider, useQuery } from '@apollo/client';
+import {
+  getCurrentFeed,
+  FeedData,
+  FeedVariables,
+} from './services/queries/getCurrentFeed';
 
+// custom components
+import { Header } from './components/Header/Header';
+import { MainContentWrapper } from './components/MainContentWrapper/MainContentWrapper';
+import { HandleApiResponse } from './components/HandleApiResponse/HandleApiResponse';
+
+// pages
 import { AddStoryPage } from './pages/AddStoryPage';
 import { HomePage } from './pages/HomePage';
 import { NewTabLivePage } from './pages/newtab/NewTabLivePage';
 import { ProspectsListPage } from './pages/prospects/ProspectsListPage';
 
 function App(): JSX.Element {
-  // hardcoding feed for now
-  const feed = 'en-US';
+  /**
+   * I am assuming the authenticated user arrives "knowing" which
+   * feed is the default one for them (currentFeed: string).
+   *
+   * It would be brilliant if they already arrived with a Feed object (id, name),
+   * but for now I'm hardcoding the 'en-US' feed as the default one unless
+   * another feed has been provided in the URL.
+   */
+
+  // extract feed name if user goes straight to a subpage, i.e. /de-DE/prospects/
+  let feedName = window.location.pathname.split('/')[1];
+
+  // provide a temporary fallback option
+  feedName =
+    feedName.length && ['en-US', 'en-GB', 'de-DE'].includes(feedName)
+      ? feedName
+      : 'en-US';
+
+  // get feed object from the API
+  const { loading, error, data } = useQuery<FeedData, FeedVariables>(
+    getCurrentFeed,
+    {
+      client,
+      variables: { name: feedName },
+    }
+  );
+
+  const currentFeed = data?.currentFeed.items[0];
 
   return (
-    <ThemeProvider theme={theme}>
-      <BrowserRouter>
-        <Header feed={feed} />
-        <MainContentWrapper>
-          <Switch>
-            <Route exact path="/">
-              <HomePage />
-            </Route>
-            <Route exact path="/:feed/prospects/">
-              <ProspectsListPage />
-            </Route>
-            <Route path="/:feed/prospects/article/add/">
-              <AddStoryPage />
-            </Route>
-            <Route path="/:feed/newtab/">
-              <NewTabLivePage />
-            </Route>
-          </Switch>
-        </MainContentWrapper>
-      </BrowserRouter>
-    </ThemeProvider>
+    <ApolloProvider client={client}>
+      <ThemeProvider theme={theme}>
+        <BrowserRouter>
+          <HandleApiResponse
+            loading={loading}
+            error={error}
+            useModal
+            loadingText="Loading..."
+          >
+            <Header feed={currentFeed} />
+            <MainContentWrapper>
+              <Switch>
+                <Route exact path="/">
+                  <HomePage feed={currentFeed} />
+                </Route>
+                <Route exact path="/:feed/prospects/">
+                  <ProspectsListPage feed={currentFeed} />
+                </Route>
+                <Route
+                  exact
+                  path="/:feed/prospects/(snoozed|approved|rejected)/"
+                >
+                  <ProspectsListPage feed={currentFeed} />
+                </Route>
+                <Route path="/:feed/prospects/article/add/">
+                  <AddStoryPage />
+                </Route>
+                <Route path="/:feed/newtab/">
+                  <NewTabLivePage />
+                </Route>
+              </Switch>
+            </MainContentWrapper>
+          </HandleApiResponse>
+        </BrowserRouter>
+      </ThemeProvider>
+    </ApolloProvider>
   );
 }
 

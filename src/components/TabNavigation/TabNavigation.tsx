@@ -1,61 +1,56 @@
-import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
+import React from 'react';
+import { makeStyles, Theme } from '@material-ui/core/styles';
+import { AppBar, Tabs, TabsProps as MuiTabsProps } from '@material-ui/core';
+import { curationPalette } from '../../theme';
 
 /**
- * Creation of specific styles for specific class names.
+ * Styles for the TabNavigation component.
  */
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme: Theme) => ({
   appBar: {
-    backgroundColor: 'white',
+    backgroundColor: curationPalette.white,
     boxShadow: 'none',
   },
   tabs: {
     boxShadow: '0px 2px 3px -3px black',
   },
+  indicator: {
+    backgroundColor: curationPalette.blue,
+  },
 }));
 
-/**
- * Creation of TypeScript interface for the TabsNavigation component props.
- */
-interface TabNavigationProps {
-  children: Array<JSX.Element>;
+interface TabsProps {
+  /**
+   * Event types in Material UI are quite inflexible for some components
+   * and need to be overriden with event signatures we actually use.
+   * @param event
+   * @param value
+   */
+  onChange: (event: React.ChangeEvent<unknown>, value: string) => void;
 }
 
 /**
- * TabNavigation - a wrapper component for custom tabs (see Tab.tsx)
+ * TabNavigation - a wrapper component for custom tabs (see Tab, TabLink, and TabPanel)
  * that are passed as children.
  */
-export const TabNavigation: React.FC<TabNavigationProps> = (props) => {
+export const TabNavigation: React.FC<
+  Omit<MuiTabsProps, 'onChange'> & TabsProps
+> = (props) => {
   const classes = useStyles();
+  const { value, onChange, children } = props;
 
-  const [value, setValue] = useState(0);
-
-  /**
-   * Callback function required by the props "onChange" of the "Tabs" Material-UI component.
-   */
-  const tabChangeHandler = (
-    event: React.ChangeEvent<unknown>,
-    newValue: number
-  ) => {
-    setValue(newValue);
-  };
-
-  /**
-   * Renders the component.
-   */
   return (
     <AppBar className={classes.appBar} color="default" position="static">
       <Tabs
         className={classes.tabs}
         value={value}
-        onChange={tabChangeHandler}
+        onChange={onChange}
         indicatorColor="primary"
+        TabIndicatorProps={{ className: classes.indicator }}
         textColor="primary"
         variant="fullWidth"
       >
-        {props.children}
+        {children}
       </Tabs>
     </AppBar>
   );

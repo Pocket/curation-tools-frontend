@@ -1,10 +1,20 @@
 import React from 'react';
 import { render, screen, within } from '@testing-library/react';
 import { Tab } from './Tab';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('The Tab component', () => {
   it('renders successfully', () => {
-    render(<Tab label="Live" articleCount={222} />);
+    render(
+      <MemoryRouter initialEntries={[`/en-US/newtab/`]}>
+        <Tab
+          label="Live"
+          count={222}
+          value="/en-US/newtab/live/"
+          to="/en-US/newtab/live"
+        />
+      </MemoryRouter>
+    );
 
     const tab = screen.getByRole('tab');
 

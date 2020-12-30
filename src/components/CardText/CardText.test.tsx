@@ -3,17 +3,7 @@ import { render, screen } from '@testing-library/react';
 import { CardText, CardTextProps } from './CardText';
 
 describe('The CardText component', () => {
-  it('renders with default props when none have been provided', () => {
-    render(<CardText />);
-
-    expect(screen.getByText(/^publisher$/i)).toBeInTheDocument();
-    expect(screen.getByText(/^author$/i)).toBeInTheDocument();
-    expect(screen.getByRole('link')).toBeInTheDocument();
-    expect(screen.getByRole('heading')).toBeInTheDocument();
-    expect(screen.getByText(/description/i)).toBeInTheDocument();
-  });
-
-  it('renders with the actual props passed to it', () => {
+  it('renders successfully', () => {
     const expectedProps: CardTextProps = {
       publisher: 'Test publisher',
       author: 'Test author',

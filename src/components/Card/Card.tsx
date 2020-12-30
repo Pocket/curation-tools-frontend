@@ -9,12 +9,17 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 import { Button } from '../Button/Button';
 import { CardText } from '../CardText/CardText';
+import { Prospect } from '../../services/types/Prospect';
 
+/**
+ * Styles for the Card component.
+ */
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       margin: 'auto',
-      paddingBottom: '1rem',
+      paddingBottom: '0.75rem',
+      marginBottom: '2.5rem',
       paddingTop: 0,
       border: 0,
       borderBottom: `1px solid ${theme.palette.grey[400]}`,
@@ -48,28 +53,39 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface CardProps {
-  thumbnailUrl: string;
-  title: string;
-  altText: string;
+  /**
+   * The Prospect object that holds all the data we need to display.
+   */
+  prospect: Prospect;
 }
 
+/**
+ * A custom Card component that shows a thumbnail image of a given article
+ * alongside its title, excerpt, various other metadata and action buttons.
+ */
 export const Card: React.FC<CardProps> = (props) => {
   const classes = useStyles();
-  const { thumbnailUrl, title, altText } = props;
+  const { prospect } = props;
 
   return (
     <MuiCard variant="outlined" square className={classes.root}>
-      <Grid container spacing={3}>
+      <Grid container spacing={2}>
         <Grid item className={classes.leftColumn}>
           <CardMedia
             component="img"
-            src={thumbnailUrl}
-            alt={altText}
+            src={prospect.imageUrl}
+            alt={prospect.altText}
             className={classes.image}
           />
         </Grid>
         <Grid item className={classes.rightColumn}>
-          <CardText title={title} />
+          <CardText
+            author={prospect.author || 'No author supplied'}
+            excerpt={prospect.excerpt}
+            publisher={prospect.publisher}
+            title={prospect.title}
+            url={prospect.url}
+          />
         </Grid>
         <Grid
           item
@@ -81,7 +97,7 @@ export const Card: React.FC<CardProps> = (props) => {
             component="span"
             align="left"
           >
-            Source &middot; Category
+            {prospect.source} &middot; {prospect.category || 'Uncategorized'}
           </Typography>
         </Grid>
         <Grid

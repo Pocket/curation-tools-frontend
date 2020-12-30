@@ -1,14 +1,17 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { Header } from './Header';
-import { BrowserRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
+import { Feed } from '../../services/types/Feed';
 
 describe('The Header component', () => {
+  const feed: Feed = { id: 'abcdefg', name: 'en-US' };
+
   it('renders successfully', () => {
     render(
-      <BrowserRouter>
-        <Header feed="de_DE" />
-      </BrowserRouter>
+      <MemoryRouter>
+        <Header feed={feed} />
+      </MemoryRouter>
     );
 
     const logo = screen.getByRole('img');
@@ -29,38 +32,27 @@ describe('The Header component', () => {
     });
   });
   it('forms URLs correctly', () => {
-    let feed = 'en-US';
-
-    const { rerender } = render(
-      <BrowserRouter>
+    render(
+      <MemoryRouter initialEntries={[`/${feed.name}/newtab/`]}>
         <Header feed={feed} />
-      </BrowserRouter>
+      </MemoryRouter>
     );
 
     const newTabLink = screen.getByText('New Tab').closest('a');
     const prospectsLink = screen.getByText('Prospects').closest('a');
     const addStoryLink = screen.getByText('Add Story').closest('a');
 
-    expect(newTabLink).toHaveAttribute('href', expect.stringContaining(feed));
+    expect(newTabLink).toHaveAttribute(
+      'href',
+      expect.stringContaining(feed.name)
+    );
     expect(prospectsLink).toHaveAttribute(
       'href',
-      expect.stringContaining(feed)
+      expect.stringContaining(feed.name)
     );
-    expect(addStoryLink).toHaveAttribute('href', expect.stringContaining(feed));
-
-    feed = 'de-DE';
-
-    rerender(
-      <BrowserRouter>
-        <Header feed={feed} />
-      </BrowserRouter>
-    );
-
-    expect(newTabLink).toHaveAttribute('href', expect.stringContaining(feed));
-    expect(prospectsLink).toHaveAttribute(
+    expect(addStoryLink).toHaveAttribute(
       'href',
-      expect.stringContaining(feed)
+      expect.stringContaining(feed.name)
     );
-    expect(addStoryLink).toHaveAttribute('href', expect.stringContaining(feed));
   });
 });
