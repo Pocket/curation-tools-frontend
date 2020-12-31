@@ -65,7 +65,7 @@ interface TabProps {
  */
 export const Tab: React.FC<MuiTabProps & TabProps> = (props): JSX.Element => {
   const classes = useStyles();
-  const { count, label, value, to } = props;
+  const { count, label, value } = props;
 
   return (
     <MuiTab
@@ -73,7 +73,6 @@ export const Tab: React.FC<MuiTabProps & TabProps> = (props): JSX.Element => {
       component={TabLink}
       count={count}
       label={label}
-      to={to}
       value={value}
       tabSelected={props.selected}
       {...props}
