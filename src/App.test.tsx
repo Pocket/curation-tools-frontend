@@ -8,6 +8,7 @@ import {
 } from './services/queries/getCurrentFeed';
 import App from './App';
 import { act } from 'react-dom/test-utils';
+import { ApolloError } from '@apollo/client';
 
 describe('The App', () => {
   const mocks = [
@@ -47,7 +48,9 @@ describe('The App', () => {
             name: 'en-US',
           } as FeedVariables,
         },
-        error: new Error('An error occurred.'),
+        error: new ApolloError({
+          networkError: new Error('An error occurred.'),
+        }),
       },
     ];
 
@@ -61,7 +64,7 @@ describe('The App', () => {
       await new Promise((resolve) => setTimeout(resolve, 1000));
     });
 
-    expect(screen.getByText(/error/i)).toBeInTheDocument();
+    expect(screen.getByText(/network error/i)).toBeInTheDocument();
   });
 
   xit('displays the page successfully', async () => {

@@ -2,6 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { HandleApiResponse } from './HandleApiResponse';
 import { ApolloError } from '@apollo/client';
+import { GraphQLError } from 'graphql';
 
 describe('The HandleApiResponse component', () => {
   it('renders a loading message while waiting for data to be fetched', () => {
@@ -22,17 +23,20 @@ describe('The HandleApiResponse component', () => {
     render(
       <HandleApiResponse
         loading={false}
-        error={new ApolloError({ errorMessage: 'Nothing works.' })}
+        error={
+          new ApolloError({
+            graphQLErrors: [new GraphQLError('Malformed query.')],
+            networkError: new Error('Server not found.'),
+          })
+        }
       >
         <h1>Hello World!</h1>
       </HandleApiResponse>
     );
 
-    // alert title
-    expect(screen.getByText(/error/i)).toBeInTheDocument();
-
-    // error message
-    expect(screen.getByText(/nothing works/i)).toBeInTheDocument();
+    // error messages
+    expect(screen.getByText(/malformed query/i)).toBeInTheDocument();
+    expect(screen.getByText(/server not found/i)).toBeInTheDocument();
   });
 
   it('renders children elements if API call is successful', () => {
