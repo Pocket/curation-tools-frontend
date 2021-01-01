@@ -86,11 +86,29 @@ export const HandleApiResponse: React.FC<HandleApiResponseProps> = (
   }
 
   if (error) {
+    const { graphQLErrors, networkError, extraInfo } = error;
+
+    let messages: string[] = [];
+
+    if (graphQLErrors)
+      messages = graphQLErrors.map(
+        ({ message, locations, path }) =>
+          `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+      );
+
+    if (networkError) {
+      messages.push(`[Network error]: ${networkError}`);
+    }
+
+    if (extraInfo) {
+      messages.push(extraInfo);
+    }
+
     return (
       <Box my={3}>
         <Alert severity="error" variant="filled" className={classes.root}>
           <AlertTitle className={classes.title}>Error</AlertTitle>
-          GraphQL response: {error.message}
+          {messages}
         </Alert>
       </Box>
     );
