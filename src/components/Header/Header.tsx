@@ -5,7 +5,11 @@ import { Link, useLocation } from 'react-router-dom';
 
 import { Button } from '../Button/Button';
 import pocketLogo from '../../assets/PKTLogoRounded_RGB.png';
+import { Feed } from '../../services/types/Feed';
 
+/**
+ * Styles for the HandleApiResponse component.
+ */
 const GRADIENT =
   'linear-gradient(to right, #22b3a9, #49ad7b, #77a24a, #a29123, #ca7721, #da6f2e, #e8663d, #f45d4e, #f86e49, #fa7f46, #fa9045, #faa046)';
 
@@ -60,22 +64,32 @@ const useStyles = makeStyles({
 });
 
 interface HeaderProps {
-  feed: string;
+  feed: Feed | undefined;
 }
 
+/**
+ * Page header for all pages that authorised users see.
+ *
+ * @param props
+ */
 export const Header: React.FC<HeaderProps> = (props): JSX.Element => {
   const classes = useStyles();
-  const { feed } = props;
   const { pathname } = useLocation();
+  const currentFeed = props.feed?.name;
 
+  /**
+   * Highlight active tab based on URL matching, i.e. on /:feed/newtab/* pages
+   * underline "New Tab".
+   */
   let selectedTab: number | false = false;
   if (pathname.includes('newtab')) {
     selectedTab = 0;
   } else if (pathname.includes('prospects')) {
     selectedTab = 1;
   }
-  const [value, setValue] = useState(selectedTab);
 
+  /* Keep track of active tabs */
+  const [value, setValue] = useState(selectedTab);
   const handleChange = (
     event: React.ChangeEvent<unknown>,
     newValue: number
@@ -88,7 +102,8 @@ export const Header: React.FC<HeaderProps> = (props): JSX.Element => {
       <div className={classes.mainContainer}>
         <div className={classes.leftContent}>
           <img className={classes.logo} src={pocketLogo} alt="pocket-logo" />
-          <p className={classes.locale}>{feed}</p>
+          {/* TODO: use `feeds` prop to display dropdown with available feeds if more than one is available */}
+          <p className={classes.locale}>{currentFeed}</p>
         </div>
         <div className={classes.rightContent}>
           <Tabs
@@ -115,20 +130,20 @@ export const Header: React.FC<HeaderProps> = (props): JSX.Element => {
             <Tab
               className={classes.tab}
               component={Link}
-              to={`/${feed}/newtab/live/`}
+              to={`/${currentFeed}/newtab/live/`}
               label="New Tab"
             />
             <Tab
               className={classes.tab}
               component={Link}
-              to={`/${feed}/prospects/`}
+              to={`/${currentFeed}/prospects/`}
               label="Prospects"
             />
           </Tabs>
           <Button
             className={classes.button}
             component={Link}
-            to={`/${feed}/prospects/article/add/`}
+            to={`/${currentFeed}/prospects/article/add/`}
           >
             Add Story
           </Button>

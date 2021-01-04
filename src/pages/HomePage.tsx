@@ -1,9 +1,14 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
+import { Feed } from '../services/types/Feed';
 
-export const HomePage = (): JSX.Element => {
-  // hardcoding feed for now
-  const feed = 'en-US';
-
-  return <Redirect to={`/${feed}/prospects/`} />;
+/**
+ * Home Page
+ *
+ * Currently empty and redirects to /:feed/prospects/.
+ *
+ * @param feed: Feed
+ */
+export const HomePage = ({ feed }: { feed: Feed | undefined }): JSX.Element => {
+  return <Redirect push to={`/${feed?.name}/prospects/`} />;
 };
