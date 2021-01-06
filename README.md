@@ -2,9 +2,75 @@
 This project serves as frontend/admin for an article curation service.
 
 ## Getting Started
+
+Clone the repository:
+
+```bash
+git clone git@github.com:Pocket/curation-tools-frontend.git
+```
+
+Install the dependencies:
+
+```bash
+cd curation-tools-frontend
+npm install
+```
+
+### Set up with the Pocket API
+Create an `.env.local` file in the root directory of the project which will hold your API keys. 
+Add the following lines to the `.env.local` file: 
+
+```bash
+REACT_APP_API_ENDPOINT="YOUR_VALUE_HERE"
+REACT_APP_API_KEY="YOUR_VALUE_HERE"
+REACT_APP_API_REGION="YOUR_VALUE_HERE"
+```
+
+### Set up with the default API
+
+Coming soon...
+
+### Start the project
 In the project directory, run:
 
-### `npm start`
+```bash
+npm start
+```
+
+The app will be available on [http://localhost:3000](http://localhost:3000).
+
+## Coding standards
+
+This project uses [ESLint](https://eslint.org/) with a TypeScript plugin to maintain coding standards and avoid potential bugs. 
+It also uses [Prettier](https://prettier.io/) to enforce a consistent coding style. 
+
+All TypeScript errors and notices, as well as any formatting inconsistencies picked up by Prettier, are treated as errors, and the app will not compile until they are fixed. Using `@ts-ignore` is not an option.
+
+### IDE Setup
+
+Popular IDEs for React developers, such as Visual Studio Code or WebStorm, integrate with both ESLint and Prettier easily. You may have to install plugins to support these tools. Once that is done, your IDE will automatically highlight any issues that ESLint picked up in the code. 
+
+For a smooth development experience, configure Prettier to reformat the code on save. If, for some reason, it is not an option, you cal also use linting scripts:
+
+```bash
+npm run lint # to check the code for potential errors and formatting inconsistencies 
+
+npm run lint:fix # to fix (mainly) formatting issues, if any
+```
+
+### Testing your code
+
+To run the tests in the interactive watch mode, use this command:
+
+```bash
+npm run test
+```
+
+To see detailed information about the tests, use the `--verbose` flag:
+
+```bash
+npm run test -- --verbose
+```
 
 ## All Available Scripts
 
