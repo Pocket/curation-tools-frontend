@@ -48,7 +48,7 @@ All TypeScript errors and notices, as well as any formatting inconsistencies pic
 
 ### IDE Setup
 
-Popular IDEs for React developers, such as Visual Studio Code or WebStorm, integrate with both ESLint and Prettier easily. You may have to install plugins to support these tools. Once that is done, your IDE will automatically highlight any issues that ESLint picked up in the code. 
+Popular IDEs for React developers, such as Visual Studio Code or WebStorm, integrate with both ESLint and Prettier easily. You may have to install plugins to support these tools. Once that is done, your IDE will automatically highlight any issues that ESLint picked up in the app code. 
 
 For a smooth development experience, configure Prettier to reformat the code on save. If, for some reason, it is not an option, you cal also use linting scripts:
 
@@ -57,6 +57,8 @@ npm run lint # to check the code for potential errors and formatting inconsisten
 
 npm run lint:fix # to fix (mainly) formatting issues, if any
 ```
+
+Note that linting issues and TypeScript errors in the project's _tests_ do not prevent the app from compiling during development, but they will still need to be fixed before your code is merged to the `main` branch.
 
 ### Testing your code
 
