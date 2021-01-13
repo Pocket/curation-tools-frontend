@@ -4,8 +4,8 @@ import { Chip } from './Chip';
 
 describe('The Chip component', () => {
   it('renders successfully', () => {
-    render(<Chip label="168" color="default" />);
+    render(<Chip label="48" color="default" />);
 
-    expect(screen.getByText('168')).toBeInTheDocument();
+    expect(screen.getByText('48')).toBeInTheDocument();
   });
 });

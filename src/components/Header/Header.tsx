@@ -89,7 +89,7 @@ export const Header: React.FC<HeaderProps> = (props): JSX.Element => {
   }
 
   /* Keep track of active tabs */
-  const [value, setValue] = useState(selectedTab);
+  const [value, setValue] = useState<number | false>(selectedTab);
   const handleChange = (
     event: React.ChangeEvent<unknown>,
     newValue: number

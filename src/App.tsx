@@ -20,8 +20,8 @@ import { HandleApiResponse } from './components/HandleApiResponse/HandleApiRespo
 // pages
 import { AddStoryPage } from './pages/AddStoryPage';
 import { HomePage } from './pages/HomePage';
-import { NewTabLivePage } from './pages/newtab/NewTabLivePage';
-import { ProspectsListPage } from './pages/prospects/ProspectsListPage';
+import { NewTabPage } from './pages/NewTabPage/NewTabPage';
+import { ProspectsPage } from './pages/ProspectsPage/ProspectsPage';
 
 function App(): JSX.Element {
   /**
@@ -57,36 +57,41 @@ function App(): JSX.Element {
     <ApolloProvider client={client}>
       <ThemeProvider theme={theme}>
         <BrowserRouter>
-          <HandleApiResponse
-            loading={loading}
-            error={error}
-            useModal
-            loadingText="Loading..."
-          >
-            <Header feed={currentFeed} />
-            <MainContentWrapper>
-              <Switch>
-                <Route exact path="/">
-                  <HomePage feed={currentFeed} />
-                </Route>
-                <Route exact path="/:feed/prospects/">
-                  <ProspectsListPage feed={currentFeed} />
-                </Route>
-                <Route
-                  exact
-                  path="/:feed/prospects/(snoozed|approved|rejected)/"
-                >
-                  <ProspectsListPage feed={currentFeed} />
-                </Route>
-                <Route path="/:feed/prospects/article/add/">
-                  <AddStoryPage />
-                </Route>
-                <Route path="/:feed/newtab/">
-                  <NewTabLivePage />
-                </Route>
-              </Switch>
-            </MainContentWrapper>
-          </HandleApiResponse>
+          {!data && (
+            <HandleApiResponse
+              loading={loading}
+              error={error}
+              useModal
+              loadingText="Loading..."
+            />
+          )}
+          {data && (
+            <>
+              <Header feed={currentFeed} />
+              <MainContentWrapper>
+                <Switch>
+                  <Route exact path="/">
+                    <HomePage feed={currentFeed} />
+                  </Route>
+                  <Route exact path="/:feed/prospects/">
+                    <ProspectsPage feed={currentFeed} />
+                  </Route>
+                  <Route
+                    exact
+                    path="/:feed/prospects/(snoozed|approved|rejected)/"
+                  >
+                    <ProspectsPage feed={currentFeed} />
+                  </Route>
+                  <Route path="/:feed/prospects/article/add/">
+                    <AddStoryPage />
+                  </Route>
+                  <Route path="/:feed/newtab/">
+                    <NewTabPage />
+                  </Route>
+                </Switch>
+              </MainContentWrapper>
+            </>
+          )}
         </BrowserRouter>
       </ThemeProvider>
     </ApolloProvider>
