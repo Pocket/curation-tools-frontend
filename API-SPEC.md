@@ -11,6 +11,7 @@
 - How should we sort prospects in regards to snoozed?
   - Example: a story is snoozed for two weeks. After two weeks, in what order should this story appear?
   - Related question: we are assuming we'll sort stories by `updatedAt` - is this correct?
+- When clicking any button (Snooze/Reject/Approve) on the Edit & Approve screen, where is the user redirected to?
 
 ## Propsects
 
