@@ -56,9 +56,8 @@ interface HandleApiResponseProps {
 }
 
 /**
- * A wrapper component that cycles through the various states
- * of the API response before handing over to child components to display
- * the retrieved data.
+ * A wrapper component that displays a loading component while the API call
+ * is in progress and any errors if the API call was unsuccessful.
  *
  * @param props
  */
