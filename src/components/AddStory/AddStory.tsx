@@ -1,64 +1,68 @@
-import React, { useState } from 'react';
-import {
-  Button,
-  TextField,
-  Divider,
-  Box,
-  Typography,
-  Grid,
-} from '@material-ui/core';
+import React from 'react';
+import { Box, Divider, Button, TextField } from '@material-ui/core';
+import { useForm } from 'react-hook-form';
 
-import { makeStyles, Theme } from '@material-ui/core/styles';
+interface AddStoryProps {
+  /**
+   * The submit handler passed to this component receives form data as a prop.
+   *
+   * @param data
+   */
+  onSubmit: (data: { url: string }) => void;
+}
 
-const useStyles = makeStyles((theme: Theme) => ({
-  alignRight: {
-    textAlign: 'right',
-  },
-}));
+export interface AddStoryFormData {
+  /**
+   * The URL of the story to be parsed.
+   */
+  url: string;
+}
 
-export const AddStory = (): JSX.Element => {
-  const classes = useStyles();
-
-  const [url, setUrl] = useState('');
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUrl(event.target.value);
-  };
+/**
+ * Add Story form. Validates the URL of the story to be added and displays any
+ * validation errors to the user. Once successful, passes validated data
+ * to the supplied submit handler for further processing.
+ *
+ * @param props
+ */
+export const AddStory: React.FC<AddStoryProps> = (props): JSX.Element => {
+  const { onSubmit } = props;
+  const { handleSubmit, register, errors } = useForm<AddStoryFormData>();
 
   return (
-    <>
-      <Grid container spacing={3}>
-        <Grid item xs={8}>
-          <Typography variant="h4" component="h1" align="left">
-            Add Story
-          </Typography>
-        </Grid>
-        <Grid item xs={4} className={classes.alignRight}>
-          <Button variant="outlined">Cancel</Button>
-        </Grid>
-      </Grid>
-      <form>
-        <TextField
-          id="add-story"
-          label="Story URL"
-          placeholder="Placeholder"
-          helperText="Edit & approve another story by changing this URL"
-          fullWidth
-          margin="normal"
-          InputLabelProps={{
-            shrink: true,
-          }}
-          variant="outlined"
-          value={url}
-          onChange={handleChange}
-        />
-        <Divider />
-        <Box display="flex" justifyContent="flex-end" mt="1rem">
-          <Button color="primary" variant="contained">
-            Parse
-          </Button>
-        </Box>
-      </form>
-    </>
+    <form name="add-story" onSubmit={handleSubmit(onSubmit)}>
+      <TextField
+        id="url"
+        inputRef={register({
+          required: { value: true, message: 'Please enter a URL' },
+          pattern: {
+            // regex credit goes to https://gist.github.com/dperini/729294
+            value: /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z0-9\u00a1-\uffff][a-z0-9\u00a1-\uffff_-]{0,62})?[a-z0-9\u00a1-\uffff]\.)+(?:[a-z\u00a1-\uffff]{2,}\.?))(?::\d{2,5})?(?:[/?#]\S*)?$/i,
+            message: 'Please enter a valid URL',
+          },
+        })}
+        error={!!errors.url}
+        name="url"
+        label="Story URL"
+        placeholder="Placeholder"
+        helperText={
+          errors.url
+            ? errors.url.message
+            : 'Edit & approve another story by changing this URL'
+        }
+        fullWidth
+        margin="normal"
+        InputLabelProps={{
+          shrink: true,
+        }}
+        variant="outlined"
+      />
+      <Divider />
+      <Box display="flex" justifyContent="flex-end" mt="1rem">
+        <Button color="primary" variant="contained" type="submit">
+          Parse
+        </Button>
+      </Box>
+    </form>
   );
 };

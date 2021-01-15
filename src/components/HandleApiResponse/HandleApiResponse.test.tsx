@@ -40,6 +40,6 @@ describe('The HandleApiResponse component', () => {
       <HandleApiResponse loading={false} error={undefined} />
     );
 
-    expect(container).toBeEmpty();
+    expect(container).toBeEmptyDOMElement();
   });
 });
