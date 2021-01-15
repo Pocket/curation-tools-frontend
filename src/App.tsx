@@ -18,10 +18,11 @@ import { MainContentWrapper } from './components/MainContentWrapper/MainContentW
 import { HandleApiResponse } from './components/HandleApiResponse/HandleApiResponse';
 
 // pages
-import { AddStoryPage } from './pages/AddStoryPage';
+import { AddStoryPage } from './pages/AddStoryPage/AddStoryPage';
 import { HomePage } from './pages/HomePage';
 import { NewTabPage } from './pages/NewTabPage/NewTabPage';
 import { ProspectsPage } from './pages/ProspectsPage/ProspectsPage';
+import { EditAndApproveStoryPage } from './pages/EditAndApproveStoryPage/EditAndApproveStoryPage';
 
 function App(): JSX.Element {
   /**
@@ -82,11 +83,20 @@ function App(): JSX.Element {
                   >
                     <ProspectsPage feed={currentFeed} />
                   </Route>
-                  <Route path="/:feed/prospects/article/add/">
-                    <AddStoryPage />
+                  <Route exact path="/:feed/prospects/article/add/">
+                    <AddStoryPage feed={currentFeed} />
+                  </Route>
+                  <Route
+                    exact
+                    path="/:feed/prospects/article/edit-and-approve/:articleid/"
+                  >
+                    <EditAndApproveStoryPage />
                   </Route>
                   <Route path="/:feed/newtab/">
                     <NewTabPage />
+                  </Route>
+                  <Route path="*">
+                    <HomePage feed={currentFeed} />
                   </Route>
                 </Switch>
               </MainContentWrapper>

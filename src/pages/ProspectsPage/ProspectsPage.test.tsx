@@ -2,7 +2,7 @@ import React from 'react';
 import { Router } from 'react-router';
 import { createMemoryHistory } from 'history';
 import { MockedProvider } from '@apollo/client/testing';
-import { render, screen, act, within } from '@testing-library/react';
+import { render, screen, act, within, waitFor } from '@testing-library/react';
 
 import { ProspectsPage } from './ProspectsPage';
 import { Feed } from '../../services/types/Feed';
@@ -20,18 +20,19 @@ describe('The Prospects page', () => {
     mockFeed = { id: 'abc', name: 'en-US' };
   });
 
-  xit('renders with four tabs', () => {
+  it('renders with four tabs', async () => {
     const history = createMemoryHistory({
       initialEntries: ['/en-US/prospects/'],
     });
-
-    render(
-      <MockedProvider>
-        <Router history={history}>
-          <ProspectsPage feed={mockFeed} />
-        </Router>
-      </MockedProvider>
-    );
+    await waitFor(() => {
+      render(
+        <MockedProvider>
+          <Router history={history}>
+            <ProspectsPage feed={mockFeed} />
+          </Router>
+        </MockedProvider>
+      );
+    });
 
     const tabNavigation = screen.getByRole('tablist');
     const tabs = within(tabNavigation).getAllByRole('tab');
@@ -90,13 +91,16 @@ describe('The Prospects page', () => {
     const history = createMemoryHistory({
       initialEntries: ['/en-US/prospects/'],
     });
-    render(
-      <MockedProvider mocks={mocks} addTypename={false}>
-        <Router history={history}>
-          <ProspectsPage feed={mockFeed} />
-        </Router>
-      </MockedProvider>
-    );
+
+    await waitFor(() => {
+      render(
+        <MockedProvider mocks={mocks} addTypename={false}>
+          <Router history={history}>
+            <ProspectsPage feed={mockFeed} />
+          </Router>
+        </MockedProvider>
+      );
+    });
 
     // wait for the mock API call to complete
     await act(async () => {

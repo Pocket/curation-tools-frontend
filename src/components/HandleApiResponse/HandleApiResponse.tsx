@@ -1,8 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ApolloError } from '@apollo/client';
 import { makeStyles } from '@material-ui/core/styles';
-import { Box, CircularProgress } from '@material-ui/core';
-import { Alert, AlertTitle } from '@material-ui/lab';
+import {
+  Box,
+  CircularProgress,
+  Collapse,
+  Grow,
+  IconButton,
+} from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
+import CloseIcon from '@material-ui/icons/Close';
 
 import { Modal } from '../Modal/Modal';
 
@@ -32,6 +39,12 @@ interface HandleApiResponseProps {
   error?: ApolloError;
 
   /**
+   * Whether the error alert box can be closed
+   */
+
+  errorIsDismissible?: boolean;
+
+  /**
    * Whether to show the loading component in a modal or inline
    */
   useModal?: boolean;
@@ -53,22 +66,32 @@ export const HandleApiResponse: React.FC<HandleApiResponseProps> = (
 ): JSX.Element | null => {
   const classes = useStyles();
 
-  const { loading, error, useModal = false, loadingText = '' } = props;
+  const [isErrorVisible, setIsErrorVisible] = useState(true);
+
+  const {
+    loading,
+    error,
+    errorIsDismissible = true,
+    useModal = false,
+    loadingText = '',
+  } = props;
 
   if (loading) {
     return useModal ? (
       <Modal content={loadingText} open={true} />
     ) : (
-      <Box
-        flex="1"
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        textAlign="center"
-        p={7}
-      >
-        <CircularProgress /> {loadingText}
-      </Box>
+      <Grow in={loading} timeout={1000}>
+        <Box
+          flex="1"
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          textAlign="center"
+          p={7}
+        >
+          <CircularProgress /> {loadingText}
+        </Box>
+      </Grow>
     );
   }
 
@@ -79,8 +102,7 @@ export const HandleApiResponse: React.FC<HandleApiResponseProps> = (
 
     if (graphQLErrors)
       messages = graphQLErrors.map(
-        ({ message, locations, path }) =>
-          `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+        ({ message }) => `[GraphQL error]: ${message}`
       );
 
     if (networkError) {
@@ -92,12 +114,31 @@ export const HandleApiResponse: React.FC<HandleApiResponseProps> = (
     }
 
     return (
-      <Box my={3}>
-        <Alert severity="error" variant="filled" className={classes.root}>
-          <AlertTitle className={classes.title}>Error</AlertTitle>
-          {messages}
-        </Alert>
-      </Box>
+      <Collapse in={isErrorVisible}>
+        <Box my={3}>
+          <Alert
+            action={
+              errorIsDismissible ? (
+                <IconButton
+                  aria-label="close"
+                  color="inherit"
+                  size="small"
+                  onClick={() => {
+                    setIsErrorVisible(false);
+                  }}
+                >
+                  <CloseIcon fontSize="inherit" />
+                </IconButton>
+              ) : undefined
+            }
+            severity="error"
+            variant="filled"
+            className={classes.root}
+          >
+            {messages}
+          </Alert>
+        </Box>
+      </Collapse>
     );
   }
 
