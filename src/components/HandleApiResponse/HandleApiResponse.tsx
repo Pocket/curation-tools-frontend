@@ -40,33 +40,20 @@ interface HandleApiResponseProps {
    * A message to show to the waiting user alongside the loading icon
    */
   loadingText?: string;
-
-  /**
-   * Hand over to children components to display data once it
-   * is successfully retrieved
-   */
-  children: JSX.Element | JSX.Element[];
 }
 
 /**
- * A wrapper component that cycles through the various states
- * of the API response before handing over to child components to display
- * the retrieved data.
+ * A wrapper component that displays a loading component while the API call
+ * is in progress and any errors if the API call was unsuccessful.
  *
  * @param props
  */
 export const HandleApiResponse: React.FC<HandleApiResponseProps> = (
   props
-): JSX.Element => {
+): JSX.Element | null => {
   const classes = useStyles();
 
-  const {
-    loading,
-    error,
-    useModal = false,
-    loadingText = '',
-    children,
-  } = props;
+  const { loading, error, useModal = false, loadingText = '' } = props;
 
   if (loading) {
     return useModal ? (
@@ -114,5 +101,5 @@ export const HandleApiResponse: React.FC<HandleApiResponseProps> = (
     );
   }
 
-  return <>{children}</>;
+  return null;
 };

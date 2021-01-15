@@ -9,7 +9,7 @@ describe('The Tab component', () => {
       <MemoryRouter initialEntries={[`/en-US/newtab/`]}>
         <Tab
           label="Live"
-          count={222}
+          count={22}
           value="/en-US/newtab/live/"
           to="/en-US/newtab/live"
         />
@@ -20,6 +20,6 @@ describe('The Tab component', () => {
 
     expect(tab).toBeInTheDocument();
     expect(tab).toHaveTextContent('Live');
-    expect(within(tab).getByText('222')).toBeInTheDocument();
+    expect(within(tab).getByText('22')).toBeInTheDocument();
   });
 });

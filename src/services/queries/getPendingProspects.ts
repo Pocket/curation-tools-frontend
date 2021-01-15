@@ -2,34 +2,27 @@ import { gql } from '@apollo/client';
 import { Prospect } from '../types/Prospect';
 import { ProspectData } from '../fragments/ProspectData';
 
-interface ProspectId {
-  id: string;
-}
+export const RECORDS_ON_PAGE = 50;
 
 export interface ProspectData {
-  total: { items: ProspectId[] };
-  listProspects: { items: Prospect[] };
+  listProspects: { items: Prospect[]; nextToken: string | null };
 }
 
 export interface ProspectVariables {
   feedId: string;
   limit: number;
+  nextToken: string | null;
 }
 
 /**
  * Get pending prospects for a given feed ID.
+ * TODO: filter out snoozed entries
  */
 export const getPendingProspects = gql`
-  query getPendingProspects($feedId: ID!, $limit: Int!) {
-    total: listProspects(
-      filter: { feedId: { eq: $feedId }, state: { eq: PENDING } }
-    ) {
-      items {
-        id
-      }
-    }
+  query getPendingProspects($feedId: ID!, $limit: Int!, $nextToken: String) {
     listProspects(
       limit: $limit
+      nextToken: $nextToken
       filter: { feedId: { eq: $feedId }, state: { eq: PENDING } }
     ) {
       items {

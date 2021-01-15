@@ -26,7 +26,7 @@ export const AddStory = (): JSX.Element => {
   };
 
   return (
-    <main>
+    <>
       <Grid container spacing={3}>
         <Grid item xs={8}>
           <Typography variant="h4" component="h1" align="left">
@@ -59,6 +59,6 @@ export const AddStory = (): JSX.Element => {
           </Button>
         </Box>
       </form>
-    </main>
+    </>
   );
 };

@@ -30,9 +30,9 @@ export const TabLink = React.forwardRef<
     // workaround to make sure the chip on the active tab is highlighted.
     const color = tabSelected ? 'primary' : 'default';
 
-    // don't show the exact number of articles if there are more than
-    // a thousand of them.
-    const chipLabel = count && count > 999 ? '999+' : count;
+    // don't show the exact number of articles if there is more
+    // than a page's worth (50+)
+    const chipLabel = count && count > 50 ? '50+' : count;
 
     return (
       <Link {...otherProps} ref={ref}>

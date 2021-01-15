@@ -6,6 +6,7 @@ import {
   getPendingProspects,
   ProspectData,
   ProspectVariables,
+  RECORDS_ON_PAGE,
 } from '../../services/queries/getPendingProspects';
 import { Feed } from '../../services/types/Feed';
 import { Prospect } from '../../services/types/Prospect';
@@ -23,7 +24,7 @@ import { Card } from '../../components/Card/Card';
  *
  * @param feed
  */
-export const ProspectsListPage = ({
+export const ProspectsPage = ({
   feed,
 }: {
   feed: Feed | undefined;
@@ -34,7 +35,7 @@ export const ProspectsListPage = ({
    * Set the value of the active tab to path name,
    * i.e "/prospects/approved/" if the "Approved" tab is active.
    */
-  const [value, setValue] = useState(pathname);
+  const [value, setValue] = useState<string>(pathname);
 
   // switch to active tab when user clicks on tab heading
   const handleChange = (
@@ -54,7 +55,8 @@ export const ProspectsListPage = ({
   >(getPendingProspects, {
     variables: {
       feedId: feed?.id ?? 'none',
-      limit: 50,
+      limit: RECORDS_ON_PAGE,
+      nextToken: null,
     },
   });
 
@@ -63,15 +65,20 @@ export const ProspectsListPage = ({
     getProspects();
   }
 
+  /**
+   * Determine how many articles are on this tab. Temp workaround
+   * while we don't have article totals: if nextToken is returned in the query,
+   * add 1 to total count so that the frontend shows '50+'.
+   */
+  let count = data?.listProspects.items.length;
+  if (count && data?.listProspects.nextToken) {
+    count += 1;
+  }
+
   return (
     <>
       <TabNavigation value={value} onChange={handleChange}>
-        <Tab
-          count={data?.total.items.length}
-          label="Prospects"
-          value={basePath}
-          to={basePath}
-        />
+        <Tab count={count} label="Prospects" value={basePath} to={basePath} />
         <Tab
           label="Snoozed"
           value={`${basePath}snoozed/`}
@@ -88,13 +95,14 @@ export const ProspectsListPage = ({
           to={`${basePath}rejected/`}
         />
       </TabNavigation>
-      <HandleApiResponse loading={loading} error={error}>
+      {!data && <HandleApiResponse loading={loading} error={error} />}
+      {data && (
         <TabPanel heading="Prospects" value={value} index={basePath}>
-          {data?.listProspects.items.map((prospect: Prospect) => {
+          {data.listProspects.items.map((prospect: Prospect) => {
             return <Card key={prospect.id} prospect={prospect} />;
           })}
         </TabPanel>
-      </HandleApiResponse>
+      )}
 
       <TabPanel heading="Snoozed" value={value} index={`${basePath}snoozed/`}>
         <p>Coming soon...</p>
