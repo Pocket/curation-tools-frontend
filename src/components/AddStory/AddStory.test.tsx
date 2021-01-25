@@ -1,5 +1,6 @@
 import React from 'react';
-import { render, fireEvent, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { AddStory } from './AddStory';
 
 describe('The AddStory component', () => {
@@ -33,10 +34,8 @@ describe('The AddStory component', () => {
 
     const input = screen.getByLabelText(/story url/i) as HTMLInputElement;
 
-    fireEvent.change(input, {
-      target: { value: testUrl },
-    });
-
+    userEvent.clear(input);
+    userEvent.type(input, testUrl);
     expect(input).toHaveValue(testUrl);
   });
 
@@ -46,7 +45,7 @@ describe('The AddStory component', () => {
     });
 
     await waitFor(() => {
-      fireEvent.submit(screen.getByRole('form'));
+      userEvent.click(screen.getByText(/parse/i));
     });
 
     expect(await screen.getByText(/please enter a url/i)).toBeInTheDocument();
@@ -61,13 +60,9 @@ describe('The AddStory component', () => {
     await waitFor(() => {
       const input = screen.getByLabelText(/story url/i) as HTMLInputElement;
 
-      fireEvent.input(input, {
-        target: {
-          value: 'test link',
-        },
-      });
-
-      fireEvent.submit(screen.getByRole('form'));
+      userEvent.clear(input);
+      userEvent.type(input, 'this is not a valid link');
+      userEvent.click(screen.getByText(/parse/i));
     });
 
     expect(
@@ -84,13 +79,9 @@ describe('The AddStory component', () => {
     await waitFor(() => {
       const input = screen.getByLabelText(/story url/i) as HTMLInputElement;
 
-      fireEvent.input(input, {
-        target: {
-          value: testUrl,
-        },
-      });
-
-      fireEvent.submit(screen.getByRole('form'));
+      userEvent.clear(input);
+      userEvent.type(input, testUrl);
+      userEvent.click(screen.getByText(/parse/i));
     });
 
     expect(screen.queryByText(/please enter a url/i)).not.toBeInTheDocument();

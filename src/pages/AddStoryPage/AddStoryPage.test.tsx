@@ -3,7 +3,8 @@ import { Router } from 'react-router';
 import { createMemoryHistory } from 'history';
 import { MockedProvider } from '@apollo/client/testing';
 import { ApolloError } from '@apollo/client';
-import { render, fireEvent, screen, act } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import { AddStoryPage } from './AddStoryPage';
 import { Feed } from '../../services/types/Feed';
@@ -46,12 +47,11 @@ describe('The AddStory page', () => {
 
     // fill out the form
     const input = screen.getByLabelText(/story url/i) as HTMLInputElement;
-    fireEvent.change(input, {
-      target: { value: testUrl },
-    });
+    userEvent.clear(input);
+    userEvent.type(input, testUrl);
 
     // submit it
-    fireEvent.click(screen.getByText(/parse/i));
+    userEvent.click(screen.getByText(/parse/i));
 
     // wait for the API
     await act(async () => {
@@ -99,12 +99,11 @@ describe('The AddStory page', () => {
 
     // fill out the form
     const input = screen.getByLabelText(/story url/i) as HTMLInputElement;
-    fireEvent.change(input, {
-      target: { value: testUrl },
-    });
+    userEvent.clear(input);
+    userEvent.type(input, testUrl);
 
     // submit it
-    fireEvent.click(screen.getByText(/parse/i));
+    userEvent.click(screen.getByText(/parse/i));
 
     // wait for the API
     await act(async () => {
@@ -136,8 +135,7 @@ describe('The AddStory page', () => {
         </MockedProvider>
       );
 
-      const cancelButton = screen.getByText('Cancel');
-      fireEvent.click(cancelButton);
+      userEvent.click(screen.getByText('Cancel'));
 
       expect(history.location.pathname).toEqual('/en-US/prospects/');
     });
@@ -156,8 +154,7 @@ describe('The AddStory page', () => {
         </MockedProvider>
       );
 
-      const cancelButton = screen.getByText('Cancel');
-      fireEvent.click(cancelButton);
+      userEvent.click(screen.getByText('Cancel'));
 
       expect(history.location.pathname).toEqual('/');
     });
