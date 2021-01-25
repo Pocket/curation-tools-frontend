@@ -16,6 +16,25 @@ cd curation-tools-frontend
 npm install
 ```
 
+
+### Set up with the default API
+
+To generate some data to use in the application locally, run the following command:
+
+```bash
+npm run api:generate
+```
+
+The data will be saved in `local-api/db.json`.
+
+Start the local API server:
+
+```bash
+npm run api:start
+```
+
+You should be able to access GraphiQL at [http://localhost:4000/](http://localhost:4000/). 
+
 ### Set up with the Pocket API
 Create an `.env.local` file in the root directory of the project which will hold your API keys. 
 Add the following lines to the `.env.local` file: 
@@ -25,10 +44,6 @@ REACT_APP_API_ENDPOINT="YOUR_VALUE_HERE"
 REACT_APP_API_KEY="YOUR_VALUE_HERE"
 REACT_APP_API_REGION="YOUR_VALUE_HERE"
 ```
-
-### Set up with the default API
-
-Coming soon...
 
 ### Start the project
 In the project directory, run:
