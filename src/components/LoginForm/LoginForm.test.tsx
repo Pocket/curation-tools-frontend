@@ -1,5 +1,6 @@
 import React from 'react';
-import { render, fireEvent, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { LoginForm } from './LoginForm';
 
 describe('The LoginForm component', () => {
@@ -22,14 +23,12 @@ describe('The LoginForm component', () => {
     const testEmail = 'john.citizen@test.com';
     const testPassword = 'kittens';
 
-    fireEvent.change(email, {
-      target: { value: testEmail },
-    });
-    fireEvent.change(password, {
-      target: { value: testPassword },
-    });
-
+    userEvent.clear(email);
+    userEvent.type(email, testEmail);
     expect(email).toHaveValue(testEmail);
+
+    userEvent.clear(password);
+    userEvent.type(password, testPassword);
     expect(password).toHaveValue(testPassword);
   });
 });
