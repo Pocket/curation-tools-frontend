@@ -3,13 +3,7 @@ import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import { MockedProvider } from '@apollo/client/testing';
 import { ApolloError } from '@apollo/client';
-import {
-  render,
-  fireEvent,
-  screen,
-  act,
-  waitFor,
-} from '@testing-library/react';
+import { render, screen, act, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { EditAndApproveStoryPage } from './EditAndApproveStoryPage';
@@ -166,8 +160,7 @@ describe('The Edit And Approve Story page', () => {
         </MockedProvider>
       );
 
-      const cancelButton = screen.getByText('Cancel');
-      fireEvent.click(cancelButton);
+      userEvent.click(screen.getByText('Cancel'));
 
       expect(history.location.pathname).toEqual('/en-US/prospects/');
     });
@@ -188,8 +181,7 @@ describe('The Edit And Approve Story page', () => {
         </MockedProvider>
       );
 
-      const cancelButton = screen.getByText('Cancel');
-      fireEvent.click(cancelButton);
+      userEvent.click(screen.getByText('Cancel'));
 
       expect(history.location.pathname).toEqual('/');
     });
