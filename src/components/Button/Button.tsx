@@ -11,7 +11,7 @@ interface Props extends ButtonProps {
     | 'hollow-neutral'; // white with grey border
   buttonRef?: React.RefObject<HTMLButtonElement>;
   component?: any;
-  to?: string;
+  to?: string | { pathname: string; state: any };
 }
 
 export const Button = ({

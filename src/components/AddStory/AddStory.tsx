@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Divider, Button, TextField } from '@material-ui/core';
+import { Box, Divider, Button, TextField, Grid } from '@material-ui/core';
 import { useForm } from 'react-hook-form';
 
 interface AddStoryProps {
@@ -8,7 +8,7 @@ interface AddStoryProps {
    *
    * @param data
    */
-  onSubmit: (data: { url: string }) => void;
+  onSubmit: (data: AddStoryFormData) => void;
 }
 
 export interface AddStoryFormData {
@@ -57,7 +57,11 @@ export const AddStory: React.FC<AddStoryProps> = (props): JSX.Element => {
         }}
         variant="outlined"
       />
-      <Divider />
+      <Grid item xs={12}>
+        <Box py={3}>
+          <Divider />
+        </Box>
+      </Grid>
       <Box display="flex" justifyContent="flex-end" mt="1rem">
         <Button color="primary" variant="contained" type="submit">
           Parse

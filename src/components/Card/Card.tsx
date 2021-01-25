@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import {
   Card as MuiCard,
   CardMedia,
@@ -57,6 +58,11 @@ interface CardProps {
    * The Prospect object that holds all the data we need to display.
    */
   prospect: Prospect;
+
+  /**
+   * The base URL for action buttons
+   */
+  url: string;
 }
 
 /**
@@ -65,7 +71,7 @@ interface CardProps {
  */
 export const Card: React.FC<CardProps> = (props) => {
   const classes = useStyles();
-  const { prospect } = props;
+  const { prospect, url } = props;
 
   return (
     <MuiCard variant="outlined" square className={classes.root}>
@@ -80,9 +86,9 @@ export const Card: React.FC<CardProps> = (props) => {
         </Grid>
         <Grid item className={classes.rightColumn}>
           <CardText
-            author={prospect.author || 'No author supplied'}
-            excerpt={prospect.excerpt}
-            publisher={prospect.publisher}
+            author={prospect.author ?? ''}
+            excerpt={prospect.excerpt ?? ''}
+            publisher={prospect.publisher ?? ''}
             title={prospect.title}
             url={prospect.url}
           />
@@ -97,7 +103,7 @@ export const Card: React.FC<CardProps> = (props) => {
             component="span"
             align="left"
           >
-            {prospect.source} &middot; {prospect.category || 'Uncategorized'}
+            {prospect.source} &middot; {prospect.topic || 'Uncategorized'}
           </Typography>
         </Grid>
         <Grid
@@ -105,9 +111,26 @@ export const Card: React.FC<CardProps> = (props) => {
           className={`${classes.rightColumn} ${classes.bottomRightCell}`}
         >
           <div className={classes.bottomRightButtonsContainer}>
-            <Button buttonType="negative">Reject</Button>
-            <Button buttonType="neutral">Snooze</Button>
-            <Button>Edit &amp; Approve</Button>
+            <Button
+              buttonType="negative"
+              component={Link}
+              to={{ pathname: `${url}reject/`, state: { prospect } }}
+            >
+              Reject
+            </Button>
+            <Button
+              buttonType="neutral"
+              component={Link}
+              to={{ pathname: `${url}snooze/`, state: { prospect } }}
+            >
+              Snooze
+            </Button>
+            <Button
+              component={Link}
+              to={{ pathname: `${url}edit-and-approve/`, state: { prospect } }}
+            >
+              Edit &amp; Approve
+            </Button>
           </div>
         </Grid>
       </Grid>

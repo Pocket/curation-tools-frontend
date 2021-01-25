@@ -7,12 +7,14 @@ export const ProspectData = gql`
   fragment ProspectData on Prospect {
     id
     altText
-    category: topic
     excerpt
+    feedId
     imageUrl
     publisher
     source: sourceName
+    snoozedUntil
     title
+    topic
     url
   }
 `;
