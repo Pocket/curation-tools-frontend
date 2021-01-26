@@ -103,7 +103,7 @@ export const ProspectsPage = ({
               <Card
                 key={prospect.id}
                 prospect={prospect}
-                url={`${basePath}article/${prospect.id}/`}
+                url={`${basePath}${prospect.id}/`}
               />
             );
           })}

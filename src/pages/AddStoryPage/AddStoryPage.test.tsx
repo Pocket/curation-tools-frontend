@@ -113,7 +113,7 @@ describe('The AddStory page', () => {
 
     // redirect to the Edit & Approve form on success
     expect(history.location.pathname).toEqual(
-      `/en-US/prospects/article/${newProspectId}/edit-and-approve/`
+      `/en-US/prospects/${newProspectId}/edit-and-approve/`
     );
   });
 

@@ -41,7 +41,7 @@ describe('The Edit And Approve Story page', () => {
     // start on the Snoozed tab
     history.push('/en-US/prospects/snoozed/');
     // click "Edit & Approve" button on a prospect card and pass the prospect along
-    history.push('/en-US/prospects/article/123a-456b-789c/edit-and-approve/', {
+    history.push('/en-US/prospects/123a-456b-789c/edit-and-approve/', {
       prospect: mockProspect,
     });
   });
@@ -147,7 +147,7 @@ describe('The Edit And Approve Story page', () => {
       history = createMemoryHistory({
         initialEntries: [
           '/en-US/prospects/',
-          '/en-US/prospects/article/123a-456b-789c/edit-and-approve/',
+          '/en-US/prospects/123a-456b-789c/edit-and-approve/',
         ],
         initialIndex: 1,
       });
@@ -167,9 +167,7 @@ describe('The Edit And Approve Story page', () => {
 
     it('it goes to home page if there is no browsing history', () => {
       history = createMemoryHistory({
-        initialEntries: [
-          '/en-US/prospects/article/123a-456b-789c/edit-and-approve/',
-        ],
+        initialEntries: ['/en-US/prospects/123a-456b-789c/edit-and-approve/'],
         initialIndex: 0,
       });
 

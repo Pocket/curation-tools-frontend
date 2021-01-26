@@ -88,7 +88,7 @@ function App(): JSX.Element {
                   </Route>
                   <Route
                     exact
-                    path="/:feed/prospects/article/:articleid/edit-and-approve/"
+                    path="/:feed/prospects/:prospectid/edit-and-approve/"
                   >
                     <EditAndApproveStoryPage />
                   </Route>

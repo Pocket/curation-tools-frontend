@@ -23,10 +23,7 @@ describe('The Card component', () => {
 
     render(
       <MemoryRouter>
-        <Card
-          prospect={prospect}
-          url="/en-US/prospects/article/123c-456b-789c/"
-        />
+        <Card prospect={prospect} url="/en-US/prospects/123c-456b-789c/" />
       </MemoryRouter>
     );
 

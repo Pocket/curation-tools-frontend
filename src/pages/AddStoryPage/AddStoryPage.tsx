@@ -65,7 +65,7 @@ export const AddStoryPage = ({
       .then((data) => {
         // Success! Move on to the full edit form
         history.push(
-          `/${feed?.name}/prospects/article/${data.data?.prospect.id}/edit-and-approve/`,
+          `/${feed?.name}/prospects/${data.data?.prospect.id}/edit-and-approve/`,
           { prospect: data.data?.prospect }
         );
       })
