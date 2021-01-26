@@ -60,24 +60,26 @@ describe('The Prospects page', () => {
                   id: 'abc-123',
                   altText: 'This is an image',
                   author: 'Test author',
-                  category: 'Health',
                   excerpt: 'This is a short description',
                   imageUrl: 'https://test.com/image.jpeg',
                   publisher: 'Test publisher',
                   source: 'Syndication',
+                  snoozedUntil: null,
                   title: 'Test title',
+                  topic: 'Health',
                   url: 'https://test.com/test-title/',
                 },
                 {
                   id: 'cde-345',
                   altText: 'This is an image 2',
                   author: 'Test author 2',
-                  category: 'Art',
                   excerpt: 'This is a short description 2',
                   imageUrl: 'https://test.com/image2.jpeg',
                   publisher: 'Test publisher 2',
                   source: 'Syndication',
+                  snoozedUntil: null,
                   title: 'Test title 2',
+                  topic: 'Art',
                   url: 'https://test.com/test-title-2/',
                 },
               ],
@@ -107,8 +109,7 @@ describe('The Prospects page', () => {
       await new Promise((resolve) => setTimeout(resolve, 0));
     });
 
-    const cardTitle = await screen.findByText('/test title/i');
-    console.log(cardTitle);
+    const cardTitle = await screen.queryByText('/test title/i');
     expect(cardTitle).toBeInTheDocument();
   });
 });

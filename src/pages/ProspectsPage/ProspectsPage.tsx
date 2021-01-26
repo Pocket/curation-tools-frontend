@@ -99,7 +99,13 @@ export const ProspectsPage = ({
       {data && (
         <TabPanel heading="Prospects" value={value} index={basePath}>
           {data.listProspects.items.map((prospect: Prospect) => {
-            return <Card key={prospect.id} prospect={prospect} />;
+            return (
+              <Card
+                key={prospect.id}
+                prospect={prospect}
+                url={`${basePath}${prospect.id}/`}
+              />
+            );
           })}
         </TabPanel>
       )}
