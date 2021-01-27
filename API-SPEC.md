@@ -56,7 +56,7 @@ _Response_
         sourceScore: Float
         syndicationArticleId: string
         isLive: boolean
-        isScheduled: boolead
+        isScheduled: boolean
         isRemoved: boolean
         createdAt: DateTime
         updatedAt: DateTime
@@ -107,7 +107,7 @@ _Response_
         sourceScore: Float
         syndicationArticleId: string
         isLive: boolean
-        isScheduled: boolead
+        isScheduled: boolean
         isRemoved: boolean
         createdAt: DateTime
         updatedAt: DateTime
@@ -164,7 +164,7 @@ _Response_
         sourceScore: Float
         syndicationArticleId: string
         isLive: boolean
-        isScheduled: boolead
+        isScheduled: boolean
         isRemoved: boolean
         createdAt: DateTime
         updatedAt: DateTime
@@ -227,7 +227,7 @@ _Response_
         sourceScore: Float
         syndicationArticleId: string
         isLive: boolean
-        isScheduled: boolead
+        isScheduled: boolean
         isRemoved: boolean
         createdAt: DateTime
         updatedAt: DateTime
@@ -272,7 +272,7 @@ _Response_
         sourceScore: Float
         syndicationArticleId: string
         isLive: boolean
-        isScheduled: boolead
+        isScheduled: boolean
         isRemoved: boolean
         createdAt: DateTime
         updatedAt: DateTime
