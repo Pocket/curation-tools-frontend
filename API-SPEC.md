@@ -55,6 +55,8 @@ _Response_
         sourceName: string
         sourceScore: Float
         syndicationArticleId: string
+        prioritized: boolean
+        removed: boolean
         createdAt: DateTime
         updatedAt: DateTime
     }]
@@ -103,6 +105,8 @@ _Response_
         sourceName: string
         sourceScore: Float
         syndicationArticleId: string
+        prioritized: boolean
+        removed: boolean
         createdAt: DateTime
         updatedAt: DateTime
     }
@@ -157,6 +161,8 @@ _Response_
         sourceName: string
         sourceScore: Float
         syndicationArticleId: string
+        prioritized: boolean
+        removed: boolean
         createdAt: DateTime
         updatedAt: DateTime
     }
@@ -191,7 +197,7 @@ Request JSON
     thumbnailUrl: string
     sourceName: string
     topic: string
-    prioritize: boolean
+    prioritized: boolean
     status: APPROVE|REJECT|SNOOZE
 }
 ```
@@ -217,6 +223,8 @@ _Response_
         sourceName: string
         sourceScore: Float
         syndicationArticleId: string
+        prioritized: boolean
+        removed: boolean
         createdAt: DateTime
         updatedAt: DateTime
     }
@@ -232,7 +240,7 @@ _Response_
 
 ### Remove
 
-HTTP METHOD: `PUT` or `DELETE`?
+HTTP METHOD: `PUT`?
 
 _Request_
 
@@ -259,6 +267,8 @@ _Response_
         sourceName: string
         sourceScore: Float
         syndicationArticleId: string
+        prioritized: boolean
+        removed: boolean
         createdAt: DateTime
         updatedAt: DateTime
     }
