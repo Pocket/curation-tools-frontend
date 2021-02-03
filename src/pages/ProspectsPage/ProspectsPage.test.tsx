@@ -3,15 +3,10 @@ import { Router } from 'react-router';
 import { createMemoryHistory } from 'history';
 import { MockedProvider } from '@apollo/client/testing';
 import { render, screen, act, within, waitFor } from '@testing-library/react';
-
 import { ProspectsPage } from './ProspectsPage';
-import { Feed } from '../../services/types/Feed';
-import {
-  getPendingProspects,
-  ProspectData,
-  ProspectVariables,
-  RECORDS_ON_PAGE,
-} from '../../services/queries/getPendingProspects';
+import { Feed, ProspectListData, ProspectVariables } from '../../models';
+import { RECORDS_ON_PAGE } from '../../constants';
+import { GetPendingProspectsDocument } from '../../api/local/generatedTypes';
 
 describe('The Prospects page', () => {
   let mockFeed: Feed;
@@ -45,48 +40,52 @@ describe('The Prospects page', () => {
     const mocks = [
       {
         request: {
-          query: getPendingProspects,
+          query: GetPendingProspectsDocument,
           variables: {
             feedId: mockFeed.id,
-            limit: RECORDS_ON_PAGE,
-            nextToken: null,
+            page: 1,
+            perPage: RECORDS_ON_PAGE,
           } as ProspectVariables,
         },
         result: {
           data: {
-            listProspects: {
-              items: [
-                {
-                  id: 'abc-123',
-                  altText: 'This is an image',
-                  author: 'Test author',
-                  excerpt: 'This is a short description',
-                  imageUrl: 'https://test.com/image.jpeg',
-                  publisher: 'Test publisher',
-                  source: 'Syndication',
-                  snoozedUntil: null,
-                  title: 'Test title',
-                  topic: 'Health',
-                  url: 'https://test.com/test-title/',
-                },
-                {
-                  id: 'cde-345',
-                  altText: 'This is an image 2',
-                  author: 'Test author 2',
-                  excerpt: 'This is a short description 2',
-                  imageUrl: 'https://test.com/image2.jpeg',
-                  publisher: 'Test publisher 2',
-                  source: 'Syndication',
-                  snoozedUntil: null,
-                  title: 'Test title 2',
-                  topic: 'Art',
-                  url: 'https://test.com/test-title-2/',
-                },
-              ],
-              nextToken: 'abcdefg',
+            data: [
+              {
+                id: 'abc-123',
+                altText: 'This is an image',
+                author: 'Test author',
+                excerpt: 'This is a short description',
+                imageUrl: 'https://test.com/image.jpeg',
+                publisher: 'Test publisher',
+                source: 'Syndication',
+                snoozedUntil: null,
+                title: 'Test title',
+                topic: 'Health',
+                url: 'https://test.com/test-title/',
+              },
+              {
+                id: 'cde-345',
+                altText: 'This is an image 2',
+                author: 'Test author 2',
+                excerpt: 'This is a short description 2',
+                imageUrl: 'https://test.com/image2.jpeg',
+                publisher: 'Test publisher 2',
+                source: 'Syndication',
+                snoozedUntil: null,
+                title: 'Test title 2',
+                topic: 'Art',
+                url: 'https://test.com/test-title-2/',
+              },
+            ],
+            meta: {
+              totalResults: 2,
+              currentPage: 1,
+              perPage: RECORDS_ON_PAGE,
+              nextPageUrl: '',
+              prevPageUrl: '',
             },
-          } as ProspectData,
-        },
+          },
+        } as ProspectListData,
       },
     ];
 

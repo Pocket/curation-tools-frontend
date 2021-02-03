@@ -1,28 +1,17 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { ApolloProvider } from '@apollo/client';
 import { ThemeProvider } from '@material-ui/core/styles';
 import theme from './theme';
-
-// API
-import { client } from './services/clients/AwsAppSync';
-import { ApolloProvider, useQuery } from '@apollo/client';
 import {
-  getCurrentFeed,
-  FeedData,
-  FeedVariables,
-} from './services/queries/getCurrentFeed';
-
-// custom components
-import { Header } from './components/Header/Header';
-import { MainContentWrapper } from './components/MainContentWrapper/MainContentWrapper';
-import { HandleApiResponse } from './components/HandleApiResponse/HandleApiResponse';
-
-// pages
-import { AddStoryPage } from './pages/AddStoryPage/AddStoryPage';
-import { HomePage } from './pages/HomePage';
-import { NewTabPage } from './pages/NewTabPage/NewTabPage';
-import { ProspectsPage } from './pages/ProspectsPage/ProspectsPage';
-import { EditAndApproveStoryPage } from './pages/EditAndApproveStoryPage/EditAndApproveStoryPage';
+  AddStoryPage,
+  EditAndApproveStoryPage,
+  HomePage,
+  NewTabPage,
+  ProspectsPage,
+} from './pages';
+import { HandleApiResponse, Header, MainContentWrapper } from './components';
+import { client, useGetCurrentFeed } from './api';
 
 function App(): JSX.Element {
   /**
@@ -44,15 +33,10 @@ function App(): JSX.Element {
       : 'en-US';
 
   // get feed object from the API
-  const { loading, error, data } = useQuery<FeedData, FeedVariables>(
-    getCurrentFeed,
-    {
-      client,
-      variables: { name: feedName },
-    }
+  const { loading, error, data } = useGetCurrentFeed(
+    { name: feedName },
+    client
   );
-
-  const currentFeed = data?.currentFeed.items[0];
 
   return (
     <ApolloProvider client={client}>
@@ -68,23 +52,23 @@ function App(): JSX.Element {
           )}
           {data && (
             <>
-              <Header feed={currentFeed} />
+              <Header feed={data} />
               <MainContentWrapper>
                 <Switch>
                   <Route exact path="/">
-                    <HomePage feed={currentFeed} />
+                    <HomePage feed={data} />
                   </Route>
                   <Route exact path="/:feed/prospects/">
-                    <ProspectsPage feed={currentFeed} />
+                    <ProspectsPage feed={data} />
                   </Route>
                   <Route
                     exact
                     path="/:feed/prospects/(snoozed|approved|rejected)/"
                   >
-                    <ProspectsPage feed={currentFeed} />
+                    <ProspectsPage feed={data} />
                   </Route>
-                  <Route exact path="/:feed/prospects/article/add/">
-                    <AddStoryPage feed={currentFeed} />
+                  <Route exact path="/:feed/prospects/add/">
+                    <AddStoryPage feed={data} />
                   </Route>
                   <Route
                     exact
@@ -96,7 +80,7 @@ function App(): JSX.Element {
                     <NewTabPage />
                   </Route>
                   <Route path="*">
-                    <HomePage feed={currentFeed} />
+                    <HomePage feed={data} />
                   </Route>
                 </Switch>
               </MainContentWrapper>

@@ -10,8 +10,7 @@ import {
 } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import CloseIcon from '@material-ui/icons/Close';
-
-import { Modal } from '../Modal/Modal';
+import { Modal } from '../';
 
 /**
  * Styles for the error message alert.
@@ -36,7 +35,7 @@ interface HandleApiResponseProps {
   /**
    * An optional error object in case there is an error
    */
-  error?: ApolloError;
+  error?: ApolloError | Error;
 
   /**
    * Whether the error alert box can be closed
@@ -96,21 +95,25 @@ export const HandleApiResponse: React.FC<HandleApiResponseProps> = (
   }
 
   if (error) {
-    const { graphQLErrors, networkError, extraInfo } = error;
-
     let messages: string[] = [];
 
-    if (graphQLErrors)
-      messages = graphQLErrors.map(
-        ({ message }) => `[GraphQL error]: ${message}`
-      );
+    if (error instanceof ApolloError) {
+      const { graphQLErrors, networkError, extraInfo } = error;
 
-    if (networkError) {
-      messages.push(`[Network error]: ${networkError}`);
-    }
+      if (graphQLErrors)
+        messages = graphQLErrors.map(
+          ({ message }) => `[GraphQL error]: ${message}`
+        );
 
-    if (extraInfo) {
-      messages.push(extraInfo);
+      if (networkError) {
+        messages.push(`[Network error]: ${networkError}`);
+      }
+
+      if (extraInfo) {
+        messages.push(extraInfo);
+      }
+    } else {
+      messages.push(error.toString());
     }
 
     return (

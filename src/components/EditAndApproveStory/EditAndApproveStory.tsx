@@ -13,8 +13,9 @@ import {
 } from '@material-ui/core';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import { useForm } from 'react-hook-form';
-import { Button } from '../Button/Button';
-import { Prospect } from '../../services/types/Prospect';
+import { Button } from '../';
+import { Prospect } from '../../models';
+import { VALID_URL_REGEX } from '../../constants';
 
 const useStyles = makeStyles((theme: Theme) => ({
   alignRight: {
@@ -334,8 +335,7 @@ export const EditAndApproveStory: React.FC<EditAndApproveStoryProps> = (
             helperText={errors.imageUrl ? errors.imageUrl.message : null}
             inputRef={register({
               pattern: {
-                // regex credit goes to https://gist.github.com/dperini/729294
-                value: /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z0-9\u00a1-\uffff][a-z0-9\u00a1-\uffff_-]{0,62})?[a-z0-9\u00a1-\uffff]\.)+(?:[a-z\u00a1-\uffff]{2,}\.?))(?::\d{2,5})?(?:[/?#]\S*)?$/i,
+                value: VALID_URL_REGEX,
                 message: 'Please enter a valid URL',
               },
             })}

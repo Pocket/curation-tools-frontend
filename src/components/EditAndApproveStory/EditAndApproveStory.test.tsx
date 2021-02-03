@@ -5,7 +5,7 @@ import {
   EditAndApproveStory,
   EditAndApproveStoryFormData,
 } from './EditAndApproveStory';
-import { Prospect } from '../../services/types/Prospect';
+import { Prospect } from '../../models';
 
 describe('The EditAndApproveStory component', () => {
   let mockSubmit: any;

@@ -25,4 +25,7 @@ yarn-error.log*
 .eslintcache
 
 # local API - generated data
-/local-api/db.json
+/local-api-server/db.json
+
+aws-appsync.codegen.yml
+

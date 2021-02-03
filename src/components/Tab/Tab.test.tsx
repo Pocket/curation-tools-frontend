@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, within } from '@testing-library/react';
-import { Tab } from './Tab';
 import { MemoryRouter } from 'react-router-dom';
+import { Tab } from './Tab';
 
 describe('The Tab component', () => {
   it('renders successfully', () => {

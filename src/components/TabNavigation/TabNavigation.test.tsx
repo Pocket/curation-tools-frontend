@@ -1,8 +1,7 @@
 import React from 'react';
 import { render, screen, within } from '@testing-library/react';
-import { TabNavigation } from './TabNavigation';
-import { Tab } from '../Tab/Tab';
 import { MemoryRouter } from 'react-router-dom';
+import { Tab, TabNavigation } from '../';
 
 describe('The TabNavigation component', () => {
   it('renders successfully with the first tab selected by default', () => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, LinkProps } from 'react-router-dom';
-import { Chip } from '../Chip/Chip';
+import { Chip } from '../';
 
 interface TabLinkProps {
   /**
@@ -31,8 +31,8 @@ export const TabLink = React.forwardRef<
     const color = tabSelected ? 'primary' : 'default';
 
     // don't show the exact number of articles if there is more
-    // than a page's worth (50+)
-    const chipLabel = count && count > 50 ? '50+' : count;
+    // than a thousand of entries
+    const chipLabel = count && count > 999 ? '999+' : count;
 
     return (
       <Link {...otherProps} ref={ref}>

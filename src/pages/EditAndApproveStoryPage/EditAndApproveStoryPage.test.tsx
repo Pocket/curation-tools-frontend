@@ -5,14 +5,9 @@ import { MockedProvider } from '@apollo/client/testing';
 import { ApolloError } from '@apollo/client';
 import { render, screen, act, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-
 import { EditAndApproveStoryPage } from './EditAndApproveStoryPage';
-import { Prospect } from '../../services/types/Prospect';
-import {
-  approveProspect,
-  ApproveProspectData,
-  ApproveProspectVariables,
-} from '../../services/mutations/approveProspect';
+import { Prospect, ApproveProspectVariables } from '../../models';
+import { ApproveProspectDocument } from '../../api/aws-appsync/generatedTypes';
 
 describe('The Edit And Approve Story page', () => {
   let history: any;
@@ -50,10 +45,11 @@ describe('The Edit And Approve Story page', () => {
     const mocksWithError = [
       {
         request: {
-          query: approveProspect,
+          query: ApproveProspectDocument,
           variables: {
             id: 'abcdefg',
             altText: 'Alt text',
+            author: 'John Citizen',
             excerpt: 'A very short description',
             imageUrl: 'http://www.test.com/image.svg',
             publisher: 'CNN',
@@ -98,10 +94,11 @@ describe('The Edit And Approve Story page', () => {
     const mocks = [
       {
         request: {
-          query: approveProspect,
+          query: ApproveProspectDocument,
           variables: {
             id: approvedProspect.id,
             altText: approvedProspect.altText,
+            author: approvedProspect.author,
             excerpt: approvedProspect.excerpt,
             imageUrl: approvedProspect.imageUrl,
             publisher: approvedProspect.publisher,
@@ -111,8 +108,8 @@ describe('The Edit And Approve Story page', () => {
         },
         result: {
           data: {
-            prospect: approvedProspect,
-          } as ApproveProspectData,
+            data: approvedProspect as Prospect,
+          },
         },
       },
     ];

@@ -1,0 +1,9 @@
+overwrite: true
+schema: "http://localhost:4000"
+documents: ["src/api/local/queries/*.ts", "src/api/local/mutations/*.ts", "src/api/local/fragments/*.ts"]
+generates:
+  src/api/local/generatedTypes.ts:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"
