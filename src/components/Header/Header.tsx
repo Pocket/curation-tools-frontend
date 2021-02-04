@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import { Tabs, Tab } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link, useLocation } from 'react-router-dom';
-
-import { Button } from '../Button/Button';
+import { Button } from '../';
 import pocketLogo from '../../assets/PKTLogoRounded_RGB.png';
-import { Feed } from '../../services/types/Feed';
+import { Feed } from '../../models';
 
 /**
  * Styles for the HandleApiResponse component.
@@ -143,7 +142,7 @@ export const Header: React.FC<HeaderProps> = (props): JSX.Element => {
           <Button
             className={classes.button}
             component={Link}
-            to={`/${currentFeed}/prospects/article/add/`}
+            to={`/${currentFeed}/prospects/add/`}
           >
             Add Story
           </Button>

@@ -1,23 +1,18 @@
 import React, { useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { Box, Grid, Snackbar, Typography } from '@material-ui/core';
-import { useMutation } from '@apollo/client';
-import { makeStyles, Theme } from '@material-ui/core/styles';
+import { Alert } from '@material-ui/lab';
+import { makeStyles } from '@material-ui/core/styles';
 import {
+  Button,
   EditAndApproveStory,
   EditAndApproveStoryFormData,
-} from '../../components/EditAndApproveStory/EditAndApproveStory';
-import { Button } from '../../components/Button/Button';
-import { Prospect } from '../../services/types/Prospect';
-import {
-  approveProspect,
-  ApproveProspectData,
-  ApproveProspectVariables,
-} from '../../services/mutations/approveProspect';
-import { HandleApiResponse } from '../../components/HandleApiResponse/HandleApiResponse';
-import { Alert } from '@material-ui/lab';
+  HandleApiResponse,
+} from '../../components';
+import { Prospect } from '../../models';
+import { useApproveProspect } from '../../api';
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = makeStyles(() => ({
   alignRight: {
     textAlign: 'right',
   },
@@ -43,38 +38,36 @@ export const EditAndApproveStoryPage: React.FC<EditAndApproveStoryPageProps> = (
   const prospect = location.state?.prospect;
 
   // prepare "approve" mutation
-  const [approveProspectMutation, { loading, error }] = useMutation<
-    ApproveProspectData,
-    ApproveProspectVariables
-  >(approveProspect);
+  const { approveProspect, loading, error } = useApproveProspect();
 
   /**
    * Collect form data, choose action and send it off to the API
    *
-   * @param data
+   * @param formData
    */
-  const handleSubmit = (data: EditAndApproveStoryFormData) => {
+  const handleSubmit = (formData: EditAndApproveStoryFormData) => {
     // TODO: ensure there is always a prospect on the page by loading it from the API
     // if it's not passed down from other pages
     if (prospect) {
-      switch (data.submitAction) {
+      switch (formData.submitAction) {
         case 'approve':
-          approveProspectMutation({
+          approveProspect({
             variables: {
               id: prospect.id,
-              altText: data.altText,
-              excerpt: data.excerpt,
-              imageUrl: data.imageUrl,
-              publisher: data.publisher,
-              title: data.title,
-              topic: data.topic,
+              altText: formData.altText,
+              excerpt: formData.excerpt,
+              imageUrl: formData.imageUrl,
+              publisher: formData.publisher,
+              author: formData.author,
+              title: formData.title,
+              topic: formData.topic,
             },
           })
             .then((data) => {
               // Success! Show a toast notification
-              setSuccessMessage('Story approved!');
+              setSuccessMessage('Story approved! Redirecting...');
               setSuccess(true);
-              // go back to previous tab
+              // Go back to previous tab
               history.goBack();
             })
             .catch((error) => {

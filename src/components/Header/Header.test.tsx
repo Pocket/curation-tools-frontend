@@ -1,8 +1,8 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { Header } from './Header';
 import { MemoryRouter } from 'react-router-dom';
-import { Feed } from '../../services/types/Feed';
+import { Header } from './Header';
+import { Feed } from '../../models';
 
 describe('The Header component', () => {
   const feed: Feed = { id: 'abcdefg', name: 'en-US' };

@@ -1,20 +1,17 @@
 import React from 'react';
-import { useMutation } from '@apollo/client';
-import { Box, Grid, Typography } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
-import { makeStyles, Theme } from '@material-ui/core/styles';
-
+import { Box, Grid, Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import {
-  createProspectByUrl,
-  CreateProspectData,
-  CreateProspectVariables,
-} from '../../services/mutations/createProspectByUrl';
-import { Feed } from '../../services/types/Feed';
-import { AddStory, AddStoryFormData } from '../../components/AddStory/AddStory';
-import { Button } from '../../components/Button/Button';
-import { HandleApiResponse } from '../../components/HandleApiResponse/HandleApiResponse';
+  AddStory,
+  AddStoryFormData,
+  Button,
+  HandleApiResponse,
+} from '../../components';
+import { Feed } from '../../models';
+import { useCreateProspectByUrl } from '../../api';
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = makeStyles(() => ({
   alignRight: {
     textAlign: 'right',
   },
@@ -43,10 +40,7 @@ export const AddStoryPage = ({
   };
 
   // prepare mutation
-  const [createProspectMutation, { loading, error }] = useMutation<
-    CreateProspectData,
-    CreateProspectVariables
-  >(createProspectByUrl);
+  const { createProspect, loading, error } = useCreateProspectByUrl();
 
   /**
    * Collect form data and send it to the API.
@@ -54,22 +48,20 @@ export const AddStoryPage = ({
    * @param data
    */
   const handleFormSubmit = (data: AddStoryFormData) => {
-    const url = data.url;
-
-    createProspectMutation({
+    createProspect({
       variables: {
         feedId: feed?.id ?? 'none',
-        url,
+        url: data.url,
       },
     })
       .then((data) => {
         // Success! Move on to the full edit form
         history.push(
-          `/${feed?.name}/prospects/${data.data?.prospect.id}/edit-and-approve/`,
-          { prospect: data.data?.prospect }
+          `/${feed?.name}/prospects/${data.data?.data?.id}/edit-and-approve/`,
+          { prospect: data.data?.data }
         );
       })
-      .catch((error) => {
+      .catch(() => {
         // Do nothing. The errors are already destructured and shown on the frontend
         // Yet if a catch() statement is missing an "Unhandled rejection" will break through
       });
@@ -91,8 +83,8 @@ export const AddStoryPage = ({
           </Grid>
         </Grid>
       </Box>
-      <HandleApiResponse loading={loading} error={error} />
       <AddStory onSubmit={handleFormSubmit} />
+      <HandleApiResponse loading={loading} error={error} />
     </>
   );
 };

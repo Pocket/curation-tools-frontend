@@ -1,6 +1,6 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import { Feed } from '../services/types/Feed';
+import { Feed } from '../../models';
 
 /**
  * Home Page

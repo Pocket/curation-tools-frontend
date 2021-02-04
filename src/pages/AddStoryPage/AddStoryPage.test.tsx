@@ -5,14 +5,9 @@ import { MockedProvider } from '@apollo/client/testing';
 import { ApolloError } from '@apollo/client';
 import { render, screen, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-
 import { AddStoryPage } from './AddStoryPage';
-import { Feed } from '../../services/types/Feed';
-import {
-  createProspectByUrl,
-  CreateProspectData,
-  CreateProspectVariables,
-} from '../../services/mutations/createProspectByUrl';
+import { Feed, Prospect, CreateProspectVariables } from '../../models';
+import { CreateProspectByUrlDocument } from '../../api/aws-appsync/generatedTypes';
 
 describe('The AddStory page', () => {
   let mockFeed: Feed;
@@ -27,7 +22,7 @@ describe('The AddStory page', () => {
     const mocksWithError = [
       {
         request: {
-          query: createProspectByUrl,
+          query: CreateProspectByUrlDocument,
           variables: {
             feedId: mockFeed.id,
             url: testUrl,
@@ -68,7 +63,7 @@ describe('The AddStory page', () => {
     const mocks = [
       {
         request: {
-          query: createProspectByUrl,
+          query: CreateProspectByUrlDocument,
           variables: {
             feedId: mockFeed.id,
             url: testUrl,
@@ -76,16 +71,28 @@ describe('The AddStory page', () => {
         },
         result: {
           data: {
-            prospect: {
+            data: {
               id: newProspectId,
-            },
-          } as CreateProspectData,
+              altText: 'Test alt text',
+              author: 'Test author',
+              excerpt: 'This is a short description',
+              feedId: 'abcdefg',
+              imageUrl:
+                'https://assets.getpocket.com/web/yir/2020/images/mostread-1@2x.d849a2bbcf7ce894c8e5d01bc6a73052.jpg',
+              publisher: 'Test publisher',
+              source: 'Test source',
+              snoozedUntil: null,
+              title: 'Test title',
+              topic: 'Business',
+              url: 'https://getpocket.com',
+            } as Prospect,
+          },
         },
       },
     ];
 
     const history = createMemoryHistory({
-      initialEntries: ['/en-US/prospects/article/add/'],
+      initialEntries: ['/en-US/prospects/add/'],
       initialIndex: 0,
     });
 
@@ -122,7 +129,7 @@ describe('The AddStory page', () => {
         initialEntries: [
           '/en-US/newtab/live/',
           '/en-US/prospects/',
-          '/en-US/prospects/article/add/',
+          '/en-US/prospects/add/',
         ],
         initialIndex: 2,
       });
@@ -142,7 +149,7 @@ describe('The AddStory page', () => {
 
     it('goes to home page if there is no browsing history', () => {
       const history = createMemoryHistory({
-        initialEntries: ['/en-US/prospects/article/add/'],
+        initialEntries: ['/en-US/prospects/add/'],
         initialIndex: 0,
       });
 

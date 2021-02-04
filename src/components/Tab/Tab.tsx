@@ -6,7 +6,7 @@ import {
 } from '@material-ui/core';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import { curationPalette } from '../../theme';
-import { TabLink } from '../TabLink/TabLink';
+import { TabLink } from '../';
 
 /**
  * Styles for the TabLink component.

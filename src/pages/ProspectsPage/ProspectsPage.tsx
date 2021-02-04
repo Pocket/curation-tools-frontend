@@ -1,21 +1,15 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useLazyQuery } from '@apollo/client';
-
 import {
-  getPendingProspects,
-  ProspectData,
-  ProspectVariables,
-  RECORDS_ON_PAGE,
-} from '../../services/queries/getPendingProspects';
-import { Feed } from '../../services/types/Feed';
-import { Prospect } from '../../services/types/Prospect';
-
-import { TabNavigation } from '../../components/TabNavigation/TabNavigation';
-import { Tab } from '../../components/Tab/Tab';
-import { TabPanel } from '../../components/TabPanel/TabPanel';
-import { HandleApiResponse } from '../../components/HandleApiResponse/HandleApiResponse';
-import { Card } from '../../components/Card/Card';
+  Card,
+  HandleApiResponse,
+  Tab,
+  TabNavigation,
+  TabPanel,
+} from '../../components';
+import { Feed, Prospect } from '../../models';
+import { RECORDS_ON_PAGE } from '../../constants';
+import { useGetPendingProspects } from '../../api';
 
 /**
  * Prospects page
@@ -49,36 +43,21 @@ export const ProspectsPage = ({
   const basePath = `/${feed?.name}/prospects/`;
 
   // prepare query for the first tab
-  const [getProspects, { loading, error, data, called }] = useLazyQuery<
-    ProspectData,
-    ProspectVariables
-  >(getPendingProspects, {
-    variables: {
-      feedId: feed?.id ?? 'none',
-      limit: RECORDS_ON_PAGE,
-      nextToken: null,
-    },
+  const { loading, error, data: pendingProspects } = useGetPendingProspects({
+    feedId: feed?.id ?? 'none',
+    page: 1,
+    perPage: RECORDS_ON_PAGE,
   });
-
-  // load data for the first tab only once that tab is active
-  if (pathname === basePath && !called) {
-    getProspects();
-  }
-
-  /**
-   * Determine how many articles are on this tab. Temp workaround
-   * while we don't have article totals: if nextToken is returned in the query,
-   * add 1 to total count so that the frontend shows '50+'.
-   */
-  let count = data?.listProspects.items.length;
-  if (count && data?.listProspects.nextToken) {
-    count += 1;
-  }
 
   return (
     <>
       <TabNavigation value={value} onChange={handleChange}>
-        <Tab count={count} label="Prospects" value={basePath} to={basePath} />
+        <Tab
+          count={pendingProspects?.meta.totalResults}
+          label="Prospects"
+          value={basePath}
+          to={basePath}
+        />
         <Tab
           label="Snoozed"
           value={`${basePath}snoozed/`}
@@ -95,10 +74,12 @@ export const ProspectsPage = ({
           to={`${basePath}rejected/`}
         />
       </TabNavigation>
-      {!data && <HandleApiResponse loading={loading} error={error} />}
-      {data && (
+      {!pendingProspects && (
+        <HandleApiResponse loading={loading} error={error} />
+      )}
+      {pendingProspects && (
         <TabPanel heading="Prospects" value={value} index={basePath}>
-          {data.listProspects.items.map((prospect: Prospect) => {
+          {pendingProspects.data?.map((prospect: Prospect) => {
             return (
               <Card
                 key={prospect.id}

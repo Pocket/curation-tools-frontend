@@ -7,10 +7,8 @@ import {
   Typography,
 } from '@material-ui/core';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-
-import { Button } from '../Button/Button';
-import { CardText } from '../CardText/CardText';
-import { Prospect } from '../../services/types/Prospect';
+import { Button, CardText } from '../';
+import { Prospect } from '../../models';
 
 /**
  * Styles for the Card component.

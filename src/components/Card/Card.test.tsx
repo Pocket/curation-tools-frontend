@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { Card } from './Card';
-import { Prospect } from '../../services/types/Prospect';
+import { Prospect } from '../../models';
 import { MemoryRouter } from 'react-router-dom';
 
 describe('The Card component', () => {

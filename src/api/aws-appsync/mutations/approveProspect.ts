@@ -1,29 +1,14 @@
 import { gql } from '@apollo/client';
-import { Prospect } from '../types/Prospect';
-import { ProspectData } from '../fragments/ProspectData';
-
-export interface ApproveProspectData {
-  prospect: Prospect;
-}
-
-export interface ApproveProspectVariables {
-  id: string;
-  altText: string;
-  excerpt: string;
-  imageUrl: string;
-  publisher: string;
-  title: string;
-  topic: string;
-}
+import { ProspectDataAppSync } from '../fragments/ProspectDataAppSync';
 
 /**
  * Update a prospect's properties; set state to APPROVED
- * TODO: add a scheduled entry
  */
 export const approveProspect = gql`
   mutation approveProspect(
     $id: ID!
     $altText: String
+    $author: String
     $excerpt: String!
     $imageUrl: String
     $publisher: String
@@ -34,6 +19,7 @@ export const approveProspect = gql`
       input: {
         id: $id
         altText: $altText
+        author: $author
         excerpt: $excerpt
         imageUrl: $imageUrl
         publisher: $publisher
@@ -44,8 +30,8 @@ export const approveProspect = gql`
         updatedAt: null
       }
     ) {
-      ...ProspectData
+      ...ProspectDataAppSync
     }
   }
-  ${ProspectData}
+  ${ProspectDataAppSync}
 `;

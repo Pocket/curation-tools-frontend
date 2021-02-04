@@ -19,9 +19,15 @@ jsf.extend('faker', () => {
       // Note that some of the entries will have different states
       // (i.e. REJECTED, APPROVED), so only a handful will appear
       // in the Snoozed tab (PENDING state + snoozedUntil in the future)
-      const options = [null, null, date.toISOString()];
-      const random = Math.floor(Math.random() * options.length);
-      return options[random];
+      return faker.random.arrayElement[(null, null, date.toISOString())];
+    },
+    imageUrl: () => {
+      const random = Math.round(Math.random() * 1000);
+      return faker.random.arrayElement([
+        `${faker.image.nature()}?random=${random}`,
+        `${faker.image.city()}?random=${random}`,
+        `${faker.image.food()}?random=${random}`,
+      ]);
     },
     itemId: () => {
       return faker.random
@@ -34,9 +40,12 @@ jsf.extend('faker', () => {
     },
     updatedAt: () => {
       // not too many updated entries
-      const options = [null, null, null, faker.date.recent(0).toISOString()];
-      const random = Math.floor(Math.random() * options.length);
-      return options[random];
+      return faker.random.arrayElement([
+        null,
+        null,
+        null,
+        faker.date.recent(0).toISOString(),
+      ]);
     },
   };
 
@@ -60,8 +69,8 @@ const schema = {
     },
     prospects: {
       type: 'array',
-      minItems: 200,
-      maxItems: 300,
+      minItems: 1000,
+      maxItems: 1500,
       items: { $ref: '#/definitions/prospects' },
     },
   },
@@ -76,7 +85,7 @@ const schema = {
         },
         name: {
           type: 'string',
-          enum: ['en-US', 'en-UK', 'de-DE'],
+          enum: ['en-US', 'en-GB', 'de-DE'],
         },
       },
     },
@@ -118,7 +127,7 @@ const schema = {
         },
         title: {
           type: 'string',
-          faker: 'hacker.phrase',
+          faker: 'lorem.sentence',
         },
         excerpt: {
           type: 'string',
@@ -126,7 +135,7 @@ const schema = {
         },
         imageUrl: {
           type: 'string',
-          faker: 'image.people',
+          faker: 'custom.imageUrl',
         },
         altText: {
           type: 'string',
@@ -159,7 +168,7 @@ const schema = {
         },
         sourceName: {
           type: 'string',
-          faker: 'lorem.word',
+          enum: ['Syndication', 'Manual Entry', 'Other'],
         },
         sourceScore: {
           type: 'float',
@@ -167,7 +176,7 @@ const schema = {
         },
         syndicationArticleId: {
           type: 'string',
-          faker: 'random.alphaNumeric',
+          faker: 'random.hexaDecimal',
         },
         createdAt: {
           type: 'string',
