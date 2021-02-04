@@ -1,11 +1,12 @@
 import React from 'react';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import {
   Box,
   CircularProgress,
   Dialog,
   DialogProps,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from '@material-ui/core';
 
 interface ModalProps {
@@ -17,19 +18,6 @@ interface ModalProps {
 }
 
 /**
- * Styles for the Modal component.
- */
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    paper: {
-      width: 350,
-      height: 70,
-      boxShadow: theme.shadows[5],
-    },
-  })
-);
-
-/**
  * A simple "Loading..." modal with a progress icon and a text message.
  *
  * @returns JSX.Element Modal overlay over the entire screen
@@ -38,18 +26,18 @@ export const Modal: React.FC<DialogProps & ModalProps> = ({
   content,
   open,
 }): JSX.Element => {
-  const classes = useStyles();
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
-    <Dialog open={open} onBackdropClick={() => true}>
+    <Dialog open={open} onBackdropClick={() => true} fullScreen={fullScreen}>
       <Box
-        className={classes.paper}
         flex="1"
         display="flex"
         justifyContent="center"
         alignItems="center"
-        py={2}
-        px={4}
+        py={3}
+        px={9}
       >
         <CircularProgress />
         <Box p={2}>
