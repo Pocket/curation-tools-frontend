@@ -603,7 +603,7 @@ export const GetRejectedProspectsDocument = gql`
     ) {
       ...ProspectData
     }
-    totals: allProspects(filter: { state: "PENDING", feed_id: $feedId }) {
+    totals: allProspects(filter: { state: "REJECTED", feed_id: $feedId }) {
       id
     }
   }
