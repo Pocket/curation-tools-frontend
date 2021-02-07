@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link, LinkProps } from 'react-router-dom';
+import { makeStyles, createStyles } from '@material-ui/core/styles';
+import { CircularProgress } from '@material-ui/core';
 import { Chip } from '../';
+import { curationPalette } from '../../theme';
 
 interface TabLinkProps {
   /**
@@ -14,6 +17,14 @@ interface TabLinkProps {
   tabSelected: boolean;
 }
 
+const useStyles = makeStyles(() =>
+  createStyles({
+    spinner: {
+      color: curationPalette.white,
+    },
+  })
+);
+
 /**
  * Used for routing between various subpages available as tabs, i.e.
  * Prospects/Snoozed/Approved/Rejected. Optionally shows a Chip with
@@ -24,6 +35,7 @@ export const TabLink = React.forwardRef<
   LinkProps & TabLinkProps
 >(
   (props, ref): JSX.Element => {
+    const classes = useStyles();
     const { count, children, tabSelected, ...otherProps } = props;
     const showChip = !!(count && count > 0);
 
@@ -37,7 +49,17 @@ export const TabLink = React.forwardRef<
     return (
       <Link {...otherProps} ref={ref}>
         {children}
-        {showChip && <Chip label={chipLabel} size="small" color={color} />}
+        <Chip
+          label={
+            showChip ? (
+              chipLabel
+            ) : (
+              <CircularProgress size={14} className={classes.spinner} />
+            )
+          }
+          size="small"
+          color={color}
+        />
       </Link>
     );
   }
