@@ -375,6 +375,7 @@ export const EditAndApproveStory: React.FC<EditAndApproveStoryProps> = (
             <Select
               native
               inputProps={{
+                name: 'topic',
                 id: 'topic',
               }}
               inputRef={register({
@@ -383,7 +384,7 @@ export const EditAndApproveStory: React.FC<EditAndApproveStoryProps> = (
                   message: 'Please choose a topic for this story',
                 },
               })}
-              name="topic"
+              label="Topic"
               value={prospect.topic ?? ''}
               variant="outlined"
               onChange={handleTopicChange}
