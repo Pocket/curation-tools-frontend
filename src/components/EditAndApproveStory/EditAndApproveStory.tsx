@@ -5,10 +5,12 @@ import {
   CardMedia,
   Divider,
   FormControl,
+  FormControlLabel,
   FormHelperText,
   Grid,
   InputLabel,
   Select,
+  Switch,
   TextField,
 } from '@material-ui/core';
 import { makeStyles, Theme } from '@material-ui/core/styles';
@@ -66,6 +68,12 @@ export interface EditAndApproveStoryFormData {
    * The URL for the thumbnail image that will accompany the published story
    */
   imageUrl: string;
+
+  /**
+   * Whether to schedule this story to appear ahead of other stories already
+   * queued up in the "Scheduled" tab
+   */
+  prioritizeStory: boolean;
 
   /**
    * The name of the publisher, i.e. 'CNN'
@@ -428,6 +436,17 @@ export const EditAndApproveStory: React.FC<EditAndApproveStoryProps> = (
             multiline
             rows={4}
             variant="outlined"
+          />
+        </Grid>
+
+        <Grid item xs={12} className={classes.alignRight}>
+          <FormControlLabel
+            value={true}
+            control={<Switch color="primary" />}
+            inputRef={register}
+            name="prioritizeStory"
+            label="Prioritize this story"
+            labelPlacement="start"
           />
         </Grid>
 
