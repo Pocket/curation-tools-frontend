@@ -4,20 +4,20 @@ import {
   ApiCallStates,
 } from '../../../models';
 import {
-  GetPendingProspectsQueryVariables,
-  useGetPendingProspectsQuery,
+  GetRejectedProspectsQueryVariables,
+  useGetRejectedProspectsQuery,
 } from '../generatedTypes';
 
-export const useGetPendingProspects = (
+export const useGetRejectedProspects = (
   vars: ProspectVariables
 ): ApiCallStates & ProspectListData => {
   const pageNumber = vars.page > 0 ? vars.page - 1 : 0;
   const variables = {
     ...vars,
     page: pageNumber,
-  } as GetPendingProspectsQueryVariables;
+  } as GetRejectedProspectsQueryVariables;
 
-  const { loading, error, data: result } = useGetPendingProspectsQuery({
+  const { loading, error, data: result } = useGetRejectedProspectsQuery({
     variables,
   });
 

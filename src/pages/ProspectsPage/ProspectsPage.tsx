@@ -9,7 +9,12 @@ import {
 } from '../../components';
 import { Feed, Prospect } from '../../models';
 import { RECORDS_ON_PAGE } from '../../constants';
-import { useGetPendingProspects } from '../../api';
+import {
+  useGetPendingProspects,
+  useGetSnoozedProspects,
+  useGetRejectedProspects,
+  useGetApprovedProspects,
+} from '../../api';
 
 /**
  * Prospects page
@@ -42,9 +47,49 @@ export const ProspectsPage = ({
   // set base path for tab links
   const basePath = `/${feed?.name}/prospects/`;
 
-  // prepare query for the first tab
-  const { loading, error, data: pendingProspects } = useGetPendingProspects({
-    feedId: feed?.id ?? 'none',
+  // set feed id (this should always be available)
+  const feedId = feed?.id ?? 'none';
+
+  // Load pending prospects
+  const {
+    loading: loadingPending,
+    error: errorPending,
+    data: pendingProspects,
+  } = useGetPendingProspects({
+    feedId,
+    page: 1,
+    perPage: RECORDS_ON_PAGE,
+  });
+
+  // Load snoozed prospects
+  const {
+    loading: loadingSnoozed,
+    error: errorSnoozed,
+    data: snoozedProspects,
+  } = useGetSnoozedProspects({
+    feedId,
+    page: 1,
+    perPage: RECORDS_ON_PAGE,
+  });
+
+  // Load snoozed prospects
+  const {
+    loading: loadingApproved,
+    error: errorApproved,
+    data: approvedProspects,
+  } = useGetApprovedProspects({
+    feedId,
+    page: 1,
+    perPage: RECORDS_ON_PAGE,
+  });
+
+  // Load rejected prospects
+  const {
+    loading: loadingRejected,
+    error: errorRejected,
+    data: rejectedProspects,
+  } = useGetRejectedProspects({
+    feedId,
     page: 1,
     perPage: RECORDS_ON_PAGE,
   });
@@ -59,27 +104,31 @@ export const ProspectsPage = ({
           to={basePath}
         />
         <Tab
+          count={snoozedProspects?.meta.totalResults}
           label="Snoozed"
           value={`${basePath}snoozed/`}
           to={`${basePath}snoozed/`}
         />
         <Tab
+          count={approvedProspects?.meta.totalResults}
           label="Approved"
           value={`${basePath}approved/`}
           to={`${basePath}approved/`}
         />
         <Tab
+          count={rejectedProspects?.meta.totalResults}
           label="Rejected"
           value={`${basePath}rejected/`}
           to={`${basePath}rejected/`}
         />
       </TabNavigation>
-      {!pendingProspects && (
-        <HandleApiResponse loading={loading} error={error} />
-      )}
-      {pendingProspects && (
-        <TabPanel heading="Prospects" value={value} index={basePath}>
-          {pendingProspects.data?.map((prospect: Prospect) => {
+
+      <TabPanel heading="Prospects" value={value} index={basePath}>
+        {!pendingProspects && (
+          <HandleApiResponse loading={loadingPending} error={errorPending} />
+        )}
+        {pendingProspects &&
+          pendingProspects.data?.map((prospect: Prospect) => {
             return (
               <Card
                 key={prospect.id}
@@ -88,19 +137,54 @@ export const ProspectsPage = ({
               />
             );
           })}
-        </TabPanel>
-      )}
+      </TabPanel>
 
       <TabPanel heading="Snoozed" value={value} index={`${basePath}snoozed/`}>
-        <p>Coming soon...</p>
+        {!snoozedProspects && (
+          <HandleApiResponse loading={loadingSnoozed} error={errorSnoozed} />
+        )}
+        {snoozedProspects &&
+          snoozedProspects.data?.map((prospect: Prospect) => {
+            return (
+              <Card
+                key={prospect.id}
+                prospect={prospect}
+                url={`${basePath}${prospect.id}/`}
+              />
+            );
+          })}
       </TabPanel>
 
       <TabPanel heading="Approved" value={value} index={`${basePath}approved/`}>
-        <p>Coming soon...</p>
+        {!approvedProspects && (
+          <HandleApiResponse loading={loadingApproved} error={errorApproved} />
+        )}
+        {approvedProspects &&
+          approvedProspects.data?.map((prospect: Prospect) => {
+            return (
+              <Card
+                key={prospect.id}
+                prospect={prospect}
+                url={`${basePath}${prospect.id}/`}
+              />
+            );
+          })}
       </TabPanel>
 
       <TabPanel heading="Rejected" value={value} index={`${basePath}rejected/`}>
-        <p>Coming soon...</p>
+        {!rejectedProspects && (
+          <HandleApiResponse loading={loadingRejected} error={errorRejected} />
+        )}
+        {rejectedProspects &&
+          rejectedProspects.data?.map((prospect: Prospect) => {
+            return (
+              <Card
+                key={prospect.id}
+                prospect={prospect}
+                url={`${basePath}${prospect.id}/`}
+              />
+            );
+          })}
       </TabPanel>
     </>
   );

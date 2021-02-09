@@ -13,6 +13,10 @@ const useGetPendingProspects = process.env.REACT_APP_USE_POCKET_API
   ? awsAPI.useGetPendingProspects
   : localAPI.useGetPendingProspects;
 
+const useGetSnoozedProspects = localAPI.useGetSnoozedProspects;
+const useGetRejectedProspects = localAPI.useGetRejectedProspects;
+const useGetApprovedProspects = localAPI.useGetApprovedProspects;
+
 const useCreateProspectByUrl = process.env.REACT_APP_USE_POCKET_API
   ? awsAPI.useCreateProspectByUrl
   : awsAPI.useCreateProspectByUrl;
@@ -25,6 +29,9 @@ export {
   client,
   useGetCurrentFeed,
   useGetPendingProspects,
+  useGetSnoozedProspects,
+  useGetRejectedProspects,
+  useGetApprovedProspects,
   useCreateProspectByUrl,
   useApproveProspect,
 };

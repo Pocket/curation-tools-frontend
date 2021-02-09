@@ -4,20 +4,27 @@ import {
   ApiCallStates,
 } from '../../../models';
 import {
-  GetPendingProspectsQueryVariables,
-  useGetPendingProspectsQuery,
+  GetSnoozedProspectsQueryVariables,
+  useGetSnoozedProspectsQuery,
 } from '../generatedTypes';
 
-export const useGetPendingProspects = (
+export const useGetSnoozedProspects = (
   vars: ProspectVariables
 ): ApiCallStates & ProspectListData => {
   const pageNumber = vars.page > 0 ? vars.page - 1 : 0;
+
+  // Get current timestamp to be able to filter prospects
+  // to fetch only those entries with 'snoozedUntil' in the future
+  const date = new Date();
+  const currentTimestamp = Math.floor(+date / 1000);
+
   const variables = {
     ...vars,
     page: pageNumber,
-  } as GetPendingProspectsQueryVariables;
+    currentTimestamp,
+  } as GetSnoozedProspectsQueryVariables;
 
-  const { loading, error, data: result } = useGetPendingProspectsQuery({
+  const { loading, error, data: result } = useGetSnoozedProspectsQuery({
     variables,
   });
 

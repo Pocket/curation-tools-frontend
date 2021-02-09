@@ -19,7 +19,7 @@ jsf.extend('faker', () => {
       // Note that some of the entries will have different states
       // (i.e. REJECTED, APPROVED), so only a handful will appear
       // in the Snoozed tab (PENDING state + snoozedUntil in the future)
-      return faker.random.arrayElement[(null, null, date.toISOString())];
+      return faker.random.arrayElement([null, null, Math.floor(+date / 1000)]);
     },
     imageUrl: () => {
       const random = Math.round(Math.random() * 1000);
@@ -106,7 +106,7 @@ const schema = {
           enum: ['PENDING', 'REJECTED', 'APPROVED'],
         },
         snoozedUntil: {
-          type: 'datetime',
+          type: 'integer',
           faker: 'custom.snoozedUntil',
         },
         url: {
