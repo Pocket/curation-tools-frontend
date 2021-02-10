@@ -133,6 +133,7 @@ export const ProspectsPage = ({
               <Card
                 key={prospect.id}
                 prospect={prospect}
+                type="pending"
                 url={`${basePath}${prospect.id}/`}
               />
             );
@@ -149,6 +150,7 @@ export const ProspectsPage = ({
               <Card
                 key={prospect.id}
                 prospect={prospect}
+                type="snoozed"
                 url={`${basePath}${prospect.id}/`}
               />
             );
@@ -165,6 +167,7 @@ export const ProspectsPage = ({
               <Card
                 key={prospect.id}
                 prospect={prospect}
+                type="approved"
                 url={`${basePath}${prospect.id}/`}
               />
             );
@@ -181,6 +184,7 @@ export const ProspectsPage = ({
               <Card
                 key={prospect.id}
                 prospect={prospect}
+                type="rejected"
                 url={`${basePath}${prospect.id}/`}
               />
             );

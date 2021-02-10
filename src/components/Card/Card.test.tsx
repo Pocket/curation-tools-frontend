@@ -5,8 +5,11 @@ import { Prospect } from '../../models';
 import { MemoryRouter } from 'react-router-dom';
 
 describe('The Card component', () => {
-  it('renders with image', () => {
-    const prospect: Prospect = {
+  let prospect: Prospect;
+  let baseUrl: string;
+
+  beforeEach(() => {
+    prospect = {
       id: '12345',
       altText: 'Test alt text',
       author: 'Just An Author',
@@ -21,20 +24,90 @@ describe('The Card component', () => {
       url: 'https://cnn.com/any-random-title/234567/',
     };
 
+    baseUrl = '/en-US/prospects/123c-456b-789c/';
+  });
+
+  it('renders with image', () => {
     render(
       <MemoryRouter>
-        <Card prospect={prospect} url="/en-US/prospects/123c-456b-789c/" />
+        <Card prospect={prospect} type="pending" url={baseUrl} />
       </MemoryRouter>
     );
 
     const image = screen.getByAltText(prospect.altText);
     expect(image).toBeInTheDocument();
+  });
 
-    const buttons = screen.getAllByRole('button');
-    expect(buttons.length).toEqual(3);
+  it('renders correctly for Pending prospects', () => {
+    render(
+      <MemoryRouter>
+        <Card prospect={prospect} type="pending" url={baseUrl} />
+      </MemoryRouter>
+    );
 
-    buttons.forEach((button) => {
-      expect(button).toBeInTheDocument();
-    });
+    // buttons
+    expect(screen.getByText(/reject/i)).toBeInTheDocument();
+    expect(screen.getByText(/snooze/i)).toBeInTheDocument();
+    expect(screen.getByText(/edit & approve/i)).toBeInTheDocument();
+  });
+
+  it('renders correctly for Snoozed prospects', () => {
+    render(
+      <MemoryRouter>
+        <Card prospect={prospect} type="snoozed" url={baseUrl} />
+      </MemoryRouter>
+    );
+
+    // buttons
+    expect(screen.getByText(/reject/i)).toBeInTheDocument();
+    expect(screen.getByText(/edit & approve/i)).toBeInTheDocument();
+  });
+
+  it('renders correctly for Approved prospects', () => {
+    render(
+      <MemoryRouter>
+        <Card prospect={prospect} type="approved" url={baseUrl} />
+      </MemoryRouter>
+    );
+
+    // buttons
+    expect(screen.getByText(/reject/i)).toBeInTheDocument();
+    expect(screen.getByText(/snooze/i)).toBeInTheDocument();
+    expect(screen.getByText(/edit/i)).toBeInTheDocument();
+  });
+
+  it('renders correctly for Rejected prospects', () => {
+    render(
+      <MemoryRouter>
+        <Card prospect={prospect} type="rejected" url={baseUrl} />
+      </MemoryRouter>
+    );
+
+    // buttons
+    expect(screen.getByText(/snooze/i)).toBeInTheDocument();
+  });
+
+  it('renders correctly for Live prospects', () => {
+    render(
+      <MemoryRouter>
+        <Card prospect={prospect} type="live" url={baseUrl} />
+      </MemoryRouter>
+    );
+
+    // buttons
+    expect(screen.getByText(/remove/i)).toBeInTheDocument();
+    expect(screen.getByText(/edit/i)).toBeInTheDocument();
+  });
+
+  it('renders correctly for Scheduled prospects', () => {
+    render(
+      <MemoryRouter>
+        <Card prospect={prospect} type="scheduled" url={baseUrl} />
+      </MemoryRouter>
+    );
+
+    // buttons
+    expect(screen.getByText(/remove/i)).toBeInTheDocument();
+    expect(screen.getByText(/edit/i)).toBeInTheDocument();
   });
 });
