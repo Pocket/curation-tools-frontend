@@ -11,6 +11,7 @@ export { Header } from './Header/Header';
 export { LoginForm } from './LoginForm/LoginForm';
 export { MainContentWrapper } from './MainContentWrapper/MainContentWrapper';
 export { Modal } from './Modal/Modal';
+export { ScrollToTop } from './ScrollToTop/ScrollToTop';
 export { Tab } from './Tab/Tab';
 export { TabLink } from './TabLink/TabLink';
 export { TabNavigation } from './TabNavigation/TabNavigation';
