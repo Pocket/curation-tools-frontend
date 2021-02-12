@@ -1,6 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { CardContent, Typography } from '@material-ui/core';
+import { CardContent, Chip, Typography } from '@material-ui/core';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -15,6 +14,11 @@ const useStyles = makeStyles((theme: Theme) => ({
   url: {
     color: theme.palette.grey[900],
     textDecoration: 'none',
+  },
+  chip: {
+    fontWeight: 'bold',
+    marginRight: '0.375rem',
+    textTransform: 'capitalize',
   },
 }));
 
@@ -43,6 +47,17 @@ export interface CardTextProps {
    * A short summary of the story
    */
   excerpt: string;
+
+  /**
+   * Which label to display alongside other data for different types of prospects,
+   * i.e. "Rejected", "Snoozed", "Live".
+   */
+  label: string | null;
+
+  /**
+   * What styles to use for the label.
+   */
+  labelColor: 'primary' | 'secondary' | 'default';
 }
 
 /**
@@ -52,7 +67,7 @@ export interface CardTextProps {
  * @returns JSX.Element The rendered card
  */
 export const CardText: React.FC<CardTextProps> = (props): JSX.Element => {
-  const { publisher, author, url, title, excerpt } = props;
+  const { publisher, author, url, title, excerpt, label, labelColor } = props;
   const classes = useStyles();
 
   return (
@@ -68,12 +83,20 @@ export const CardText: React.FC<CardTextProps> = (props): JSX.Element => {
         </a>
       </Typography>
       <Typography
-        component="p"
+        component="div"
         align="left"
         color="textSecondary"
         display="block"
         gutterBottom
       >
+        {label && (
+          <Chip
+            className={classes.chip}
+            color={labelColor}
+            size="small"
+            label={label}
+          />
+        )}
         <Typography variant="caption" component="span">
           {publisher}
         </Typography>{' '}
@@ -87,12 +110,4 @@ export const CardText: React.FC<CardTextProps> = (props): JSX.Element => {
       </Typography>
     </CardContent>
   );
-};
-
-CardText.propTypes = {
-  publisher: PropTypes.string.isRequired,
-  author: PropTypes.string.isRequired,
-  url: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  excerpt: PropTypes.string.isRequired,
 };

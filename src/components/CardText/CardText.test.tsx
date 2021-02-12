@@ -11,6 +11,8 @@ describe('The CardText component', () => {
       title: 'Test title',
       excerpt:
         "This is a test string that represents a short description of the article's contents.",
+      label: 'Approved',
+      labelColor: 'primary',
     };
 
     render(<CardText {...expectedProps} />);
@@ -26,5 +28,6 @@ describe('The CardText component', () => {
     expect(screen.getByText(/test string/i)).toHaveTextContent(
       expectedProps.excerpt
     );
+    expect(screen.getByText(/approved/i)).toBeInTheDocument();
   });
 });
