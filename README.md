@@ -16,26 +16,28 @@ cd curation-tools-frontend
 npm install
 ```
 
-
 ### Set up with the default API
 
 To generate some data to use in the application locally, run the following command:
 
 ```bash
-npm run api:generate
+npm run api:generate-data
 ```
 
-The data will be saved in `local-api/db.json`.
+The data will be saved in `local-api-server/db.json`.
 
-Start the local API server:
+Start the local API server (by default it runs on port 4000):
 
 ```bash
 npm run api:start
 ```
 
-You should be able to access GraphiQL at [http://localhost:4000/](http://localhost:4000/). 
+The local GraphQL API is now ready to accept requests and you will be able to view and manipulate the data you have just generated in the Curation Tools Frontend app.
 
-### Set up with the Pocket API
+If you would like to run or debug queries on the local API server itself, you can do so by accessing the GraphiQL interface at [http://localhost:4000/](http://localhost:4000/).
+
+### Set up with the test Pocket API (deprecated)
+
 Create an `.env.local` file in the root directory of the project which will hold your API keys. 
 Add the following lines to the `.env.local` file: 
 
@@ -87,6 +89,22 @@ To see detailed information about the tests, use the `--verbose` flag:
 
 ```bash
 npm run test -- --verbose
+```
+
+## Updating the local API
+
+If any of the GraphQL queries, mutations or hooks are changed in `src/api/local`, the types and helper functions (such as custom hooks) need to be updated as well.
+
+This can be done by running another script from the command line:
+
+```bash
+npm run api:generate-types
+```
+
+This script updates the `src/local/generatedTypes.ts` file. The generated code needs to be reformatted to comply with the project's Prettier config:
+
+```bash
+npm run lint:fix
 ```
 
 ## All Available Scripts
