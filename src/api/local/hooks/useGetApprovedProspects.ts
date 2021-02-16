@@ -7,6 +7,7 @@ import {
   GetApprovedProspectsQueryVariables,
   useGetApprovedProspectsQuery,
 } from '../generatedTypes';
+import { getPageUrls } from '../utils';
 
 export const useGetApprovedProspects = (
   vars: ProspectVariables
@@ -24,14 +25,24 @@ export const useGetApprovedProspects = (
   let data: any;
 
   if (result) {
+    const totalResults = result.totals?.length ?? 0;
+
+    const { nextPageUrl, prevPageUrl } = getPageUrls(
+      vars.page,
+      vars.perPage,
+      totalResults,
+      'prospects/approved',
+      'prospects/approved'
+    );
+
     data = {
       data: result.allProspects,
       meta: {
-        totalResults: result.totals?.length,
-        currentPage: variables.page,
-        perPage: variables.perPage,
-        nextPageUrl: '',
-        prevPageUrl: '',
+        totalResults,
+        currentPage: vars.page,
+        perPage: vars.perPage,
+        nextPageUrl,
+        prevPageUrl,
       },
     };
   }

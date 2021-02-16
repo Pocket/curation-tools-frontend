@@ -7,6 +7,7 @@ import {
   GetSnoozedProspectsQueryVariables,
   useGetSnoozedProspectsQuery,
 } from '../generatedTypes';
+import { getPageUrls } from '../utils';
 
 export const useGetSnoozedProspects = (
   vars: ProspectVariables
@@ -31,14 +32,24 @@ export const useGetSnoozedProspects = (
   let data: any;
 
   if (result) {
+    const totalResults = result.totals?.length ?? 0;
+
+    const { nextPageUrl, prevPageUrl } = getPageUrls(
+      vars.page,
+      vars.perPage,
+      totalResults,
+      'prospects/snoozed',
+      'prospects/snoozed'
+    );
+
     data = {
       data: result.allProspects,
       meta: {
-        totalResults: result.totals?.length,
-        currentPage: variables.page,
-        perPage: variables.perPage,
-        nextPageUrl: '',
-        prevPageUrl: '',
+        totalResults,
+        currentPage: vars.page,
+        perPage: vars.perPage,
+        nextPageUrl,
+        prevPageUrl,
       },
     };
   }

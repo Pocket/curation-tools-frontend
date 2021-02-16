@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import {
-  Card,
-  HandleApiResponse,
-  Tab,
-  TabNavigation,
-  TabPanel,
+  CustomTabType,
+  ScrollToTop,
+  TabContents,
+  TabSet,
 } from '../../components';
-import { Feed, Prospect } from '../../models';
+import { Feed, ProspectVariables } from '../../models';
 import { RECORDS_ON_PAGE } from '../../constants';
 import {
   useGetPendingProspects,
@@ -40,7 +39,7 @@ export const ProspectsPage = ({
   const handleChange = (
     event: React.ChangeEvent<unknown>,
     newValue: string
-  ) => {
+  ): void => {
     setValue(newValue);
   };
 
@@ -50,146 +49,142 @@ export const ProspectsPage = ({
   // set feed id (this should always be available)
   const feedId = feed?.id ?? 'none';
 
+  // What tab are we on?
+  // The default tab is for pending prospects. It doesn't have its type in the pathname
+  let tabType = 'pending';
+
+  // All other tabs have their type spelled out in the pathname, let's use that
+  const params = useParams<{ feed: string; type: string }>();
+  if ('type' in params) {
+    tabType = params.type;
+  }
+
+  // Determine what page we're on pagination-wise
+  const useQuery = () => new URLSearchParams(useLocation().search);
+  const query = useQuery();
+
+  // Use an extra variable as TypeScript won't allow a parseInt() call
+  // on a possible null value
+  const pageParam = query.get('page');
+  const currentPage = pageParam ? parseInt(pageParam) : 1;
+
+  // Work out which queries to call with which variables, since we fetch data
+  // for all four tabs on first load.
+  const defaultTabVars: ProspectVariables = {
+    feedId,
+    page: 1,
+    perPage: RECORDS_ON_PAGE,
+  };
+
+  const paginatedTabVars: ProspectVariables = {
+    ...defaultTabVars,
+    page: currentPage,
+  };
+
   // Load pending prospects
   const {
     loading: loadingPending,
     error: errorPending,
     data: pendingProspects,
-  } = useGetPendingProspects({
-    feedId,
-    page: 1,
-    perPage: RECORDS_ON_PAGE,
-  });
+  } = useGetPendingProspects(
+    tabType === 'pending' ? paginatedTabVars : defaultTabVars
+  );
 
   // Load snoozed prospects
   const {
     loading: loadingSnoozed,
     error: errorSnoozed,
     data: snoozedProspects,
-  } = useGetSnoozedProspects({
-    feedId,
-    page: 1,
-    perPage: RECORDS_ON_PAGE,
-  });
+  } = useGetSnoozedProspects(
+    tabType === 'snoozed' ? paginatedTabVars : defaultTabVars
+  );
 
   // Load snoozed prospects
   const {
     loading: loadingApproved,
     error: errorApproved,
     data: approvedProspects,
-  } = useGetApprovedProspects({
-    feedId,
-    page: 1,
-    perPage: RECORDS_ON_PAGE,
-  });
+  } = useGetApprovedProspects(
+    tabType === 'approved' ? paginatedTabVars : defaultTabVars
+  );
 
   // Load rejected prospects
   const {
     loading: loadingRejected,
     error: errorRejected,
     data: rejectedProspects,
-  } = useGetRejectedProspects({
-    feedId,
-    page: 1,
-    perPage: RECORDS_ON_PAGE,
-  });
+  } = useGetRejectedProspects(
+    tabType === 'rejected' ? paginatedTabVars : defaultTabVars
+  );
+
+  // Define the set of tabs that we're going to show on this page
+  const tabs: CustomTabType[] = [
+    {
+      count: pendingProspects?.meta.totalResults,
+      label: 'Prospects',
+      pathname: basePath,
+    },
+    {
+      count: snoozedProspects?.meta.totalResults,
+      label: 'Snoozed',
+      pathname: `${basePath}snoozed/`,
+    },
+    {
+      count: approvedProspects?.meta.totalResults,
+      label: 'Approved',
+      pathname: `${basePath}approved/`,
+    },
+    {
+      count: rejectedProspects?.meta.totalResults,
+      label: 'Rejected',
+      pathname: `${basePath}rejected/`,
+    },
+  ];
 
   return (
     <>
-      <TabNavigation value={value} onChange={handleChange}>
-        <Tab
-          count={pendingProspects?.meta.totalResults}
-          label="Prospects"
-          value={basePath}
-          to={basePath}
-        />
-        <Tab
-          count={snoozedProspects?.meta.totalResults}
-          label="Snoozed"
-          value={`${basePath}snoozed/`}
-          to={`${basePath}snoozed/`}
-        />
-        <Tab
-          count={approvedProspects?.meta.totalResults}
-          label="Approved"
-          value={`${basePath}approved/`}
-          to={`${basePath}approved/`}
-        />
-        <Tab
-          count={rejectedProspects?.meta.totalResults}
-          label="Rejected"
-          value={`${basePath}rejected/`}
-          to={`${basePath}rejected/`}
-        />
-      </TabNavigation>
+      <ScrollToTop />
+      <TabSet currentTab={value} handleChange={handleChange} tabs={tabs} />
 
-      <TabPanel heading="Prospects" value={value} index={basePath}>
-        {!pendingProspects && (
-          <HandleApiResponse loading={loadingPending} error={errorPending} />
-        )}
-        {pendingProspects &&
-          pendingProspects.data?.map((prospect: Prospect) => {
-            return (
-              <Card
-                key={prospect.id}
-                prospect={prospect}
-                type="pending"
-                url={`${basePath}${prospect.id}/`}
-              />
-            );
-          })}
-      </TabPanel>
+      <TabContents
+        basePath={basePath}
+        currentTab={value}
+        heading="Prospects"
+        type="pending"
+        loading={loadingPending}
+        error={errorPending}
+        data={pendingProspects}
+      />
 
-      <TabPanel heading="Snoozed" value={value} index={`${basePath}snoozed/`}>
-        {!snoozedProspects && (
-          <HandleApiResponse loading={loadingSnoozed} error={errorSnoozed} />
-        )}
-        {snoozedProspects &&
-          snoozedProspects.data?.map((prospect: Prospect) => {
-            return (
-              <Card
-                key={prospect.id}
-                prospect={prospect}
-                type="snoozed"
-                url={`${basePath}${prospect.id}/`}
-              />
-            );
-          })}
-      </TabPanel>
+      <TabContents
+        basePath={`${basePath}snoozed/`}
+        currentTab={value}
+        heading="Snoozed"
+        type="snoozed"
+        loading={loadingSnoozed}
+        error={errorSnoozed}
+        data={snoozedProspects}
+      />
 
-      <TabPanel heading="Approved" value={value} index={`${basePath}approved/`}>
-        {!approvedProspects && (
-          <HandleApiResponse loading={loadingApproved} error={errorApproved} />
-        )}
-        {approvedProspects &&
-          approvedProspects.data?.map((prospect: Prospect) => {
-            return (
-              <Card
-                key={prospect.id}
-                prospect={prospect}
-                type="approved"
-                url={`${basePath}${prospect.id}/`}
-              />
-            );
-          })}
-      </TabPanel>
+      <TabContents
+        basePath={`${basePath}approved/`}
+        currentTab={value}
+        heading="Approved"
+        type="approved"
+        loading={loadingApproved}
+        error={errorApproved}
+        data={approvedProspects}
+      />
 
-      <TabPanel heading="Rejected" value={value} index={`${basePath}rejected/`}>
-        {!rejectedProspects && (
-          <HandleApiResponse loading={loadingRejected} error={errorRejected} />
-        )}
-        {rejectedProspects &&
-          rejectedProspects.data?.map((prospect: Prospect) => {
-            return (
-              <Card
-                key={prospect.id}
-                prospect={prospect}
-                type="rejected"
-                url={`${basePath}${prospect.id}/`}
-              />
-            );
-          })}
-      </TabPanel>
+      <TabContents
+        basePath={`${basePath}rejected/`}
+        currentTab={value}
+        heading="Rejected"
+        type="rejected"
+        loading={loadingRejected}
+        error={errorRejected}
+        data={rejectedProspects}
+      />
     </>
   );
 };

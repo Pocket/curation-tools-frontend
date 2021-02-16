@@ -58,13 +58,7 @@ function App(): JSX.Element {
                   <Route exact path="/">
                     <HomePage feed={data} />
                   </Route>
-                  <Route exact path="/:feed/prospects/">
-                    <ProspectsPage feed={data} />
-                  </Route>
-                  <Route
-                    exact
-                    path="/:feed/prospects/(snoozed|approved|rejected)/"
-                  >
+                  <Route path="/:feed/prospects/:type(snoozed|approved|rejected)/">
                     <ProspectsPage feed={data} />
                   </Route>
                   <Route exact path="/:feed/prospects/add/">
@@ -75,6 +69,9 @@ function App(): JSX.Element {
                     path="/:feed/prospects/:prospectid/edit-and-approve/"
                   >
                     <EditAndApproveStoryPage />
+                  </Route>
+                  <Route path="/:feed/prospects/">
+                    <ProspectsPage feed={data} />
                   </Route>
                   <Route path="/:feed/newtab/">
                     <NewTabPage />

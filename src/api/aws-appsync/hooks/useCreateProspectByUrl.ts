@@ -6,7 +6,5 @@ export const useCreateProspectByUrl = () => {
     { loading, error, data },
   ] = useCreateProspectByUrlMutation();
 
-  //const id = faker.random.uuid();
-
   return { createProspect, loading, error, data };
 };

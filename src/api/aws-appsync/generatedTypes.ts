@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql, MutationTuple, QueryResult, QueryTuple } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = {
@@ -873,7 +873,7 @@ export function useApproveProspectMutation(
     ApproveProspectMutation,
     ApproveProspectMutationVariables
   >
-) {
+): MutationTuple<ApproveProspectMutation, ApproveProspectMutationVariables> {
   return Apollo.useMutation<
     ApproveProspectMutation,
     ApproveProspectMutationVariables
@@ -923,7 +923,10 @@ export function useCreateProspectByUrlMutation(
     CreateProspectByUrlMutation,
     CreateProspectByUrlMutationVariables
   >
-) {
+): MutationTuple<
+  CreateProspectByUrlMutation,
+  CreateProspectByUrlMutationVariables
+> {
   return Apollo.useMutation<
     CreateProspectByUrlMutation,
     CreateProspectByUrlMutationVariables
@@ -969,7 +972,7 @@ export function useGetCurrentFeedQuery(
     GetCurrentFeedQuery,
     GetCurrentFeedQueryVariables
   >
-) {
+): QueryResult<GetCurrentFeedQuery, GetCurrentFeedQueryVariables> {
   return Apollo.useQuery<GetCurrentFeedQuery, GetCurrentFeedQueryVariables>(
     GetCurrentFeedDocument,
     baseOptions
@@ -980,7 +983,7 @@ export function useGetCurrentFeedLazyQuery(
     GetCurrentFeedQuery,
     GetCurrentFeedQueryVariables
   >
-) {
+): QueryTuple<GetCurrentFeedQuery, GetCurrentFeedQueryVariables> {
   return Apollo.useLazyQuery<GetCurrentFeedQuery, GetCurrentFeedQueryVariables>(
     GetCurrentFeedDocument,
     baseOptions
@@ -1035,7 +1038,7 @@ export function useGetPendingProspectsQuery(
     GetPendingProspectsQuery,
     GetPendingProspectsQueryVariables
   >
-) {
+): QueryResult<GetPendingProspectsQuery, GetPendingProspectsQueryVariables> {
   return Apollo.useQuery<
     GetPendingProspectsQuery,
     GetPendingProspectsQueryVariables
@@ -1046,7 +1049,7 @@ export function useGetPendingProspectsLazyQuery(
     GetPendingProspectsQuery,
     GetPendingProspectsQueryVariables
   >
-) {
+): QueryTuple<GetPendingProspectsQuery, GetPendingProspectsQueryVariables> {
   return Apollo.useLazyQuery<
     GetPendingProspectsQuery,
     GetPendingProspectsQueryVariables

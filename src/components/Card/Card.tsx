@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-interface CardProps {
+export interface CardProps {
   /**
    * The Prospect object that holds all the data we need to display.
    */
