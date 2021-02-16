@@ -8,6 +8,7 @@ import {
   GetPendingProspectsQueryVariables,
   useGetPendingProspectsQuery,
 } from '../generatedTypes';
+import { getPageUrls } from '../utils';
 
 interface PendingProspectsData extends ApiCallStates, ProspectListData {
   /**
@@ -34,17 +35,27 @@ export const useGetPendingProspects = (
     variables,
   });
 
+  // Construct an API response.
   let data: any;
-
   if (result) {
+    const totalResults = result.totals?.length ?? 0;
+
+    const { nextPageUrl, prevPageUrl } = getPageUrls(
+      vars.page,
+      vars.perPage,
+      totalResults,
+      'prospects',
+      'prospects'
+    );
+
     data = {
       data: result.allProspects,
       meta: {
-        totalResults: result.totals?.length,
+        totalResults,
         currentPage: vars.page,
         perPage: vars.perPage,
-        nextPageUrl: '',
-        prevPageUrl: '',
+        nextPageUrl,
+        prevPageUrl,
       },
     };
   }

@@ -27,7 +27,6 @@ export type {
  *
  * Apollo doesn't export types for the 'fetchMore' helper function that is used in pagination.
  */
-
 export type ApolloFetchMoreType<TData, TVariables> = (<
   K extends keyof TVariables
 >(

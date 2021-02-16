@@ -69,8 +69,8 @@ const schema = {
     },
     prospects: {
       type: 'array',
-      minItems: 1000,
-      maxItems: 1500,
+      minItems: 3000,
+      maxItems: 3500,
       items: { $ref: '#/definitions/prospects' },
     },
   },

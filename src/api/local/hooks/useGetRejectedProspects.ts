@@ -7,6 +7,7 @@ import {
   GetRejectedProspectsQueryVariables,
   useGetRejectedProspectsQuery,
 } from '../generatedTypes';
+import { getPageUrls } from '../utils';
 
 export const useGetRejectedProspects = (
   vars: ProspectVariables
@@ -24,14 +25,24 @@ export const useGetRejectedProspects = (
   let data: any;
 
   if (result) {
+    const totalResults = result.totals?.length ?? 0;
+
+    const { nextPageUrl, prevPageUrl } = getPageUrls(
+      vars.page,
+      vars.perPage,
+      totalResults,
+      'prospects/rejected',
+      'prospects/rejected'
+    );
+
     data = {
       data: result.allProspects,
       meta: {
-        totalResults: result.totals?.length,
-        currentPage: variables.page,
-        perPage: variables.perPage,
-        nextPageUrl: '',
-        prevPageUrl: '',
+        totalResults,
+        currentPage: vars.page,
+        perPage: vars.perPage,
+        nextPageUrl,
+        prevPageUrl,
       },
     };
   }
