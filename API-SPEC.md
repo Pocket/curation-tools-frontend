@@ -41,7 +41,7 @@ _Response_
     data: [{
         id: string
         feedId: string
-        state: PENDING|REJECTED|APPROVED
+        state: PENDING|REJECTED|APPROVED|SNOOZED
         snoozedUntil: DateTime
         url: string
         publisher: string
@@ -92,7 +92,7 @@ _Response_
     data: {
         id: string
         feedId: string
-        state: PENDING|REJECTED|APPROVED
+        state: PENDING|REJECTED|APPROVED|SNOOZED
         snoozedUntil: DateTime
         url: string
         publisher: string
@@ -149,7 +149,7 @@ _Response_
     data: {
         id: string
         feedId: string
-        state: PENDING|REJECTED|APPROVED
+        state: PENDING|REJECTED|APPROVED|SNOOZED
         snoozedUntil: DateTime
         url: string
         publisher: string
@@ -201,7 +201,7 @@ Request JSON
     sourceName: string
     topic: string
     prioritize: boolean
-    status: APPROVE|REJECT|SNOOZE
+    status: APPROVED|REJECTED|SNOOZED
 }
 ```
 
@@ -212,7 +212,7 @@ _Response_
     data: {
         id: string
         feedId: string
-        state: PENDING|REJECTED|APPROVED
+        state: PENDING|REJECTED|APPROVED|SNOOZED
         snoozedUntil: DateTime
         url: string
         publisher: string
@@ -257,7 +257,7 @@ _Response_
     data: {
         id: string
         feedId: string
-        state: PENDING|REJECTED|APPROVED
+        state: PENDING|REJECTED|APPROVED|SNOOZED
         snoozedUntil: DateTime
         url: string
         publisher: string
