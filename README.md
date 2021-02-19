@@ -95,7 +95,7 @@ npm run test -- --verbose
 
 If any of the GraphQL queries, mutations or hooks are changed in `src/api/local`, the types and helper functions (such as custom hooks) need to be updated as well.
 
-This can be done by running another script from the command line:
+This can be done by running another script from the command line (make sure the local GraphQL server is up):
 
 ```bash
 npm run api:generate-types
@@ -106,6 +106,10 @@ This script updates the `src/local/generatedTypes.ts` file. The generated code n
 ```bash
 npm run lint:fix
 ```
+
+### Troubleshooting
+
+Updates to the API code may result in the app not rendering on the screen at all. Note that this may happen not only when you update a query but also when you switch from branch to branch. To fix, power down *both* the local GraphQL server and the frontend app itself (`Ctrl + C` in both terminal windows where these processes are running), regenerate the local `db.json` file, start the the local API and finally the app.
 
 ## All Available Scripts
 
