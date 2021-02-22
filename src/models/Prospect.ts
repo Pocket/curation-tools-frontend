@@ -6,8 +6,8 @@ export interface Prospect {
   feedId: string;
   imageUrl: string;
   publisher: string;
-  snoozedUntil: string | null;
   source: string;
+  state: string;
   title: string;
   topic: string;
   url: string;

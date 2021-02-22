@@ -58,7 +58,7 @@ describe('The Prospects page', () => {
                 imageUrl: 'https://test.com/image.jpeg',
                 publisher: 'Test publisher',
                 source: 'Syndication',
-                snoozedUntil: null,
+                state: 'PENDING',
                 title: 'Test title',
                 topic: 'Health',
                 url: 'https://test.com/test-title/',

@@ -16,6 +16,9 @@ const useGetPendingProspects = process.env.REACT_APP_USE_POCKET_API
 const useGetSnoozedProspects = localAPI.useGetSnoozedProspects;
 const useGetRejectedProspects = localAPI.useGetRejectedProspects;
 const useGetApprovedProspects = localAPI.useGetApprovedProspects;
+const useSnoozeProspect = localAPI.useSnoozeProspect;
+const useRejectProspect = localAPI.useRejectProspect;
+const getRefetchParams = localAPI.getRefetchParams;
 
 const useCreateProspectByUrl = process.env.REACT_APP_USE_POCKET_API
   ? awsAPI.useCreateProspectByUrl
@@ -33,5 +36,8 @@ export {
   useGetRejectedProspects,
   useGetApprovedProspects,
   useCreateProspectByUrl,
+  useSnoozeProspect,
   useApproveProspect,
+  useRejectProspect,
+  getRefetchParams,
 };

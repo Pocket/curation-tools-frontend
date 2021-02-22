@@ -23,7 +23,7 @@ describe('The Edit And Approve Story page', () => {
       imageUrl:
         'https://assets.getpocket.com/web/yir/2020/images/mostread-1@2x.d849a2bbcf7ce894c8e5d01bc6a73052.jpg',
       publisher: 'Test publisher',
-      snoozedUntil: null,
+      state: 'PENDING',
       source: 'Test source',
       title: 'Test title',
       topic: 'Business',

@@ -22,7 +22,6 @@ export const approveProspect = gql`
       excerpt: $excerpt
       imageUrl: $imageUrl
       publisher: $publisher
-      snoozedUntil: null
       state: "APPROVED"
       title: $title
       topic: $topic

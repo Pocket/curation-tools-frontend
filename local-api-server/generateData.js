@@ -4,23 +4,6 @@ jsf.extend('faker', () => {
   const faker = require('faker');
 
   faker.custom = {
-    snoozedUntil: () => {
-      const date = new Date();
-
-      date.setDate(
-        date.getDate() +
-          faker.random.number({
-            min: 1,
-            max: 14,
-          })
-      );
-
-      // There shouldn't be too many snoozed entries.
-      // Note that some of the entries will have different states
-      // (i.e. REJECTED, APPROVED), so only a handful will appear
-      // in the Snoozed tab (PENDING state + snoozedUntil in the future)
-      return faker.random.arrayElement([null, null, Math.floor(+date / 1000)]);
-    },
     imageUrl: () => {
       const random = Math.round(Math.random() * 1000);
       return faker.random.arrayElement([
@@ -103,11 +86,14 @@ const schema = {
         },
         state: {
           type: 'string',
-          enum: ['PENDING', 'REJECTED', 'APPROVED'],
-        },
-        snoozedUntil: {
-          type: 'integer',
-          faker: 'custom.snoozedUntil',
+          enum: [
+            'PENDING',
+            'SNOOZED',
+            'REJECTED',
+            'APPROVED', // There should be many more approved prospects in the archives than
+            'APPROVED', // pending or rejected ones.
+            'APPROVED',
+          ],
         },
         url: {
           type: 'string',
@@ -192,15 +178,26 @@ const schema = {
 };
 
 jsf.resolve(schema).then((data) => {
-  console.log('Writing to db.json');
+  console.log('Writing to db.json...');
+
+  const path = `${__dirname}/db.json`;
+
   fs.writeFile(
-    `${__dirname}/db.json`,
+    path,
     JSON.stringify(data, null, 2),
+    // Make sure the file is writable so that changes made on the frontend persist.
+    // Note that it's still not enough - something else is needed to get it to work.
+    { mode: 0o666 },
     function (err) {
       if (err) {
         console.error(err);
       } else {
-        console.log('done');
+        // And make sure it's writable on Linux as well
+        // (see https://github.com/nodejs/node/issues/1104)
+        fs.chmod(path, 0o666, (error) => {
+          console.log('Updated file permissions.');
+        });
+        console.log('Created file.');
       }
     }
   );

@@ -81,7 +81,7 @@ describe('The AddStory page', () => {
                 'https://assets.getpocket.com/web/yir/2020/images/mostread-1@2x.d849a2bbcf7ce894c8e5d01bc6a73052.jpg',
               publisher: 'Test publisher',
               source: 'Test source',
-              snoozedUntil: null,
+              state: 'PENDING',
               title: 'Test title',
               topic: 'Business',
               url: 'https://getpocket.com',
