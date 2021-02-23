@@ -13,4 +13,4 @@ export { useApproveProspect } from './hooks/useApproveProspect';
 export { useRejectProspect } from './hooks/useRejectProspect';
 
 // helpers
-export { getRefetchParams } from './utils';
+export { getMutationOptions } from './utils';

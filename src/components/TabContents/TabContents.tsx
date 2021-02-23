@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Grid, Typography } from '@material-ui/core';
 import { ChevronLeft, ChevronRight } from '@material-ui/icons';
 import { ApiCallStates, Prospect, ProspectListData } from '../../models';
-import { Card, CardProps, HandleApiResponse, TabPanel } from '../';
+import {
+  Card,
+  CardProps,
+  HandleApiResponse,
+  Notification,
+  TabPanel,
+} from '../';
 
 interface TabContentsProps {
   /**
@@ -37,14 +43,47 @@ export const TabContents: React.FC<
 > = (props): JSX.Element => {
   const { basePath, currentTab, heading, type, loading, error, data } = props;
 
+  const [open, setOpen] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>('');
+  const [hasError, setHasError] = useState<boolean>(false);
+
+  /**
+   * Close the toast notification
+   */
+  const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  /**
+   * Show a notification to the user whether the action (such as snoozing a prospect)
+   * has completed successfully.
+   */
+  const showNotification = (message: string, isError: boolean) => {
+    setHasError(isError);
+    setMessage(message);
+    setOpen(true);
+  };
+
   return (
     <TabPanel heading={heading} value={currentTab} index={basePath}>
+      <Notification
+        handleClose={handleClose}
+        isOpen={open}
+        message={message}
+        type={hasError ? 'error' : 'success'}
+      />
+
       {!data && <HandleApiResponse loading={loading} error={error} />}
       {data &&
         data.data?.map((prospect: Prospect) => {
           return (
             <Card
               key={prospect.id}
+              showNotification={showNotification}
               prospect={prospect}
               type={type}
               url={`${basePath}${prospect.id}/`}

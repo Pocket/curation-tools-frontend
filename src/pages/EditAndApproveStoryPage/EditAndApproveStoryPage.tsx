@@ -1,16 +1,21 @@
 import React, { useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { Box, Grid, Snackbar, Typography } from '@material-ui/core';
-import { Alert } from '@material-ui/lab';
+import { Box, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Button,
   EditAndApproveStory,
   EditAndApproveStoryFormData,
-  HandleApiResponse,
+  Notification,
 } from '../../components';
 import { Prospect } from '../../models';
-import { useApproveProspect } from '../../api';
+import {
+  getMutationOptions,
+  useApproveProspect,
+  useRejectProspect,
+  useSnoozeProspect,
+} from '../../api';
+import { FetchResult } from '@apollo/client';
 
 const useStyles = makeStyles(() => ({
   alignRight: {
@@ -27,8 +32,47 @@ export const EditAndApproveStoryPage: React.FC<EditAndApproveStoryPageProps> = (
 ): JSX.Element => {
   const history = useHistory();
   const classes = useStyles();
-  const [success, setSuccess] = useState<boolean>(false);
-  const [successMessage, setSuccessMessage] = useState<string>('');
+
+  const [open, setOpen] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>('');
+  const [hasError, setHasError] = useState<boolean>(false);
+
+  /**
+   * Go back to previous page if there is anything to go back to,
+   * otherwise go to home page.
+   */
+  const handleCancelAction = () => {
+    history.length > 1 ? history.goBack() : history.push('/');
+  };
+
+  /**
+   * Close the toast notification
+   */
+  const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  };
+
+  /**
+   * Show a notification to the user whether the action (such as snoozing a prospect)
+   * has completed successfully.
+   */
+  const showNotification = (message: string, isError: boolean) => {
+    setHasError(isError);
+    setMessage(message);
+    setOpen(true);
+  };
+
+  /**
+   * Send the user back to the previous tab after a slight delay.
+   */
+  const redirectUser = (): void => {
+    setTimeout(() => {
+      history.goBack();
+    }, 1500);
+  };
 
   /**
    * If a Prospect object was passed to the page from one of the other app pages,
@@ -37,8 +81,10 @@ export const EditAndApproveStoryPage: React.FC<EditAndApproveStoryPageProps> = (
   const location = useLocation<EditAndApproveStoryPageProps>();
   const prospect = location.state?.prospect;
 
-  // prepare "approve" mutation
-  const { approveProspect, loading, error } = useApproveProspect();
+  // prepare mutations
+  const { approveProspect } = useApproveProspect();
+  const { snoozeProspect } = useSnoozeProspect();
+  const { rejectProspect } = useRejectProspect();
 
   /**
    * Collect form data, choose action and send it off to the API
@@ -63,50 +109,36 @@ export const EditAndApproveStoryPage: React.FC<EditAndApproveStoryPageProps> = (
               topic: formData.topic,
             },
           })
-            .then((data) => {
-              // Success! Show a toast notification
-              setSuccessMessage('Story approved! Redirecting...');
-              setSuccess(true);
-              // Go back to previous tab
-              history.goBack();
+            .then((data: FetchResult) => {
+              showNotification('Story approved! Redirecting...', false);
+              redirectUser();
             })
-            .catch((error) => {
-              // Do nothing. The errors are already destructured and shown on the frontend
-              // Yet if a catch() statement is missing an "Unhandled rejection" will break through
+            .catch((error: Error) => {
+              showNotification(error.message, true);
             });
           break;
         case 'snooze':
-          setSuccessMessage('Story snoozed for two weeks');
-          setSuccess(true);
+          snoozeProspect(getMutationOptions(prospect, 'SNOOZED'))
+            .then((data: FetchResult) => {
+              showNotification('Story snoozed! Redirecting...', false);
+              redirectUser();
+            })
+            .catch((error: Error) => {
+              showNotification(error.message, true);
+            });
           break;
         case 'reject':
-          setSuccessMessage('Story rejected');
-          setSuccess(true);
+          rejectProspect(getMutationOptions(prospect, 'REJECTED'))
+            .then((data: FetchResult) => {
+              showNotification('Story rejected! Redirecting...', false);
+              redirectUser();
+            })
+            .catch((error: Error) => {
+              showNotification(error.message, true);
+            });
           break;
       }
     }
-  };
-
-  /**
-   * Go back to previous page if there is anything to go back to,
-   * otherwise go to home page.
-   */
-  const handleCancelAction = () => {
-    history.length > 1 ? history.goBack() : history.push('/');
-  };
-
-  /**
-   * Close the toast notification
-   */
-  const handleSuccessMessage = (
-    event?: React.SyntheticEvent,
-    reason?: string
-  ) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    setSuccess(false);
   };
 
   return (
@@ -132,22 +164,12 @@ export const EditAndApproveStoryPage: React.FC<EditAndApproveStoryPageProps> = (
           <EditAndApproveStory prospect={prospect} onSubmit={handleSubmit} />
         )
       }
-      <HandleApiResponse loading={loading} error={error} />
-      {success && (
-        <Snackbar
-          open={success}
-          autoHideDuration={6000}
-          onClose={handleSuccessMessage}
-        >
-          <Alert
-            onClose={handleSuccessMessage}
-            severity="success"
-            variant="filled"
-          >
-            {successMessage}
-          </Alert>
-        </Snackbar>
-      )}
+      <Notification
+        handleClose={handleClose}
+        isOpen={open}
+        message={message}
+        type={hasError ? 'error' : 'success'}
+      />
     </>
   );
 };

@@ -18,7 +18,7 @@ const useGetRejectedProspects = localAPI.useGetRejectedProspects;
 const useGetApprovedProspects = localAPI.useGetApprovedProspects;
 const useSnoozeProspect = localAPI.useSnoozeProspect;
 const useRejectProspect = localAPI.useRejectProspect;
-const getRefetchParams = localAPI.getRefetchParams;
+const getMutationOptions = localAPI.getMutationOptions;
 
 const useCreateProspectByUrl = process.env.REACT_APP_USE_POCKET_API
   ? awsAPI.useCreateProspectByUrl
@@ -39,5 +39,5 @@ export {
   useSnoozeProspect,
   useApproveProspect,
   useRejectProspect,
-  getRefetchParams,
+  getMutationOptions,
 };

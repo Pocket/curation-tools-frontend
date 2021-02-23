@@ -4,6 +4,7 @@ import { getPendingProspects } from './queries/getPendingProspects';
 import { getSnoozedProspects } from './queries/getSnoozedProspects';
 import { getApprovedProspects } from './queries/getApprovedProspects';
 import { getRejectedProspects } from './queries/getRejectedProspects';
+import { Prospect } from '../../models';
 
 /**
  * A helper function that returns a set of next & previous page URLs
@@ -40,42 +41,66 @@ export const getPageUrls = (
   return { nextPageUrl, prevPageUrl };
 };
 
+interface RefetchOptions {
+  query: DocumentNode;
+  variables: { feedId: string; page: number; perPage: number };
+}
 /**
  * This function returns a couple of helper variables that define what queries
  * need refetching after a mutation on the frontend has run successfully
  * (i.e., a user rejected a prospect)
  */
-
-export const getRefetchParams = (
-  feedId: string
-): {
-  query: DocumentNode;
-  variables: { feedId: string; page: number; perPage: number };
-}[] => {
-  const queryVariables = {
+const getRefetchParams = (
+  feedId: string,
+  currentState: string,
+  futureState: string
+): RefetchOptions[] => {
+  const variables = {
     feedId,
     page: 0,
     perPage: RECORDS_ON_PAGE,
   };
 
-  const refetchQueries = [
-    {
+  const refetchQueries: RefetchOptions[] = [];
+
+  if (currentState === 'PENDING') {
+    refetchQueries.push({
       query: getPendingProspects,
-      variables: queryVariables,
-    },
-    {
+      variables,
+    });
+  }
+
+  if (currentState === 'SNOOZED' || futureState === 'SNOOZED') {
+    refetchQueries.push({
       query: getSnoozedProspects,
-      variables: queryVariables,
-    },
-    {
-      query: getApprovedProspects,
-      variables: queryVariables,
-    },
-    {
+      variables,
+    });
+  }
+
+  if (currentState === 'REJECTED' || futureState === 'REJECTED') {
+    refetchQueries.push({
       query: getRejectedProspects,
-      variables: queryVariables,
-    },
-  ];
+      variables,
+    });
+  }
+
+  if (currentState === 'APPROVED' || futureState === 'APPROVED') {
+    refetchQueries.push({
+      query: getApprovedProspects,
+      variables,
+    });
+  }
 
   return refetchQueries;
+};
+
+export const getMutationOptions = (prospect: Prospect, futureState: string) => {
+  return {
+    variables: { id: prospect.id },
+    refetchQueries: getRefetchParams(
+      prospect.feedId,
+      prospect.state,
+      futureState
+    ),
+  };
 };
