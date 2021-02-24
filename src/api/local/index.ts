@@ -9,8 +9,8 @@ export { useGetRejectedProspects } from './hooks/useGetRejectedProspects';
 
 // mutations
 export { useSnoozeProspect } from './hooks/useSnoozeProspect';
-export { useApproveProspect } from './hooks/useApproveProspect';
 export { useRejectProspect } from './hooks/useRejectProspect';
+export { useUpdateProspect } from './hooks/useUpdateProspect';
 
 // helpers
 export { getMutationOptions } from './utils';

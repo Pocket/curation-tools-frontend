@@ -9,12 +9,7 @@ import {
   Notification,
 } from '../../components';
 import { Prospect } from '../../models';
-import {
-  getMutationOptions,
-  useApproveProspect,
-  useRejectProspect,
-  useSnoozeProspect,
-} from '../../api';
+import { getMutationOptions, useUpdateProspect } from '../../api';
 import { FetchResult } from '@apollo/client';
 
 const useStyles = makeStyles(() => ({
@@ -81,10 +76,12 @@ export const EditAndApproveStoryPage: React.FC<EditAndApproveStoryPageProps> = (
   const location = useLocation<EditAndApproveStoryPageProps>();
   const prospect = location.state?.prospect;
 
-  // prepare mutations
-  const { approveProspect } = useApproveProspect();
-  const { snoozeProspect } = useSnoozeProspect();
-  const { rejectProspect } = useRejectProspect();
+  /**
+   * Prepare the mutation; since we're using a hook to get the mutation function,
+   * it must be placed in the body of the component rather than in the handleSubmit()
+   * function.
+   */
+  const { updateProspect } = useUpdateProspect();
 
   /**
    * Collect form data, choose action and send it off to the API
@@ -95,49 +92,48 @@ export const EditAndApproveStoryPage: React.FC<EditAndApproveStoryPageProps> = (
     // TODO: ensure there is always a prospect on the page by loading it from the API
     // if it's not passed down from other pages
     if (prospect) {
-      switch (formData.submitAction) {
-        case 'approve':
-          approveProspect({
-            variables: {
-              id: prospect.id,
-              altText: formData.altText,
-              excerpt: formData.excerpt,
-              imageUrl: formData.imageUrl,
-              publisher: formData.publisher,
-              author: formData.author,
-              title: formData.title,
-              topic: formData.topic,
-            },
-          })
-            .then((data: FetchResult) => {
-              showNotification('Story approved! Redirecting...', false);
-              redirectUser();
-            })
-            .catch((error: Error) => {
-              showNotification(error.message, true);
-            });
-          break;
-        case 'snooze':
-          snoozeProspect(getMutationOptions(prospect, 'SNOOZED'))
-            .then((data: FetchResult) => {
-              showNotification('Story snoozed! Redirecting...', false);
-              redirectUser();
-            })
-            .catch((error: Error) => {
-              showNotification(error.message, true);
-            });
-          break;
-        case 'reject':
-          rejectProspect(getMutationOptions(prospect, 'REJECTED'))
-            .then((data: FetchResult) => {
-              showNotification('Story rejected! Redirecting...', false);
-              redirectUser();
-            })
-            .catch((error: Error) => {
-              showNotification(error.message, true);
-            });
-          break;
-      }
+      updateProspect({
+        variables: {
+          id: prospect.id,
+          altText: formData.altText,
+          author: formData.author,
+          excerpt: formData.excerpt,
+          imageUrl: formData.imageUrl,
+          publisher: formData.publisher,
+          state: formData.state,
+          title: formData.title,
+          topic: formData.topic,
+        },
+        ...getMutationOptions(prospect, formData.state),
+      })
+        .then((data: FetchResult) => {
+          // Show the relevant message to the user depending on what the prospect
+          // state is updated to.
+          let message = '';
+
+          switch (formData.state) {
+            case 'SNOOZED':
+              message = 'Story snoozed! Redirecting...';
+              break;
+            case 'APPROVED':
+              message = 'Story approved! Redirecting...';
+              break;
+            case 'REJECTED':
+              message = 'Story rejected! Redirecting...';
+              break;
+          }
+
+          // If prospect state hasn't changed, show a different message.
+          if (formData.state === prospect.state) {
+            message = 'Changes saved! Redirecting...';
+          }
+
+          showNotification(message, false);
+          redirectUser();
+        })
+        .catch((error: Error) => {
+          showNotification(error.message, true);
+        });
     }
   };
 
@@ -147,7 +143,9 @@ export const EditAndApproveStoryPage: React.FC<EditAndApproveStoryPageProps> = (
         <Grid container spacing={3}>
           <Grid item xs={8}>
             <Typography variant="h4" component="h1" align="left">
-              Edit &amp; Approve
+              {prospect && prospect.state === 'APPROVED'
+                ? 'Edit Story'
+                : 'Edit & Approve'}
             </Typography>
           </Grid>
           <Grid item xs={4} className={classes.alignRight}>

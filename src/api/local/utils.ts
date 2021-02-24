@@ -41,14 +41,38 @@ export const getPageUrls = (
   return { nextPageUrl, prevPageUrl };
 };
 
+/**
+ * This method adds a list of queries to be refetched from the local API
+ * to a mutation function alongside other options, such as variables
+ * to pass to the API.
+ *
+ * Note that this is a 'nuclear' option that is only used here because another
+ * request to the local API costs nothing and the re-render is almost seamless.
+ *
+ * For production environments, the 'update' function should be used instead
+ * to modify the queries cached by Apollo.
+ */
+export const getMutationOptions = (prospect: Prospect, futureState: string) => {
+  return {
+    refetchQueries: getRefetchParams(
+      prospect.feedId,
+      prospect.state,
+      futureState
+    ),
+  };
+};
+
 interface RefetchOptions {
   query: DocumentNode;
   variables: { feedId: string; page: number; perPage: number };
 }
 /**
- * This function returns a couple of helper variables that define what queries
- * need refetching after a mutation on the frontend has run successfully
- * (i.e., a user rejected a prospect)
+ * Determine which queries need to be refetched from the local API based on the state
+ * of the prospect that's been updated.
+ *
+ * For example, if a pending prospect is snoozed, refresh both the query behind
+ * the "Pending" tab and the one behind the "Snoozed" tab so that the tabs re-render
+ * and the updated prospect moves from one tab to another.
  */
 const getRefetchParams = (
   feedId: string,
@@ -57,6 +81,8 @@ const getRefetchParams = (
 ): RefetchOptions[] => {
   const variables = {
     feedId,
+    // TODO: update this once queries are merged locally
+    // at the moment all queries are fetched separately for each page which is NQR.
     page: 0,
     perPage: RECORDS_ON_PAGE,
   };
@@ -92,15 +118,4 @@ const getRefetchParams = (
   }
 
   return refetchQueries;
-};
-
-export const getMutationOptions = (prospect: Prospect, futureState: string) => {
-  return {
-    variables: { id: prospect.id },
-    refetchQueries: getRefetchParams(
-      prospect.feedId,
-      prospect.state,
-      futureState
-    ),
-  };
 };

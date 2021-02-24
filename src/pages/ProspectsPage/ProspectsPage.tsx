@@ -150,6 +150,7 @@ export const ProspectsPage = ({
         basePath={basePath}
         currentTab={value}
         heading="Prospects"
+        tabPath={basePath}
         type="pending"
         loading={loadingPending}
         error={errorPending}
@@ -157,9 +158,10 @@ export const ProspectsPage = ({
       />
 
       <TabContents
-        basePath={`${basePath}snoozed/`}
+        basePath={basePath}
         currentTab={value}
         heading="Snoozed"
+        tabPath={`${basePath}snoozed/`}
         type="snoozed"
         loading={loadingSnoozed}
         error={errorSnoozed}
@@ -167,9 +169,10 @@ export const ProspectsPage = ({
       />
 
       <TabContents
-        basePath={`${basePath}approved/`}
+        basePath={basePath}
         currentTab={value}
         heading="Approved"
+        tabPath={`${basePath}approved/`}
         type="approved"
         loading={loadingApproved}
         error={errorApproved}
@@ -177,9 +180,10 @@ export const ProspectsPage = ({
       />
 
       <TabContents
-        basePath={`${basePath}rejected/`}
+        basePath={basePath}
         currentTab={value}
         heading="Rejected"
+        tabPath={`${basePath}rejected/`}
         type="rejected"
         loading={loadingRejected}
         error={errorRejected}

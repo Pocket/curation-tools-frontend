@@ -13,7 +13,8 @@ import {
 
 interface TabContentsProps {
   /**
-   * The pathname of the tab to be rendered, i.e. '/prospects/snoozed/'
+   * The pathname of the page the tab is on, i.e. '/prospects/'
+   * (used to set links to "Edit" and "Edit & Approve" pages within prospect cards).
    */
   basePath: string;
 
@@ -26,6 +27,11 @@ interface TabContentsProps {
    * The heading to use on the page, i.e. "Prospects" or "Approved"
    */
   heading: string;
+
+  /**
+   * The pathname of the tab to be rendered, i.e. '/prospects/snoozed/'
+   */
+  tabPath: string;
 
   /**
    * The type of card to render on the tab.
@@ -41,7 +47,16 @@ interface TabContentsProps {
 export const TabContents: React.FC<
   TabContentsProps & ApiCallStates & ProspectListData
 > = (props): JSX.Element => {
-  const { basePath, currentTab, heading, type, loading, error, data } = props;
+  const {
+    basePath,
+    currentTab,
+    heading,
+    tabPath,
+    type,
+    loading,
+    error,
+    data,
+  } = props;
 
   const [open, setOpen] = useState<boolean>(false);
   const [message, setMessage] = useState<string>('');
@@ -69,7 +84,7 @@ export const TabContents: React.FC<
   };
 
   return (
-    <TabPanel heading={heading} value={currentTab} index={basePath}>
+    <TabPanel heading={heading} value={currentTab} index={tabPath}>
       <Notification
         handleClose={handleClose}
         isOpen={open}

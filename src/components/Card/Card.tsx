@@ -98,7 +98,10 @@ export const Card: React.FC<CardProps> = (props) => {
    * Snooze a prospect displayed in this card
    */
   const handleSnooze = () => {
-    snoozeProspect(getMutationOptions(prospect, 'SNOOZED'))
+    snoozeProspect({
+      variables: { id: prospect.id },
+      ...getMutationOptions(prospect, 'SNOOZED'),
+    })
       .then((data: FetchResult) => {
         showNotification('Story snoozed', false);
       })
@@ -111,7 +114,10 @@ export const Card: React.FC<CardProps> = (props) => {
    * Reject a prospect displayed in this card
    */
   const handleReject = () => {
-    rejectProspect(getMutationOptions(prospect, 'REJECTED'))
+    rejectProspect({
+      variables: { id: prospect.id },
+      ...getMutationOptions(prospect, 'REJECTED'),
+    })
       .then((data: FetchResult) => {
         showNotification('Story rejected', false);
       })

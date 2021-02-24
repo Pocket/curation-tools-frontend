@@ -1,4 +1,4 @@
-import { gql, MutationTuple, QueryResult, QueryTuple } from '@apollo/client';
+import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = {
@@ -212,21 +212,6 @@ export type ProspectDataFragment = { __typename?: 'Prospect' } & Pick<
   | 'url'
 > & { feedId: Prospect['feed_id']; source: Prospect['sourceName'] };
 
-export type ApproveProspectMutationVariables = Exact<{
-  id: Scalars['ID'];
-  altText?: Maybe<Scalars['String']>;
-  author?: Maybe<Scalars['String']>;
-  excerpt: Scalars['String'];
-  imageUrl?: Maybe<Scalars['String']>;
-  publisher?: Maybe<Scalars['String']>;
-  title: Scalars['String'];
-  topic: Scalars['String'];
-}>;
-
-export type ApproveProspectMutation = { __typename?: 'Mutation' } & {
-  data?: Maybe<{ __typename?: 'Prospect' } & ProspectDataFragment>;
-};
-
 export type RejectProspectMutationVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -240,6 +225,22 @@ export type SnoozeProspectMutationVariables = Exact<{
 }>;
 
 export type SnoozeProspectMutation = { __typename?: 'Mutation' } & {
+  data?: Maybe<{ __typename?: 'Prospect' } & ProspectDataFragment>;
+};
+
+export type UpdateProspectMutationVariables = Exact<{
+  id: Scalars['ID'];
+  altText?: Maybe<Scalars['String']>;
+  author?: Maybe<Scalars['String']>;
+  excerpt: Scalars['String'];
+  imageUrl?: Maybe<Scalars['String']>;
+  publisher?: Maybe<Scalars['String']>;
+  state?: Maybe<Scalars['String']>;
+  title: Scalars['String'];
+  topic: Scalars['String'];
+}>;
+
+export type UpdateProspectMutation = { __typename?: 'Mutation' } & {
   data?: Maybe<{ __typename?: 'Prospect' } & ProspectDataFragment>;
 };
 
@@ -329,82 +330,6 @@ export const ProspectDataFragmentDoc = gql`
     url
   }
 `;
-export const ApproveProspectDocument = gql`
-  mutation approveProspect(
-    $id: ID!
-    $altText: String
-    $author: String
-    $excerpt: String!
-    $imageUrl: String
-    $publisher: String
-    $title: String!
-    $topic: String!
-  ) {
-    data: updateProspect(
-      id: $id
-      altText: $altText
-      author: $author
-      excerpt: $excerpt
-      imageUrl: $imageUrl
-      publisher: $publisher
-      state: "APPROVED"
-      title: $title
-      topic: $topic
-      updatedAt: null
-    ) {
-      ...ProspectData
-    }
-  }
-  ${ProspectDataFragmentDoc}
-`;
-export type ApproveProspectMutationFn = Apollo.MutationFunction<
-  ApproveProspectMutation,
-  ApproveProspectMutationVariables
->;
-
-/**
- * __useApproveProspectMutation__
- *
- * To run a mutation, you first call `useApproveProspectMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useApproveProspectMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [approveProspectMutation, { data, loading, error }] = useApproveProspectMutation({
- *   variables: {
- *      id: // value for 'id'
- *      altText: // value for 'altText'
- *      author: // value for 'author'
- *      excerpt: // value for 'excerpt'
- *      imageUrl: // value for 'imageUrl'
- *      publisher: // value for 'publisher'
- *      title: // value for 'title'
- *      topic: // value for 'topic'
- *   },
- * });
- */
-export function useApproveProspectMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    ApproveProspectMutation,
-    ApproveProspectMutationVariables
-  >
-): MutationTuple<ApproveProspectMutation, ApproveProspectMutationVariables> {
-  return Apollo.useMutation<
-    ApproveProspectMutation,
-    ApproveProspectMutationVariables
-  >(ApproveProspectDocument, baseOptions);
-}
-export type ApproveProspectMutationHookResult = ReturnType<
-  typeof useApproveProspectMutation
->;
-export type ApproveProspectMutationResult = Apollo.MutationResult<ApproveProspectMutation>;
-export type ApproveProspectMutationOptions = Apollo.BaseMutationOptions<
-  ApproveProspectMutation,
-  ApproveProspectMutationVariables
->;
 export const RejectProspectDocument = gql`
   mutation rejectProspect($id: ID!) {
     data: updateProspect(id: $id, state: "REJECTED") {
@@ -440,7 +365,7 @@ export function useRejectProspectMutation(
     RejectProspectMutation,
     RejectProspectMutationVariables
   >
-): MutationTuple<RejectProspectMutation, RejectProspectMutationVariables> {
+) {
   return Apollo.useMutation<
     RejectProspectMutation,
     RejectProspectMutationVariables
@@ -489,7 +414,7 @@ export function useSnoozeProspectMutation(
     SnoozeProspectMutation,
     SnoozeProspectMutationVariables
   >
-): MutationTuple<SnoozeProspectMutation, SnoozeProspectMutationVariables> {
+) {
   return Apollo.useMutation<
     SnoozeProspectMutation,
     SnoozeProspectMutationVariables
@@ -502,6 +427,83 @@ export type SnoozeProspectMutationResult = Apollo.MutationResult<SnoozeProspectM
 export type SnoozeProspectMutationOptions = Apollo.BaseMutationOptions<
   SnoozeProspectMutation,
   SnoozeProspectMutationVariables
+>;
+export const UpdateProspectDocument = gql`
+  mutation updateProspect(
+    $id: ID!
+    $altText: String
+    $author: String
+    $excerpt: String!
+    $imageUrl: String
+    $publisher: String
+    $state: String
+    $title: String!
+    $topic: String!
+  ) {
+    data: updateProspect(
+      id: $id
+      altText: $altText
+      author: $author
+      excerpt: $excerpt
+      imageUrl: $imageUrl
+      publisher: $publisher
+      state: $state
+      title: $title
+      topic: $topic
+    ) {
+      ...ProspectData
+    }
+  }
+  ${ProspectDataFragmentDoc}
+`;
+export type UpdateProspectMutationFn = Apollo.MutationFunction<
+  UpdateProspectMutation,
+  UpdateProspectMutationVariables
+>;
+
+/**
+ * __useUpdateProspectMutation__
+ *
+ * To run a mutation, you first call `useUpdateProspectMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateProspectMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateProspectMutation, { data, loading, error }] = useUpdateProspectMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      altText: // value for 'altText'
+ *      author: // value for 'author'
+ *      excerpt: // value for 'excerpt'
+ *      imageUrl: // value for 'imageUrl'
+ *      publisher: // value for 'publisher'
+ *      state: // value for 'state'
+ *      title: // value for 'title'
+ *      topic: // value for 'topic'
+ *   },
+ * });
+ */
+export function useUpdateProspectMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateProspectMutation,
+    UpdateProspectMutationVariables
+  >
+) {
+  return Apollo.useMutation<
+    UpdateProspectMutation,
+    UpdateProspectMutationVariables
+  >(UpdateProspectDocument, baseOptions);
+}
+export type UpdateProspectMutationHookResult = ReturnType<
+  typeof useUpdateProspectMutation
+>;
+export type UpdateProspectMutationResult = Apollo.MutationResult<UpdateProspectMutation>;
+export type UpdateProspectMutationOptions = Apollo.BaseMutationOptions<
+  UpdateProspectMutation,
+  UpdateProspectMutationVariables
 >;
 export const GetApprovedProspectsDocument = gql`
   query getApprovedProspects($feedId: ID!, $page: Int!, $perPage: Int!) {
@@ -544,7 +546,7 @@ export function useGetApprovedProspectsQuery(
     GetApprovedProspectsQuery,
     GetApprovedProspectsQueryVariables
   >
-): QueryResult<GetApprovedProspectsQuery, GetApprovedProspectsQueryVariables> {
+) {
   return Apollo.useQuery<
     GetApprovedProspectsQuery,
     GetApprovedProspectsQueryVariables
@@ -555,7 +557,7 @@ export function useGetApprovedProspectsLazyQuery(
     GetApprovedProspectsQuery,
     GetApprovedProspectsQueryVariables
   >
-): QueryTuple<GetApprovedProspectsQuery, GetApprovedProspectsQueryVariables> {
+) {
   return Apollo.useLazyQuery<
     GetApprovedProspectsQuery,
     GetApprovedProspectsQueryVariables
@@ -601,7 +603,7 @@ export function useGetCurrentFeedQuery(
     GetCurrentFeedQuery,
     GetCurrentFeedQueryVariables
   >
-): QueryResult<GetCurrentFeedQuery, GetCurrentFeedQueryVariables> {
+) {
   return Apollo.useQuery<GetCurrentFeedQuery, GetCurrentFeedQueryVariables>(
     GetCurrentFeedDocument,
     baseOptions
@@ -612,7 +614,7 @@ export function useGetCurrentFeedLazyQuery(
     GetCurrentFeedQuery,
     GetCurrentFeedQueryVariables
   >
-): QueryTuple<GetCurrentFeedQuery, GetCurrentFeedQueryVariables> {
+) {
   return Apollo.useLazyQuery<GetCurrentFeedQuery, GetCurrentFeedQueryVariables>(
     GetCurrentFeedDocument,
     baseOptions
@@ -669,7 +671,7 @@ export function useGetPendingProspectsQuery(
     GetPendingProspectsQuery,
     GetPendingProspectsQueryVariables
   >
-): QueryResult<GetPendingProspectsQuery, GetPendingProspectsQueryVariables> {
+) {
   return Apollo.useQuery<
     GetPendingProspectsQuery,
     GetPendingProspectsQueryVariables
@@ -680,7 +682,7 @@ export function useGetPendingProspectsLazyQuery(
     GetPendingProspectsQuery,
     GetPendingProspectsQueryVariables
   >
-): QueryTuple<GetPendingProspectsQuery, GetPendingProspectsQueryVariables> {
+) {
   return Apollo.useLazyQuery<
     GetPendingProspectsQuery,
     GetPendingProspectsQueryVariables
@@ -737,7 +739,7 @@ export function useGetRejectedProspectsQuery(
     GetRejectedProspectsQuery,
     GetRejectedProspectsQueryVariables
   >
-): QueryResult<GetRejectedProspectsQuery, GetRejectedProspectsQueryVariables> {
+) {
   return Apollo.useQuery<
     GetRejectedProspectsQuery,
     GetRejectedProspectsQueryVariables
@@ -748,7 +750,7 @@ export function useGetRejectedProspectsLazyQuery(
     GetRejectedProspectsQuery,
     GetRejectedProspectsQueryVariables
   >
-): QueryTuple<GetRejectedProspectsQuery, GetRejectedProspectsQueryVariables> {
+) {
   return Apollo.useLazyQuery<
     GetRejectedProspectsQuery,
     GetRejectedProspectsQueryVariables
@@ -805,7 +807,7 @@ export function useGetSnoozedProspectsQuery(
     GetSnoozedProspectsQuery,
     GetSnoozedProspectsQueryVariables
   >
-): QueryResult<GetSnoozedProspectsQuery, GetSnoozedProspectsQueryVariables> {
+) {
   return Apollo.useQuery<
     GetSnoozedProspectsQuery,
     GetSnoozedProspectsQueryVariables
@@ -816,7 +818,7 @@ export function useGetSnoozedProspectsLazyQuery(
     GetSnoozedProspectsQuery,
     GetSnoozedProspectsQueryVariables
   >
-): QueryTuple<GetSnoozedProspectsQuery, GetSnoozedProspectsQueryVariables> {
+) {
   return Apollo.useLazyQuery<
     GetSnoozedProspectsQuery,
     GetSnoozedProspectsQueryVariables

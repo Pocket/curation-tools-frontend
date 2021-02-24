@@ -70,6 +70,9 @@ function App(): JSX.Element {
                   >
                     <EditAndApproveStoryPage />
                   </Route>
+                  <Route exact path="/:feed/prospects/:prospectid/edit/">
+                    <EditAndApproveStoryPage />
+                  </Route>
                   <Route path="/:feed/prospects/">
                     <ProspectsPage feed={data} />
                   </Route>
