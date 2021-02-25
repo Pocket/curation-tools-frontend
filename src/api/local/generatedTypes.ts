@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql, MutationTuple, QueryResult, QueryTuple } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = {
@@ -365,7 +365,7 @@ export function useRejectProspectMutation(
     RejectProspectMutation,
     RejectProspectMutationVariables
   >
-) {
+): MutationTuple<RejectProspectMutation, RejectProspectMutationVariables> {
   return Apollo.useMutation<
     RejectProspectMutation,
     RejectProspectMutationVariables
@@ -414,7 +414,7 @@ export function useSnoozeProspectMutation(
     SnoozeProspectMutation,
     SnoozeProspectMutationVariables
   >
-) {
+): MutationTuple<SnoozeProspectMutation, SnoozeProspectMutationVariables> {
   return Apollo.useMutation<
     SnoozeProspectMutation,
     SnoozeProspectMutationVariables
@@ -491,7 +491,7 @@ export function useUpdateProspectMutation(
     UpdateProspectMutation,
     UpdateProspectMutationVariables
   >
-) {
+): MutationTuple<UpdateProspectMutation, UpdateProspectMutationVariables> {
   return Apollo.useMutation<
     UpdateProspectMutation,
     UpdateProspectMutationVariables
@@ -546,7 +546,7 @@ export function useGetApprovedProspectsQuery(
     GetApprovedProspectsQuery,
     GetApprovedProspectsQueryVariables
   >
-) {
+): QueryResult<GetApprovedProspectsQuery, GetApprovedProspectsQueryVariables> {
   return Apollo.useQuery<
     GetApprovedProspectsQuery,
     GetApprovedProspectsQueryVariables
@@ -557,7 +557,7 @@ export function useGetApprovedProspectsLazyQuery(
     GetApprovedProspectsQuery,
     GetApprovedProspectsQueryVariables
   >
-) {
+): QueryTuple<GetApprovedProspectsQuery, GetApprovedProspectsQueryVariables> {
   return Apollo.useLazyQuery<
     GetApprovedProspectsQuery,
     GetApprovedProspectsQueryVariables
@@ -603,7 +603,7 @@ export function useGetCurrentFeedQuery(
     GetCurrentFeedQuery,
     GetCurrentFeedQueryVariables
   >
-) {
+): QueryResult<GetCurrentFeedQuery, GetCurrentFeedQueryVariables> {
   return Apollo.useQuery<GetCurrentFeedQuery, GetCurrentFeedQueryVariables>(
     GetCurrentFeedDocument,
     baseOptions
@@ -614,7 +614,7 @@ export function useGetCurrentFeedLazyQuery(
     GetCurrentFeedQuery,
     GetCurrentFeedQueryVariables
   >
-) {
+): QueryTuple<GetCurrentFeedQuery, GetCurrentFeedQueryVariables> {
   return Apollo.useLazyQuery<GetCurrentFeedQuery, GetCurrentFeedQueryVariables>(
     GetCurrentFeedDocument,
     baseOptions
@@ -671,7 +671,7 @@ export function useGetPendingProspectsQuery(
     GetPendingProspectsQuery,
     GetPendingProspectsQueryVariables
   >
-) {
+): QueryResult<GetPendingProspectsQuery, GetPendingProspectsQueryVariables> {
   return Apollo.useQuery<
     GetPendingProspectsQuery,
     GetPendingProspectsQueryVariables
@@ -682,7 +682,7 @@ export function useGetPendingProspectsLazyQuery(
     GetPendingProspectsQuery,
     GetPendingProspectsQueryVariables
   >
-) {
+): QueryTuple<GetPendingProspectsQuery, GetPendingProspectsQueryVariables> {
   return Apollo.useLazyQuery<
     GetPendingProspectsQuery,
     GetPendingProspectsQueryVariables
@@ -739,7 +739,7 @@ export function useGetRejectedProspectsQuery(
     GetRejectedProspectsQuery,
     GetRejectedProspectsQueryVariables
   >
-) {
+): QueryResult<GetRejectedProspectsQuery, GetRejectedProspectsQueryVariables> {
   return Apollo.useQuery<
     GetRejectedProspectsQuery,
     GetRejectedProspectsQueryVariables
@@ -750,7 +750,7 @@ export function useGetRejectedProspectsLazyQuery(
     GetRejectedProspectsQuery,
     GetRejectedProspectsQueryVariables
   >
-) {
+): QueryTuple<GetRejectedProspectsQuery, GetRejectedProspectsQueryVariables> {
   return Apollo.useLazyQuery<
     GetRejectedProspectsQuery,
     GetRejectedProspectsQueryVariables
@@ -807,7 +807,7 @@ export function useGetSnoozedProspectsQuery(
     GetSnoozedProspectsQuery,
     GetSnoozedProspectsQueryVariables
   >
-) {
+): QueryResult<GetSnoozedProspectsQuery, GetSnoozedProspectsQueryVariables> {
   return Apollo.useQuery<
     GetSnoozedProspectsQuery,
     GetSnoozedProspectsQueryVariables
@@ -818,7 +818,7 @@ export function useGetSnoozedProspectsLazyQuery(
     GetSnoozedProspectsQuery,
     GetSnoozedProspectsQueryVariables
   >
-) {
+): QueryTuple<GetSnoozedProspectsQuery, GetSnoozedProspectsQueryVariables> {
   return Apollo.useLazyQuery<
     GetSnoozedProspectsQuery,
     GetSnoozedProspectsQueryVariables

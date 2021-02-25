@@ -31,28 +31,60 @@ describe('The EditAndApproveStory component', () => {
     mockSubmit = jest.fn((data: EditAndApproveStoryFormData) => {
       return Promise.resolve(data);
     });
+  });
 
+  it('renders successfully', async () => {
     await waitFor(() => {
       render(
         <EditAndApproveStory prospect={mockProspect} onSubmit={mockSubmit} />
       );
     });
-  });
 
-  it('renders successfully', async () => {
     // there is at least a form and nothing falls over
     const form = screen.getByRole('form');
     expect(form).toBeInTheDocument();
   });
 
-  it('has the requisite buttons', async () => {
-    // check that all action buttons are present
+  it('shows three action buttons for prospects yet to be approved', async () => {
+    await waitFor(() => {
+      render(
+        <EditAndApproveStory prospect={mockProspect} onSubmit={mockSubmit} />
+      );
+    });
+
+    // Check that all action buttons are present - these are shown
+    // for a prospect that hasn't been approved yet
     expect(screen.getByText('Reject')).toBeInTheDocument();
     expect(screen.getByText('Snooze')).toBeInTheDocument();
     expect(screen.getByText('Approve')).toBeInTheDocument();
+
+    // The "Save" button should not be shown.
+    expect(screen.queryByText('Save')).not.toBeInTheDocument();
+  });
+
+  it('shows only the "Save" button if the prospect has already been approved', async () => {
+    mockProspect.state = 'APPROVED';
+    await waitFor(() => {
+      render(
+        <EditAndApproveStory prospect={mockProspect} onSubmit={mockSubmit} />
+      );
+    });
+
+    expect(screen.getByText('Save')).toBeInTheDocument();
+
+    // Do not expect to see the other three buttons
+    expect(screen.queryByText('Reject')).not.toBeInTheDocument();
+    expect(screen.queryByText('Snooze')).not.toBeInTheDocument();
+    expect(screen.queryByText('Approve')).not.toBeInTheDocument();
   });
 
   it('shows basic story data', async () => {
+    await waitFor(() => {
+      render(
+        <EditAndApproveStory prospect={mockProspect} onSubmit={mockSubmit} />
+      );
+    });
+
     const storyUrlField = screen.getByLabelText('Story URL');
     expect(storyUrlField).toBeInTheDocument();
     expect(storyUrlField).toBeDisabled();
@@ -68,6 +100,12 @@ describe('The EditAndApproveStory component', () => {
   });
 
   it('shows thumbnail and associated data', async () => {
+    await waitFor(() => {
+      render(
+        <EditAndApproveStory prospect={mockProspect} onSubmit={mockSubmit} />
+      );
+    });
+
     const image = screen.getByRole('img');
     expect(image).toBeInTheDocument();
 
@@ -76,6 +114,12 @@ describe('The EditAndApproveStory component', () => {
   });
 
   it('shows additional information about the story', async () => {
+    await waitFor(() => {
+      render(
+        <EditAndApproveStory prospect={mockProspect} onSubmit={mockSubmit} />
+      );
+    });
+
     const sourceField = screen.getByLabelText('Source');
     expect(sourceField).toBeInTheDocument();
     expect(sourceField).toBeDisabled();
@@ -85,6 +129,12 @@ describe('The EditAndApproveStory component', () => {
   });
 
   it('displays errors when required fields are empty', async () => {
+    await waitFor(() => {
+      render(
+        <EditAndApproveStory prospect={mockProspect} onSubmit={mockSubmit} />
+      );
+    });
+
     userEvent.clear(screen.getByLabelText(/headline/i));
     userEvent.clear(screen.getByLabelText(/excerpt/i));
     userEvent.selectOptions(screen.getByLabelText(/topic/i), '');
@@ -102,6 +152,12 @@ describe('The EditAndApproveStory component', () => {
   });
 
   it('displays matching error when thumbnail URL is malformed', async () => {
+    await waitFor(() => {
+      render(
+        <EditAndApproveStory prospect={mockProspect} onSubmit={mockSubmit} />
+      );
+    });
+
     const input = screen.getByLabelText(/thumbnail url/i) as HTMLInputElement;
 
     userEvent.clear(input);
@@ -116,6 +172,12 @@ describe('The EditAndApproveStory component', () => {
   });
 
   it('proceeds with form submission if all fields are valid', async () => {
+    await waitFor(() => {
+      render(
+        <EditAndApproveStory prospect={mockProspect} onSubmit={mockSubmit} />
+      );
+    });
+
     await waitFor(() => {
       userEvent.click(screen.getByText(/approve/i));
     });
@@ -134,6 +196,12 @@ describe('The EditAndApproveStory component', () => {
   });
 
   it('shows a broken image icon if thumbnail URL is invalid', async () => {
+    await waitFor(() => {
+      render(
+        <EditAndApproveStory prospect={mockProspect} onSubmit={mockSubmit} />
+      );
+    });
+
     const input = screen.getByLabelText(/thumbnail url/i) as HTMLInputElement;
 
     userEvent.clear(input);

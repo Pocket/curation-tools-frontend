@@ -52,7 +52,10 @@ export const getPageUrls = (
  * For production environments, the 'update' function should be used instead
  * to modify the queries cached by Apollo.
  */
-export const getMutationOptions = (prospect: Prospect, futureState: string) => {
+export const getMutationOptions = (
+  prospect: Prospect,
+  futureState: string
+): { refetchQueries: RefetchOptions[] } => {
   return {
     refetchQueries: getRefetchParams(
       prospect.feedId,

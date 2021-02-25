@@ -32,7 +32,12 @@ describe('The Card component', () => {
     render(
       <MockedProvider>
         <MemoryRouter>
-          <Card prospect={prospect} type="pending" url={baseUrl} />
+          <Card
+            prospect={prospect}
+            type="pending"
+            url={baseUrl}
+            showNotification={jest.fn()}
+          />
         </MemoryRouter>
       </MockedProvider>
     );
@@ -45,7 +50,12 @@ describe('The Card component', () => {
     render(
       <MockedProvider>
         <MemoryRouter>
-          <Card prospect={prospect} type="pending" url={baseUrl} />
+          <Card
+            prospect={prospect}
+            type="pending"
+            url={baseUrl}
+            showNotification={jest.fn()}
+          />
         </MemoryRouter>
       </MockedProvider>
     );
@@ -60,7 +70,12 @@ describe('The Card component', () => {
     render(
       <MockedProvider>
         <MemoryRouter>
-          <Card prospect={prospect} type="snoozed" url={baseUrl} />
+          <Card
+            prospect={prospect}
+            type="snoozed"
+            url={baseUrl}
+            showNotification={jest.fn()}
+          />
         </MemoryRouter>
       </MockedProvider>
     );
@@ -74,7 +89,12 @@ describe('The Card component', () => {
     render(
       <MockedProvider>
         <MemoryRouter>
-          <Card prospect={prospect} type="approved" url={baseUrl} />
+          <Card
+            prospect={prospect}
+            type="approved"
+            url={baseUrl}
+            showNotification={jest.fn()}
+          />
         </MemoryRouter>
       </MockedProvider>
     );
@@ -89,7 +109,12 @@ describe('The Card component', () => {
     render(
       <MockedProvider>
         <MemoryRouter>
-          <Card prospect={prospect} type="rejected" url={baseUrl} />
+          <Card
+            prospect={prospect}
+            type="rejected"
+            url={baseUrl}
+            showNotification={jest.fn()}
+          />
         </MemoryRouter>
       </MockedProvider>
     );
@@ -102,7 +127,12 @@ describe('The Card component', () => {
     render(
       <MockedProvider>
         <MemoryRouter>
-          <Card prospect={prospect} type="live" url={baseUrl} />
+          <Card
+            prospect={prospect}
+            type="live"
+            url={baseUrl}
+            showNotification={jest.fn()}
+          />
         </MemoryRouter>
       </MockedProvider>
     );
@@ -116,7 +146,12 @@ describe('The Card component', () => {
     render(
       <MockedProvider>
         <MemoryRouter>
-          <Card prospect={prospect} type="scheduled" url={baseUrl} />
+          <Card
+            prospect={prospect}
+            type="scheduled"
+            url={baseUrl}
+            showNotification={jest.fn()}
+          />
         </MemoryRouter>
       </MockedProvider>
     );

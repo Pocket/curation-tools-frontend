@@ -51,9 +51,10 @@ describe('The TabContents component', () => {
       <MockedProvider>
         <MemoryRouter>
           <TabContents
-            basePath={'/prospects/snoozed/'}
-            currentTab={'/prospects/snoozed/'}
+            basePath="/prospects/"
+            currentTab="/prospects/snoozed/"
             heading="Snoozed"
+            tabPath="/prospects/snoozed/"
             type="snoozed"
             loading={false}
             error={undefined}

@@ -18,7 +18,7 @@ export type {
   ProspectListData,
   ProspectVariables,
   CreateProspectVariables,
-  ApproveProspectVariables,
+  UpdateProspectVariables,
 } from './Prospect';
 
 /**
