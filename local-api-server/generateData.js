@@ -178,9 +178,15 @@ const schema = {
 };
 
 jsf.resolve(schema).then((data) => {
-  console.log('Writing to db.json...');
-
   const path = `${__dirname}/db.json`;
+  console.log('Generating new data...');
+
+  // Delete the previous db.json file if it exists
+  // Truncating it below when overwriting is not enough. Why?
+  // But this is better than the blank screen of death
+  fs.unlink(path, (error) => {
+    if (error) throw error;
+  });
 
   fs.writeFile(
     path,
@@ -188,17 +194,16 @@ jsf.resolve(schema).then((data) => {
     // Make sure the file is writable so that changes made on the frontend persist.
     // Note that it's still not enough - something else is needed to get it to work.
     { mode: 0o666 },
-    function (err) {
-      if (err) {
-        console.error(err);
-      } else {
-        // And make sure it's writable on Linux as well
-        // (see https://github.com/nodejs/node/issues/1104)
-        fs.chmod(path, 0o666, (error) => {
-          console.log('Updated file permissions.');
-        });
-        console.log('Created file.');
-      }
+    function (error) {
+      if (error) throw error;
+
+      // And make sure it's writable on Linux as well
+      // (see https://github.com/nodejs/node/issues/1104)
+      fs.chmod(path, 0o666, (error) => {
+        console.log(
+          'Done.\n\033[1mRun `npm run api:start` to start using the local API server'
+        );
+      });
     }
   );
 });
