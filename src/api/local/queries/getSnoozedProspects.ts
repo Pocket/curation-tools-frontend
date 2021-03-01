@@ -4,18 +4,9 @@ import { ProspectData } from '../fragments/ProspectData';
  * Get snoozed prospects for a given feed ID.
  */
 export const getSnoozedProspects = gql`
-  query getSnoozedProspects(
-    $feedId: ID!
-    $page: Int!
-    $perPage: Int!
-    $currentTimestamp: Int!
-  ) {
+  query getSnoozedProspects($feedId: ID!, $page: Int!, $perPage: Int!) {
     allProspects(
-      filter: {
-        state: "PENDING"
-        snoozedUntil_gte: $currentTimestamp
-        feed_id: $feedId
-      }
+      filter: { state: "SNOOZED", feed_id: $feedId }
       page: $page
       perPage: $perPage
       sortField: "createdAt"
@@ -23,13 +14,7 @@ export const getSnoozedProspects = gql`
     ) {
       ...ProspectData
     }
-    totals: allProspects(
-      filter: {
-        state: "PENDING"
-        snoozedUntil_gte: $currentTimestamp
-        feed_id: $feedId
-      }
-    ) {
+    totals: allProspects(filter: { state: "SNOOZED", feed_id: $feedId }) {
       id
     }
   }

@@ -14,19 +14,14 @@ export const useGetSnoozedProspects = (
 ): ApiCallStates & ProspectListData => {
   const pageNumber = vars.page > 0 ? vars.page - 1 : 0;
 
-  // Get current timestamp to be able to filter prospects
-  // to fetch only those entries with 'snoozedUntil' in the future
-  const date = new Date();
-  const currentTimestamp = Math.floor(+date / 1000);
-
   const variables = {
     ...vars,
     page: pageNumber,
-    currentTimestamp,
   } as GetSnoozedProspectsQueryVariables;
 
   const { loading, error, data: result } = useGetSnoozedProspectsQuery({
     variables,
+    fetchPolicy: 'cache-first',
   });
 
   let data: any;

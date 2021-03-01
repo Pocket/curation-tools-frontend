@@ -16,14 +16,14 @@ const useGetPendingProspects = process.env.REACT_APP_USE_POCKET_API
 const useGetSnoozedProspects = localAPI.useGetSnoozedProspects;
 const useGetRejectedProspects = localAPI.useGetRejectedProspects;
 const useGetApprovedProspects = localAPI.useGetApprovedProspects;
+const useSnoozeProspect = localAPI.useSnoozeProspect;
+const useRejectProspect = localAPI.useRejectProspect;
+const useUpdateProspect = localAPI.useUpdateProspect;
+const getMutationOptions = localAPI.getMutationOptions;
 
 const useCreateProspectByUrl = process.env.REACT_APP_USE_POCKET_API
   ? awsAPI.useCreateProspectByUrl
   : awsAPI.useCreateProspectByUrl;
-
-const useApproveProspect = process.env.REACT_APP_USE_POCKET_API
-  ? awsAPI.useApproveProspect
-  : awsAPI.useApproveProspect;
 
 export {
   client,
@@ -33,5 +33,8 @@ export {
   useGetRejectedProspects,
   useGetApprovedProspects,
   useCreateProspectByUrl,
-  useApproveProspect,
+  useSnoozeProspect,
+  useRejectProspect,
+  useUpdateProspect,
+  getMutationOptions,
 };

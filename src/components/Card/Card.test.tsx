@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react';
 import { Card } from './Card';
 import { Prospect } from '../../models';
 import { MemoryRouter } from 'react-router-dom';
+import { MockedProvider } from '@apollo/client/testing';
 
 describe('The Card component', () => {
   let prospect: Prospect;
@@ -18,7 +19,7 @@ describe('The Card component', () => {
       imageUrl: 'https://images.dog.ceo/breeds/bulldog-english/jager-2.jpg',
       publisher: 'CNN',
       source: 'CNN',
-      snoozedUntil: null,
+      state: 'PENDING',
       title: 'Any random title',
       topic: 'History',
       url: 'https://cnn.com/any-random-title/234567/',
@@ -29,9 +30,16 @@ describe('The Card component', () => {
 
   it('renders with image', () => {
     render(
-      <MemoryRouter>
-        <Card prospect={prospect} type="pending" url={baseUrl} />
-      </MemoryRouter>
+      <MockedProvider>
+        <MemoryRouter>
+          <Card
+            prospect={prospect}
+            type="pending"
+            url={baseUrl}
+            showNotification={jest.fn()}
+          />
+        </MemoryRouter>
+      </MockedProvider>
     );
 
     const image = screen.getByAltText(prospect.altText);
@@ -40,9 +48,16 @@ describe('The Card component', () => {
 
   it('renders correctly for Pending prospects', () => {
     render(
-      <MemoryRouter>
-        <Card prospect={prospect} type="pending" url={baseUrl} />
-      </MemoryRouter>
+      <MockedProvider>
+        <MemoryRouter>
+          <Card
+            prospect={prospect}
+            type="pending"
+            url={baseUrl}
+            showNotification={jest.fn()}
+          />
+        </MemoryRouter>
+      </MockedProvider>
     );
 
     // buttons
@@ -53,9 +68,16 @@ describe('The Card component', () => {
 
   it('renders correctly for Snoozed prospects', () => {
     render(
-      <MemoryRouter>
-        <Card prospect={prospect} type="snoozed" url={baseUrl} />
-      </MemoryRouter>
+      <MockedProvider>
+        <MemoryRouter>
+          <Card
+            prospect={prospect}
+            type="snoozed"
+            url={baseUrl}
+            showNotification={jest.fn()}
+          />
+        </MemoryRouter>
+      </MockedProvider>
     );
 
     // buttons
@@ -65,9 +87,16 @@ describe('The Card component', () => {
 
   it('renders correctly for Approved prospects', () => {
     render(
-      <MemoryRouter>
-        <Card prospect={prospect} type="approved" url={baseUrl} />
-      </MemoryRouter>
+      <MockedProvider>
+        <MemoryRouter>
+          <Card
+            prospect={prospect}
+            type="approved"
+            url={baseUrl}
+            showNotification={jest.fn()}
+          />
+        </MemoryRouter>
+      </MockedProvider>
     );
 
     // buttons
@@ -78,9 +107,16 @@ describe('The Card component', () => {
 
   it('renders correctly for Rejected prospects', () => {
     render(
-      <MemoryRouter>
-        <Card prospect={prospect} type="rejected" url={baseUrl} />
-      </MemoryRouter>
+      <MockedProvider>
+        <MemoryRouter>
+          <Card
+            prospect={prospect}
+            type="rejected"
+            url={baseUrl}
+            showNotification={jest.fn()}
+          />
+        </MemoryRouter>
+      </MockedProvider>
     );
 
     // buttons
@@ -89,9 +125,16 @@ describe('The Card component', () => {
 
   it('renders correctly for Live prospects', () => {
     render(
-      <MemoryRouter>
-        <Card prospect={prospect} type="live" url={baseUrl} />
-      </MemoryRouter>
+      <MockedProvider>
+        <MemoryRouter>
+          <Card
+            prospect={prospect}
+            type="live"
+            url={baseUrl}
+            showNotification={jest.fn()}
+          />
+        </MemoryRouter>
+      </MockedProvider>
     );
 
     // buttons
@@ -101,9 +144,16 @@ describe('The Card component', () => {
 
   it('renders correctly for Scheduled prospects', () => {
     render(
-      <MemoryRouter>
-        <Card prospect={prospect} type="scheduled" url={baseUrl} />
-      </MemoryRouter>
+      <MockedProvider>
+        <MemoryRouter>
+          <Card
+            prospect={prospect}
+            type="scheduled"
+            url={baseUrl}
+            showNotification={jest.fn()}
+          />
+        </MemoryRouter>
+      </MockedProvider>
     );
 
     // buttons

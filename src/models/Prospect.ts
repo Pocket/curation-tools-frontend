@@ -6,8 +6,8 @@ export interface Prospect {
   feedId: string;
   imageUrl: string;
   publisher: string;
-  snoozedUntil: string | null;
   source: string;
+  state: string;
   title: string;
   topic: string;
   url: string;
@@ -56,13 +56,14 @@ export interface CreateProspectVariables {
   url: string;
 }
 
-export interface ApproveProspectVariables {
+export interface UpdateProspectVariables {
   id: string;
   altText: string;
   author: string;
   excerpt: string;
   imageUrl: string;
   publisher: string;
+  state: string;
   title: string;
   topic: string;
 }

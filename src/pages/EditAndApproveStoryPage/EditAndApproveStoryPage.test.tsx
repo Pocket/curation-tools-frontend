@@ -6,8 +6,15 @@ import { ApolloError } from '@apollo/client';
 import { render, screen, act, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { EditAndApproveStoryPage } from './EditAndApproveStoryPage';
-import { Prospect, ApproveProspectVariables } from '../../models';
-import { ApproveProspectDocument } from '../../api/aws-appsync/generatedTypes';
+import {
+  Prospect,
+  ProspectVariables,
+  UpdateProspectVariables,
+} from '../../models';
+import { updateProspect } from '../../api/local/mutations/updateProspect';
+import { RECORDS_ON_PAGE } from '../../constants';
+import { getPendingProspects } from '../../api/local/queries/getPendingProspects';
+import { getApprovedProspects } from '../../api/local/queries/getApprovedProspects';
 
 describe('The Edit And Approve Story page', () => {
   let history: any;
@@ -23,8 +30,8 @@ describe('The Edit And Approve Story page', () => {
       imageUrl:
         'https://assets.getpocket.com/web/yir/2020/images/mostread-1@2x.d849a2bbcf7ce894c8e5d01bc6a73052.jpg',
       publisher: 'Test publisher',
-      snoozedUntil: null,
       source: 'Test source',
+      state: 'PENDING',
       title: 'Test title',
       topic: 'Business',
       url: 'https://getpocket.com',
@@ -41,21 +48,54 @@ describe('The Edit And Approve Story page', () => {
     });
   });
 
+  it('shows "Edit & Approve" title for prospects yet to be approved', () => {
+    render(
+      <MockedProvider>
+        <Router history={history}>
+          <EditAndApproveStoryPage />
+        </Router>
+      </MockedProvider>
+    );
+
+    expect(screen.getByText('Edit & Approve')).toBeInTheDocument();
+    expect(screen.queryByText('Edit Story')).not.toBeInTheDocument();
+  });
+
+  it('shows "Edit Story" title for approved prospects', () => {
+    mockProspect.state = 'APPROVED';
+
+    history.push('/en-US/prospects/123a-456b-789c/edit-and-approve/', {
+      prospect: mockProspect,
+    });
+
+    render(
+      <MockedProvider>
+        <Router history={history}>
+          <EditAndApproveStoryPage />
+        </Router>
+      </MockedProvider>
+    );
+
+    expect(screen.queryByText('Edit & Approve')).not.toBeInTheDocument();
+    expect(screen.getByText('Edit Story')).toBeInTheDocument();
+  });
+
   it('shows an error if the API call was unsuccessful', async () => {
     const mocksWithError = [
       {
         request: {
-          query: ApproveProspectDocument,
+          query: updateProspect,
           variables: {
-            id: 'abcdefg',
-            altText: 'Alt text',
-            author: 'John Citizen',
-            excerpt: 'A very short description',
-            imageUrl: 'http://www.test.com/image.svg',
-            publisher: 'CNN',
-            title: 'Updated Prospect',
-            topic: 'Business',
-          } as ApproveProspectVariables,
+            id: mockProspect.id,
+            altText: mockProspect.altText,
+            author: mockProspect.author,
+            excerpt: mockProspect.excerpt,
+            imageUrl: mockProspect.imageUrl,
+            publisher: mockProspect.publisher,
+            state: 'APPROVED',
+            title: mockProspect.title,
+            topic: mockProspect.topic,
+          } as UpdateProspectVariables,
         },
         error: new ApolloError({
           networkError: new Error('An error occurred.'),
@@ -94,7 +134,7 @@ describe('The Edit And Approve Story page', () => {
     const mocks = [
       {
         request: {
-          query: ApproveProspectDocument,
+          query: updateProspect,
           variables: {
             id: approvedProspect.id,
             altText: approvedProspect.altText,
@@ -102,13 +142,72 @@ describe('The Edit And Approve Story page', () => {
             excerpt: approvedProspect.excerpt,
             imageUrl: approvedProspect.imageUrl,
             publisher: approvedProspect.publisher,
+            state: 'APPROVED',
             title: approvedProspect.title,
             topic: approvedProspect.topic,
-          } as ApproveProspectVariables,
+          } as UpdateProspectVariables,
         },
         result: {
           data: {
             data: approvedProspect as Prospect,
+          },
+        },
+      },
+      {
+        request: {
+          query: getPendingProspects,
+          variables: {
+            feedId: approvedProspect.feedId,
+            page: 0,
+            perPage: RECORDS_ON_PAGE,
+          } as ProspectVariables,
+        },
+        result: {
+          data: {
+            data: [
+              {
+                id: 'abc-123',
+                altText: 'This is an image',
+                author: 'Test author',
+                excerpt: 'This is a short description',
+                imageUrl: 'https://test.com/image.jpeg',
+                publisher: 'Test publisher',
+                source: 'Syndication',
+                state: 'PENDING',
+                title: 'Test title',
+                topic: 'Health',
+                url: 'https://test.com/test-title/',
+              } as Prospect,
+            ],
+          },
+        },
+      },
+      {
+        request: {
+          query: getApprovedProspects,
+          variables: {
+            feedId: approvedProspect.feedId,
+            page: 0,
+            perPage: RECORDS_ON_PAGE,
+          } as ProspectVariables,
+        },
+        result: {
+          data: {
+            data: [
+              {
+                id: 'abc-123',
+                altText: 'This is an image',
+                author: 'Test author',
+                excerpt: 'This is a short description',
+                imageUrl: 'https://test.com/image.jpeg',
+                publisher: 'Test publisher',
+                source: 'Syndication',
+                state: 'APPROVED',
+                title: 'Test title',
+                topic: 'Health',
+                url: 'https://test.com/test-title/',
+              } as Prospect,
+            ],
           },
         },
       },
@@ -134,6 +233,12 @@ describe('The Edit And Approve Story page', () => {
 
     // see a success message
     expect(screen.getByText(/story approved/i)).toBeInTheDocument();
+
+    // Wait for 2 seconds - redirect is initiated 1.5 seconds after
+    // the success message is displayed.
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+    });
 
     // go back to previous tab on success
     expect(history.location.pathname).toEqual('/en-US/prospects/snoozed/');

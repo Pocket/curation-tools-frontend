@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { FetchResult } from '@apollo/client';
 import {
   Card as MuiCard,
   CardMedia,
@@ -9,6 +10,11 @@ import {
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { Button, CardText } from '../';
 import { Prospect } from '../../models';
+import {
+  getMutationOptions,
+  useRejectProspect,
+  useSnoozeProspect,
+} from '../../api';
 
 /**
  * Styles for the Card component.
@@ -49,6 +55,8 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export interface CardProps {
+  showNotification: (message: string, isError: boolean) => void;
+
   /**
    * The Prospect object that holds all the data we need to display.
    */
@@ -72,7 +80,7 @@ export interface CardProps {
  */
 export const Card: React.FC<CardProps> = (props) => {
   const classes = useStyles();
-  const { prospect, type, url } = props;
+  const { showNotification, prospect, type, url } = props;
 
   let labelColor: 'default' | 'primary' | 'secondary' = 'primary';
 
@@ -81,6 +89,42 @@ export const Card: React.FC<CardProps> = (props) => {
   } else if (type === 'rejected') {
     labelColor = 'secondary';
   }
+
+  // prepare mutations
+  const { snoozeProspect } = useSnoozeProspect();
+  const { rejectProspect } = useRejectProspect();
+
+  /**
+   * Snooze a prospect displayed in this card
+   */
+  const handleSnooze = () => {
+    snoozeProspect({
+      variables: { id: prospect.id },
+      ...getMutationOptions(prospect, 'SNOOZED'),
+    })
+      .then((data: FetchResult) => {
+        showNotification('Story snoozed', false);
+      })
+      .catch((error: Error) => {
+        showNotification(error.message, true);
+      });
+  };
+
+  /**
+   * Reject a prospect displayed in this card
+   */
+  const handleReject = () => {
+    rejectProspect({
+      variables: { id: prospect.id },
+      ...getMutationOptions(prospect, 'REJECTED'),
+    })
+      .then((data: FetchResult) => {
+        showNotification('Story rejected', false);
+      })
+      .catch((error: Error) => {
+        showNotification(error.message, true);
+      });
+  };
 
   return (
     <MuiCard variant="outlined" square className={classes.root}>
@@ -116,10 +160,14 @@ export const Card: React.FC<CardProps> = (props) => {
         </Grid>
         <Grid item className={classes.bottomRightCell} xs={12} sm={6}>
           {['pending', 'snoozed', 'approved'].includes(type) && (
-            <Button buttonType="negative">Reject</Button>
+            <Button buttonType="negative" onClick={handleReject}>
+              Reject
+            </Button>
           )}
           {['pending', 'approved', 'rejected'].includes(type) && (
-            <Button buttonType="neutral">Snooze</Button>
+            <Button buttonType="neutral" onClick={handleSnooze}>
+              Snooze
+            </Button>
           )}
           {['live', 'scheduled'].includes(type) && (
             <Button buttonType="negative">Remove</Button>

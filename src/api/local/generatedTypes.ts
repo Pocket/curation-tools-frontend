@@ -76,20 +76,19 @@ export type Prospect = {
   feed_id: Scalars['ID'];
   url: Scalars['String'];
   title: Scalars['String'];
-  publisher: Scalars['String'];
-  excerpt: Scalars['String'];
-  state: Scalars['String'];
-  author: Scalars['String'];
-  sourceName: Scalars['String'];
-  imageUrl: Scalars['String'];
-  snoozedUntil?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['String']>;
   syndicationArticleId: Scalars['String'];
-  altText: Scalars['String'];
+  sourceName: Scalars['String'];
+  topic: Scalars['String'];
+  publisher: Scalars['String'];
+  sourceScore: Scalars['Float'];
+  state: Scalars['String'];
+  imageUrl: Scalars['String'];
+  excerpt: Scalars['String'];
   createdAt: Scalars['String'];
   itemId: Scalars['String'];
-  topic: Scalars['String'];
-  sourceScore: Scalars['Float'];
-  updatedAt?: Maybe<Scalars['String']>;
+  author: Scalars['String'];
+  altText: Scalars['String'];
   Feed?: Maybe<Feed>;
 };
 
@@ -112,24 +111,19 @@ export type ProspectFilter = {
   feed_id?: Maybe<Scalars['ID']>;
   url?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
-  publisher?: Maybe<Scalars['String']>;
-  excerpt?: Maybe<Scalars['String']>;
-  state?: Maybe<Scalars['String']>;
-  author?: Maybe<Scalars['String']>;
-  sourceName?: Maybe<Scalars['String']>;
-  imageUrl?: Maybe<Scalars['String']>;
-  snoozedUntil?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['String']>;
   syndicationArticleId?: Maybe<Scalars['String']>;
-  altText?: Maybe<Scalars['String']>;
+  sourceName?: Maybe<Scalars['String']>;
+  topic?: Maybe<Scalars['String']>;
+  publisher?: Maybe<Scalars['String']>;
+  sourceScore?: Maybe<Scalars['Float']>;
+  state?: Maybe<Scalars['String']>;
+  imageUrl?: Maybe<Scalars['String']>;
+  excerpt?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['String']>;
   itemId?: Maybe<Scalars['String']>;
-  topic?: Maybe<Scalars['String']>;
-  sourceScore?: Maybe<Scalars['Float']>;
-  updatedAt?: Maybe<Scalars['String']>;
-  snoozedUntil_lt?: Maybe<Scalars['Int']>;
-  snoozedUntil_lte?: Maybe<Scalars['Int']>;
-  snoozedUntil_gt?: Maybe<Scalars['Int']>;
-  snoozedUntil_gte?: Maybe<Scalars['Int']>;
+  author?: Maybe<Scalars['String']>;
+  altText?: Maybe<Scalars['String']>;
   sourceScore_lt?: Maybe<Scalars['Float']>;
   sourceScore_lte?: Maybe<Scalars['Float']>;
   sourceScore_gt?: Maybe<Scalars['Float']>;
@@ -165,20 +159,19 @@ export type MutationCreateProspectArgs = {
   feed_id: Scalars['ID'];
   url: Scalars['String'];
   title: Scalars['String'];
-  publisher: Scalars['String'];
-  excerpt: Scalars['String'];
-  state: Scalars['String'];
-  author: Scalars['String'];
-  sourceName: Scalars['String'];
-  imageUrl: Scalars['String'];
-  snoozedUntil?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['String']>;
   syndicationArticleId: Scalars['String'];
-  altText: Scalars['String'];
+  sourceName: Scalars['String'];
+  topic: Scalars['String'];
+  publisher: Scalars['String'];
+  sourceScore: Scalars['Float'];
+  state: Scalars['String'];
+  imageUrl: Scalars['String'];
+  excerpt: Scalars['String'];
   createdAt: Scalars['String'];
   itemId: Scalars['String'];
-  topic: Scalars['String'];
-  sourceScore: Scalars['Float'];
-  updatedAt?: Maybe<Scalars['String']>;
+  author: Scalars['String'];
+  altText: Scalars['String'];
 };
 
 export type MutationUpdateProspectArgs = {
@@ -186,20 +179,19 @@ export type MutationUpdateProspectArgs = {
   feed_id?: Maybe<Scalars['ID']>;
   url?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
-  publisher?: Maybe<Scalars['String']>;
-  excerpt?: Maybe<Scalars['String']>;
-  state?: Maybe<Scalars['String']>;
-  author?: Maybe<Scalars['String']>;
-  sourceName?: Maybe<Scalars['String']>;
-  imageUrl?: Maybe<Scalars['String']>;
-  snoozedUntil?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['String']>;
   syndicationArticleId?: Maybe<Scalars['String']>;
-  altText?: Maybe<Scalars['String']>;
+  sourceName?: Maybe<Scalars['String']>;
+  topic?: Maybe<Scalars['String']>;
+  publisher?: Maybe<Scalars['String']>;
+  sourceScore?: Maybe<Scalars['Float']>;
+  state?: Maybe<Scalars['String']>;
+  imageUrl?: Maybe<Scalars['String']>;
+  excerpt?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['String']>;
   itemId?: Maybe<Scalars['String']>;
-  topic?: Maybe<Scalars['String']>;
-  sourceScore?: Maybe<Scalars['Float']>;
-  updatedAt?: Maybe<Scalars['String']>;
+  author?: Maybe<Scalars['String']>;
+  altText?: Maybe<Scalars['String']>;
 };
 
 export type MutationRemoveProspectArgs = {
@@ -214,24 +206,41 @@ export type ProspectDataFragment = { __typename?: 'Prospect' } & Pick<
   | 'excerpt'
   | 'imageUrl'
   | 'publisher'
-  | 'snoozedUntil'
+  | 'state'
   | 'title'
   | 'topic'
   | 'url'
 > & { feedId: Prospect['feed_id']; source: Prospect['sourceName'] };
 
-export type ApproveProspectMutationVariables = Exact<{
+export type RejectProspectMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+export type RejectProspectMutation = { __typename?: 'Mutation' } & {
+  data?: Maybe<{ __typename?: 'Prospect' } & ProspectDataFragment>;
+};
+
+export type SnoozeProspectMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+export type SnoozeProspectMutation = { __typename?: 'Mutation' } & {
+  data?: Maybe<{ __typename?: 'Prospect' } & ProspectDataFragment>;
+};
+
+export type UpdateProspectMutationVariables = Exact<{
   id: Scalars['ID'];
   altText?: Maybe<Scalars['String']>;
   author?: Maybe<Scalars['String']>;
   excerpt: Scalars['String'];
   imageUrl?: Maybe<Scalars['String']>;
   publisher?: Maybe<Scalars['String']>;
+  state?: Maybe<Scalars['String']>;
   title: Scalars['String'];
   topic: Scalars['String'];
 }>;
 
-export type ApproveProspectMutation = { __typename?: 'Mutation' } & {
+export type UpdateProspectMutation = { __typename?: 'Mutation' } & {
   data?: Maybe<{ __typename?: 'Prospect' } & ProspectDataFragment>;
 };
 
@@ -294,7 +303,6 @@ export type GetSnoozedProspectsQueryVariables = Exact<{
   feedId: Scalars['ID'];
   page: Scalars['Int'];
   perPage: Scalars['Int'];
-  currentTimestamp: Scalars['Int'];
 }>;
 
 export type GetSnoozedProspectsQuery = { __typename?: 'Query' } & {
@@ -316,20 +324,119 @@ export const ProspectDataFragmentDoc = gql`
     imageUrl
     publisher
     source: sourceName
-    snoozedUntil
+    state
     title
     topic
     url
   }
 `;
-export const ApproveProspectDocument = gql`
-  mutation approveProspect(
+export const RejectProspectDocument = gql`
+  mutation rejectProspect($id: ID!) {
+    data: updateProspect(id: $id, state: "REJECTED") {
+      ...ProspectData
+    }
+  }
+  ${ProspectDataFragmentDoc}
+`;
+export type RejectProspectMutationFn = Apollo.MutationFunction<
+  RejectProspectMutation,
+  RejectProspectMutationVariables
+>;
+
+/**
+ * __useRejectProspectMutation__
+ *
+ * To run a mutation, you first call `useRejectProspectMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRejectProspectMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [rejectProspectMutation, { data, loading, error }] = useRejectProspectMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useRejectProspectMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    RejectProspectMutation,
+    RejectProspectMutationVariables
+  >
+): MutationTuple<RejectProspectMutation, RejectProspectMutationVariables> {
+  return Apollo.useMutation<
+    RejectProspectMutation,
+    RejectProspectMutationVariables
+  >(RejectProspectDocument, baseOptions);
+}
+export type RejectProspectMutationHookResult = ReturnType<
+  typeof useRejectProspectMutation
+>;
+export type RejectProspectMutationResult = Apollo.MutationResult<RejectProspectMutation>;
+export type RejectProspectMutationOptions = Apollo.BaseMutationOptions<
+  RejectProspectMutation,
+  RejectProspectMutationVariables
+>;
+export const SnoozeProspectDocument = gql`
+  mutation snoozeProspect($id: ID!) {
+    data: updateProspect(id: $id, state: "SNOOZED") {
+      ...ProspectData
+    }
+  }
+  ${ProspectDataFragmentDoc}
+`;
+export type SnoozeProspectMutationFn = Apollo.MutationFunction<
+  SnoozeProspectMutation,
+  SnoozeProspectMutationVariables
+>;
+
+/**
+ * __useSnoozeProspectMutation__
+ *
+ * To run a mutation, you first call `useSnoozeProspectMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSnoozeProspectMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [snoozeProspectMutation, { data, loading, error }] = useSnoozeProspectMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useSnoozeProspectMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    SnoozeProspectMutation,
+    SnoozeProspectMutationVariables
+  >
+): MutationTuple<SnoozeProspectMutation, SnoozeProspectMutationVariables> {
+  return Apollo.useMutation<
+    SnoozeProspectMutation,
+    SnoozeProspectMutationVariables
+  >(SnoozeProspectDocument, baseOptions);
+}
+export type SnoozeProspectMutationHookResult = ReturnType<
+  typeof useSnoozeProspectMutation
+>;
+export type SnoozeProspectMutationResult = Apollo.MutationResult<SnoozeProspectMutation>;
+export type SnoozeProspectMutationOptions = Apollo.BaseMutationOptions<
+  SnoozeProspectMutation,
+  SnoozeProspectMutationVariables
+>;
+export const UpdateProspectDocument = gql`
+  mutation updateProspect(
     $id: ID!
     $altText: String
     $author: String
     $excerpt: String!
     $imageUrl: String
     $publisher: String
+    $state: String
     $title: String!
     $topic: String!
   ) {
@@ -340,34 +447,32 @@ export const ApproveProspectDocument = gql`
       excerpt: $excerpt
       imageUrl: $imageUrl
       publisher: $publisher
-      snoozedUntil: null
-      state: "APPROVED"
+      state: $state
       title: $title
       topic: $topic
-      updatedAt: null
     ) {
       ...ProspectData
     }
   }
   ${ProspectDataFragmentDoc}
 `;
-export type ApproveProspectMutationFn = Apollo.MutationFunction<
-  ApproveProspectMutation,
-  ApproveProspectMutationVariables
+export type UpdateProspectMutationFn = Apollo.MutationFunction<
+  UpdateProspectMutation,
+  UpdateProspectMutationVariables
 >;
 
 /**
- * __useApproveProspectMutation__
+ * __useUpdateProspectMutation__
  *
- * To run a mutation, you first call `useApproveProspectMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useApproveProspectMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateProspectMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateProspectMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [approveProspectMutation, { data, loading, error }] = useApproveProspectMutation({
+ * const [updateProspectMutation, { data, loading, error }] = useUpdateProspectMutation({
  *   variables: {
  *      id: // value for 'id'
  *      altText: // value for 'altText'
@@ -375,29 +480,30 @@ export type ApproveProspectMutationFn = Apollo.MutationFunction<
  *      excerpt: // value for 'excerpt'
  *      imageUrl: // value for 'imageUrl'
  *      publisher: // value for 'publisher'
+ *      state: // value for 'state'
  *      title: // value for 'title'
  *      topic: // value for 'topic'
  *   },
  * });
  */
-export function useApproveProspectMutation(
+export function useUpdateProspectMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    ApproveProspectMutation,
-    ApproveProspectMutationVariables
+    UpdateProspectMutation,
+    UpdateProspectMutationVariables
   >
-): MutationTuple<ApproveProspectMutation, ApproveProspectMutationVariables> {
+): MutationTuple<UpdateProspectMutation, UpdateProspectMutationVariables> {
   return Apollo.useMutation<
-    ApproveProspectMutation,
-    ApproveProspectMutationVariables
-  >(ApproveProspectDocument, baseOptions);
+    UpdateProspectMutation,
+    UpdateProspectMutationVariables
+  >(UpdateProspectDocument, baseOptions);
 }
-export type ApproveProspectMutationHookResult = ReturnType<
-  typeof useApproveProspectMutation
+export type UpdateProspectMutationHookResult = ReturnType<
+  typeof useUpdateProspectMutation
 >;
-export type ApproveProspectMutationResult = Apollo.MutationResult<ApproveProspectMutation>;
-export type ApproveProspectMutationOptions = Apollo.BaseMutationOptions<
-  ApproveProspectMutation,
-  ApproveProspectMutationVariables
+export type UpdateProspectMutationResult = Apollo.MutationResult<UpdateProspectMutation>;
+export type UpdateProspectMutationOptions = Apollo.BaseMutationOptions<
+  UpdateProspectMutation,
+  UpdateProspectMutationVariables
 >;
 export const GetApprovedProspectsDocument = gql`
   query getApprovedProspects($feedId: ID!, $page: Int!, $perPage: Int!) {
@@ -661,18 +767,9 @@ export type GetRejectedProspectsQueryResult = Apollo.QueryResult<
   GetRejectedProspectsQueryVariables
 >;
 export const GetSnoozedProspectsDocument = gql`
-  query getSnoozedProspects(
-    $feedId: ID!
-    $page: Int!
-    $perPage: Int!
-    $currentTimestamp: Int!
-  ) {
+  query getSnoozedProspects($feedId: ID!, $page: Int!, $perPage: Int!) {
     allProspects(
-      filter: {
-        state: "PENDING"
-        snoozedUntil_gte: $currentTimestamp
-        feed_id: $feedId
-      }
+      filter: { state: "SNOOZED", feed_id: $feedId }
       page: $page
       perPage: $perPage
       sortField: "createdAt"
@@ -680,13 +777,7 @@ export const GetSnoozedProspectsDocument = gql`
     ) {
       ...ProspectData
     }
-    totals: allProspects(
-      filter: {
-        state: "PENDING"
-        snoozedUntil_gte: $currentTimestamp
-        feed_id: $feedId
-      }
-    ) {
+    totals: allProspects(filter: { state: "SNOOZED", feed_id: $feedId }) {
       id
     }
   }
@@ -708,7 +799,6 @@ export const GetSnoozedProspectsDocument = gql`
  *      feedId: // value for 'feedId'
  *      page: // value for 'page'
  *      perPage: // value for 'perPage'
- *      currentTimestamp: // value for 'currentTimestamp'
  *   },
  * });
  */

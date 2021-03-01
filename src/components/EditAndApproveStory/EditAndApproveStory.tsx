@@ -81,6 +81,11 @@ export interface EditAndApproveStoryFormData {
   publisher: string;
 
   /**
+   * The state of the prospect, i.e. 'SNOOZED'
+   */
+  state: string;
+
+  /**
    * The title of the article ("headline" on the frontend)
    */
   title: string;
@@ -89,11 +94,6 @@ export interface EditAndApproveStoryFormData {
    * The topic this article most closely fits into
    */
   topic: string;
-
-  /**
-   * The action requested: save changes and...
-   */
-  submitAction: 'snooze' | 'reject' | 'approve';
 }
 
 /**
@@ -176,27 +176,35 @@ export const EditAndApproveStory: React.FC<EditAndApproveStoryProps> = (
   };
 
   /**
-   * Append 'snooze' action name to form data so that the form handler knows
-   * which mutation to run.
+   * Append prospect state to form data when snoozing a prospect.
    */
   const onSnooze = handleSubmit((data: EditAndApproveStoryFormData): void => {
-    data.submitAction = 'snooze';
+    data.state = 'SNOOZED';
     onSubmit(data);
   });
 
   /**
-   * Append 'reject' action name to form data.
+   * Append prospect state to form data when rejecting a prospect.
    */
   const onReject = handleSubmit((data: EditAndApproveStoryFormData): void => {
-    data.submitAction = 'reject';
+    data.state = 'REJECTED';
     onSubmit(data);
   });
 
   /**
-   * Append 'approve' action name to form data.
+   * Append prospect state to form data when approving a prospect.
    */
   const onApprove = handleSubmit((data: EditAndApproveStoryFormData): void => {
-    data.submitAction = 'approve';
+    data.state = 'APPROVED';
+    onSubmit(data);
+  });
+
+  /**
+   * Append prospect state to form data; no need to update - the "Save" button is used
+   * to save changes to prospects that have already been approved.
+   */
+  const onSave = handleSubmit((data: EditAndApproveStoryFormData): void => {
+    data.state = prospect.state;
     onSubmit(data);
   });
 
@@ -457,23 +465,34 @@ export const EditAndApproveStory: React.FC<EditAndApproveStoryProps> = (
         </Grid>
 
         <Grid item xs={12} className={classes.alignRight}>
-          <Box display="inline">
-            <Button buttonType="negative" type="submit" onClick={onReject}>
-              Reject
-            </Button>
-          </Box>
+          {prospect.state !== 'APPROVED' && (
+            <>
+              <Box display="inline">
+                <Button buttonType="negative" type="submit" onClick={onReject}>
+                  Reject
+                </Button>
+              </Box>
 
-          <Box display="inline" ml={1}>
-            <Button buttonType="neutral" type="submit" onClick={onSnooze}>
-              Snooze
-            </Button>
-          </Box>
+              <Box display="inline" ml={1}>
+                <Button buttonType="neutral" type="submit" onClick={onSnooze}>
+                  Snooze
+                </Button>
+              </Box>
 
-          <Box display="inline" ml={1}>
-            <Button buttonType="positive" type="submit" onClick={onApprove}>
-              Approve
-            </Button>
-          </Box>
+              <Box display="inline" ml={1}>
+                <Button buttonType="positive" type="submit" onClick={onApprove}>
+                  Approve
+                </Button>
+              </Box>
+            </>
+          )}
+          {prospect.state === 'APPROVED' && (
+            <Box display="inline" ml={1}>
+              <Button buttonType="positive" type="submit" onClick={onSave}>
+                Save
+              </Button>
+            </Box>
+          )}
         </Grid>
       </Grid>
     </form>

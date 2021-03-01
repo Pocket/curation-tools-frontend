@@ -21,6 +21,7 @@ export const useGetPendingProspects = (
   vars: ProspectVariables
 ): PendingProspectsData => {
   const pageNumber = vars.page > 0 ? vars.page - 1 : 0;
+
   const variables = {
     ...vars,
     page: pageNumber,

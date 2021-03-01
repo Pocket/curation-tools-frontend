@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { TabContents } from './TabContents';
 import { ProspectListData } from '../../models';
+import { MockedProvider } from '@apollo/client/testing';
 
 describe('The TabContents component', () => {
   it('renders with pagination', () => {
@@ -17,7 +18,7 @@ describe('The TabContents component', () => {
           imageUrl: 'https://test.com/image.jpeg',
           publisher: 'Test publisher',
           source: 'Syndication',
-          snoozedUntil: null,
+          state: 'PENDING',
           title: 'Test title',
           topic: 'Health',
           url: 'https://test.com/test-title/',
@@ -31,7 +32,7 @@ describe('The TabContents component', () => {
           imageUrl: 'https://test.com/image2.jpeg',
           publisher: 'Test publisher 2',
           source: 'Syndication',
-          snoozedUntil: null,
+          state: 'PENDING',
           title: 'Test title 2',
           topic: 'Art',
           url: 'https://test.com/test-title-2/',
@@ -47,17 +48,20 @@ describe('The TabContents component', () => {
     };
 
     render(
-      <MemoryRouter>
-        <TabContents
-          basePath={'/prospects/snoozed/'}
-          currentTab={'/prospects/snoozed/'}
-          heading="Snoozed"
-          type="snoozed"
-          loading={false}
-          error={undefined}
-          data={data}
-        />
-      </MemoryRouter>
+      <MockedProvider>
+        <MemoryRouter>
+          <TabContents
+            basePath="/prospects/"
+            currentTab="/prospects/snoozed/"
+            heading="Snoozed"
+            tabPath="/prospects/snoozed/"
+            type="snoozed"
+            loading={false}
+            error={undefined}
+            data={data}
+          />
+        </MemoryRouter>
+      </MockedProvider>
     );
 
     // there's a heading

@@ -2,16 +2,17 @@ import { gql } from '@apollo/client';
 import { ProspectData } from '../fragments/ProspectData';
 
 /**
- * Update a prospect's properties; set state to APPROVED
+ * Update a prospect's properties, including state.
  */
-export const approveProspect = gql`
-  mutation approveProspect(
+export const updateProspect = gql`
+  mutation updateProspect(
     $id: ID!
     $altText: String
     $author: String
     $excerpt: String!
     $imageUrl: String
     $publisher: String
+    $state: String
     $title: String!
     $topic: String!
   ) {
@@ -22,11 +23,9 @@ export const approveProspect = gql`
       excerpt: $excerpt
       imageUrl: $imageUrl
       publisher: $publisher
-      snoozedUntil: null
-      state: "APPROVED"
+      state: $state
       title: $title
       topic: $topic
-      updatedAt: null
     ) {
       ...ProspectData
     }

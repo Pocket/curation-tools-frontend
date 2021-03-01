@@ -13,7 +13,7 @@ export const ProspectData = gql`
     imageUrl
     publisher
     source: sourceName
-    snoozedUntil
+    state
     title
     topic
     url
