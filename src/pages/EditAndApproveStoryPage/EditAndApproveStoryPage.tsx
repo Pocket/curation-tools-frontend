@@ -81,7 +81,7 @@ export const EditAndApproveStoryPage: React.FC<EditAndApproveStoryPageProps> = (
    * it must be placed in the body of the component rather than in the handleSubmit()
    * function.
    */
-  const { updateProspect } = useUpdateProspect();
+  const updateProspect = useUpdateProspect();
 
   /**
    * Collect form data, choose action and send it off to the API

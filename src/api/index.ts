@@ -16,9 +16,12 @@ const useGetPendingProspects = process.env.REACT_APP_USE_POCKET_API
 const useGetSnoozedProspects = localAPI.useGetSnoozedProspects;
 const useGetRejectedProspects = localAPI.useGetRejectedProspects;
 const useGetApprovedProspects = localAPI.useGetApprovedProspects;
+const useGetLiveProspects = localAPI.useGetLiveProspects;
+const useGetScheduledProspects = localAPI.useGetScheduledProspects;
 const useSnoozeProspect = localAPI.useSnoozeProspect;
 const useRejectProspect = localAPI.useRejectProspect;
 const useUpdateProspect = localAPI.useUpdateProspect;
+const useRemoveProspect = localAPI.useRemoveProspect;
 const getMutationOptions = localAPI.getMutationOptions;
 
 const useCreateProspectByUrl = process.env.REACT_APP_USE_POCKET_API
@@ -32,9 +35,12 @@ export {
   useGetSnoozedProspects,
   useGetRejectedProspects,
   useGetApprovedProspects,
+  useGetLiveProspects,
+  useGetScheduledProspects,
   useCreateProspectByUrl,
   useSnoozeProspect,
   useRejectProspect,
   useUpdateProspect,
+  useRemoveProspect,
   getMutationOptions,
 };

@@ -5,7 +5,11 @@ export interface Prospect {
   excerpt: string;
   feedId: string;
   imageUrl: string;
+  isLive: boolean;
+  isRemoved: boolean;
+  isScheduled: boolean;
   publisher: string;
+  removalReason: string | null;
   source: string;
   state: string;
   title: string;

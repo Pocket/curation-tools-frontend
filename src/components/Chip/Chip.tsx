@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     cursor: 'pointer',
     fontSize: '1rem',
     fontWeight: 'bold',
+    marginLeft: '0.5rem',
   },
   /**
    * Chip on the active tab: bright blue just like the tab label.

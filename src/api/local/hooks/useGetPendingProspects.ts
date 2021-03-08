@@ -45,7 +45,7 @@ export const useGetPendingProspects = (
       vars.page,
       vars.perPage,
       totalResults,
-      'prospects',
+      '',
       'prospects'
     );
 

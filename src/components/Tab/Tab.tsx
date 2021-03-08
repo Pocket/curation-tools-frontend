@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme: Theme) => ({
    * alongside the label.
    */
   wrapper: {
-    width: '60%',
+    width: 'auto',
   },
 }));
 

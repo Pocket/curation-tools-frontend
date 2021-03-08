@@ -3,6 +3,35 @@ const fs = require('fs');
 jsf.extend('faker', () => {
   const faker = require('faker');
 
+  /**
+   * Set state, isLive and isScheduled flags here as they depend on each other:
+   * the flags are only valid for APPROVED prospects and cannot both be true
+   * at the same time.
+   */
+  let prospectState = '';
+  let isLive = false;
+  let isScheduled = false;
+
+  /**
+   * Set available feed names here so that they can be used in the function below.
+   */
+  const feedNames = ['en-US', 'en-GB', 'de-DE'];
+  const feedNamesTaken = [];
+  /**
+   * Make sure each feed name appears in the generated data exactly once.
+   */
+  const generateUniqueFeedName = () => {
+    let feedName = faker.random.arrayElement(feedNames);
+
+    if (feedNamesTaken.includes(feedName)) {
+      feedName = generateUniqueFeedName();
+    }
+
+    feedNamesTaken.push(feedName);
+
+    return feedName;
+  };
+
   faker.custom = {
     imageUrl: () => {
       const random = Math.round(Math.random() * 1000);
@@ -29,6 +58,40 @@ jsf.extend('faker', () => {
         null,
         faker.date.recent(0).toISOString(),
       ]);
+    },
+    prospectState: () => {
+      // Weighing this heavily in favour of approved prospects
+      prospectState = faker.random.arrayElement([
+        'PENDING',
+        'SNOOZED',
+        'REJECTED',
+        'APPROVED',
+        'APPROVED',
+        'APPROVED',
+      ]);
+
+      return prospectState;
+    },
+    isLive: () => {
+      isLive = false;
+
+      if (prospectState === 'APPROVED') {
+        isLive = faker.random.arrayElement([true, false, false, false]);
+      }
+
+      return isLive;
+    },
+    isScheduled: () => {
+      isScheduled = false;
+
+      if (prospectState === 'APPROVED') {
+        isScheduled = !isLive;
+      }
+
+      return isScheduled;
+    },
+    feedName: () => {
+      return generateUniqueFeedName();
     },
   };
 
@@ -68,7 +131,7 @@ const schema = {
         },
         name: {
           type: 'string',
-          enum: ['en-US', 'en-GB', 'de-DE'],
+          faker: 'custom.feedName',
         },
       },
     },
@@ -86,14 +149,7 @@ const schema = {
         },
         state: {
           type: 'string',
-          enum: [
-            'PENDING',
-            'SNOOZED',
-            'REJECTED',
-            'APPROVED', // There should be many more approved prospects in the archives than
-            'APPROVED', // pending or rejected ones.
-            'APPROVED',
-          ],
+          faker: 'custom.prospectState',
         },
         url: {
           type: 'string',
@@ -163,6 +219,31 @@ const schema = {
         syndicationArticleId: {
           type: 'string',
           faker: 'random.hexaDecimal',
+        },
+        isLive: {
+          type: 'boolean',
+          faker: 'custom.isLive',
+        },
+        isScheduled: {
+          type: 'boolean',
+          faker: 'custom.isScheduled',
+        },
+        /**
+         * There should only be very few entries that have had to be removed from
+         * the live feed. Defaults to false for all prospects; to test the relevant
+         * functionality, update this flag on the frontend by removing an entry from
+         * the New Tab page.
+         */
+        isRemoved: {
+          type: 'boolean',
+          enum: [false],
+        },
+        /**
+         * Same as above - this should be empty for all but a handful of prospects.
+         */
+        removalReason: {
+          type: 'string',
+          enum: [null],
         },
         createdAt: {
           type: 'string',

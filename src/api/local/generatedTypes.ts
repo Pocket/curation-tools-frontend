@@ -76,19 +76,23 @@ export type Prospect = {
   feed_id: Scalars['ID'];
   url: Scalars['String'];
   title: Scalars['String'];
-  updatedAt?: Maybe<Scalars['String']>;
-  syndicationArticleId: Scalars['String'];
-  sourceName: Scalars['String'];
-  topic: Scalars['String'];
-  publisher: Scalars['String'];
-  sourceScore: Scalars['Float'];
-  state: Scalars['String'];
-  imageUrl: Scalars['String'];
-  excerpt: Scalars['String'];
-  createdAt: Scalars['String'];
-  itemId: Scalars['String'];
-  author: Scalars['String'];
   altText: Scalars['String'];
+  author: Scalars['String'];
+  updatedAt?: Maybe<Scalars['String']>;
+  imageUrl: Scalars['String'];
+  publisher: Scalars['String'];
+  isLive: Scalars['Boolean'];
+  syndicationArticleId: Scalars['String'];
+  sourceScore: Scalars['Float'];
+  removalReason?: Maybe<Scalars['String']>;
+  topic: Scalars['String'];
+  isScheduled: Scalars['Boolean'];
+  isRemoved: Scalars['Boolean'];
+  itemId: Scalars['String'];
+  sourceName: Scalars['String'];
+  state: Scalars['String'];
+  createdAt: Scalars['String'];
+  excerpt: Scalars['String'];
   Feed?: Maybe<Feed>;
 };
 
@@ -111,19 +115,23 @@ export type ProspectFilter = {
   feed_id?: Maybe<Scalars['ID']>;
   url?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['String']>;
-  syndicationArticleId?: Maybe<Scalars['String']>;
-  sourceName?: Maybe<Scalars['String']>;
-  topic?: Maybe<Scalars['String']>;
-  publisher?: Maybe<Scalars['String']>;
-  sourceScore?: Maybe<Scalars['Float']>;
-  state?: Maybe<Scalars['String']>;
-  imageUrl?: Maybe<Scalars['String']>;
-  excerpt?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['String']>;
-  itemId?: Maybe<Scalars['String']>;
-  author?: Maybe<Scalars['String']>;
   altText?: Maybe<Scalars['String']>;
+  author?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['String']>;
+  imageUrl?: Maybe<Scalars['String']>;
+  publisher?: Maybe<Scalars['String']>;
+  isLive?: Maybe<Scalars['Boolean']>;
+  syndicationArticleId?: Maybe<Scalars['String']>;
+  sourceScore?: Maybe<Scalars['Float']>;
+  removalReason?: Maybe<Scalars['String']>;
+  topic?: Maybe<Scalars['String']>;
+  isScheduled?: Maybe<Scalars['Boolean']>;
+  isRemoved?: Maybe<Scalars['Boolean']>;
+  itemId?: Maybe<Scalars['String']>;
+  sourceName?: Maybe<Scalars['String']>;
+  state?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['String']>;
+  excerpt?: Maybe<Scalars['String']>;
   sourceScore_lt?: Maybe<Scalars['Float']>;
   sourceScore_lte?: Maybe<Scalars['Float']>;
   sourceScore_gt?: Maybe<Scalars['Float']>;
@@ -159,19 +167,23 @@ export type MutationCreateProspectArgs = {
   feed_id: Scalars['ID'];
   url: Scalars['String'];
   title: Scalars['String'];
-  updatedAt?: Maybe<Scalars['String']>;
-  syndicationArticleId: Scalars['String'];
-  sourceName: Scalars['String'];
-  topic: Scalars['String'];
-  publisher: Scalars['String'];
-  sourceScore: Scalars['Float'];
-  state: Scalars['String'];
-  imageUrl: Scalars['String'];
-  excerpt: Scalars['String'];
-  createdAt: Scalars['String'];
-  itemId: Scalars['String'];
-  author: Scalars['String'];
   altText: Scalars['String'];
+  author: Scalars['String'];
+  updatedAt?: Maybe<Scalars['String']>;
+  imageUrl: Scalars['String'];
+  publisher: Scalars['String'];
+  isLive: Scalars['Boolean'];
+  syndicationArticleId: Scalars['String'];
+  sourceScore: Scalars['Float'];
+  removalReason?: Maybe<Scalars['String']>;
+  topic: Scalars['String'];
+  isScheduled: Scalars['Boolean'];
+  isRemoved: Scalars['Boolean'];
+  itemId: Scalars['String'];
+  sourceName: Scalars['String'];
+  state: Scalars['String'];
+  createdAt: Scalars['String'];
+  excerpt: Scalars['String'];
 };
 
 export type MutationUpdateProspectArgs = {
@@ -179,19 +191,23 @@ export type MutationUpdateProspectArgs = {
   feed_id?: Maybe<Scalars['ID']>;
   url?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['String']>;
-  syndicationArticleId?: Maybe<Scalars['String']>;
-  sourceName?: Maybe<Scalars['String']>;
-  topic?: Maybe<Scalars['String']>;
-  publisher?: Maybe<Scalars['String']>;
-  sourceScore?: Maybe<Scalars['Float']>;
-  state?: Maybe<Scalars['String']>;
-  imageUrl?: Maybe<Scalars['String']>;
-  excerpt?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['String']>;
-  itemId?: Maybe<Scalars['String']>;
-  author?: Maybe<Scalars['String']>;
   altText?: Maybe<Scalars['String']>;
+  author?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['String']>;
+  imageUrl?: Maybe<Scalars['String']>;
+  publisher?: Maybe<Scalars['String']>;
+  isLive?: Maybe<Scalars['Boolean']>;
+  syndicationArticleId?: Maybe<Scalars['String']>;
+  sourceScore?: Maybe<Scalars['Float']>;
+  removalReason?: Maybe<Scalars['String']>;
+  topic?: Maybe<Scalars['String']>;
+  isScheduled?: Maybe<Scalars['Boolean']>;
+  isRemoved?: Maybe<Scalars['Boolean']>;
+  itemId?: Maybe<Scalars['String']>;
+  sourceName?: Maybe<Scalars['String']>;
+  state?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['String']>;
+  excerpt?: Maybe<Scalars['String']>;
 };
 
 export type MutationRemoveProspectArgs = {
@@ -205,7 +221,11 @@ export type ProspectDataFragment = { __typename?: 'Prospect' } & Pick<
   | 'author'
   | 'excerpt'
   | 'imageUrl'
+  | 'isLive'
+  | 'isRemoved'
+  | 'isScheduled'
   | 'publisher'
+  | 'removalReason'
   | 'state'
   | 'title'
   | 'topic'
@@ -218,6 +238,20 @@ export type RejectProspectMutationVariables = Exact<{
 
 export type RejectProspectMutation = { __typename?: 'Mutation' } & {
   data?: Maybe<{ __typename?: 'Prospect' } & ProspectDataFragment>;
+};
+
+export type RemoveProspectMutationVariables = Exact<{
+  id: Scalars['ID'];
+  removalReason: Scalars['String'];
+}>;
+
+export type RemoveProspectMutation = { __typename?: 'Mutation' } & {
+  data?: Maybe<
+    { __typename?: 'Prospect' } & Pick<
+      Prospect,
+      'id' | 'title' | 'isRemoved' | 'removalReason'
+    >
+  >;
 };
 
 export type SnoozeProspectMutationVariables = Exact<{
@@ -269,6 +303,21 @@ export type GetCurrentFeedQuery = { __typename?: 'Query' } & {
   >;
 };
 
+export type GetLiveProspectsQueryVariables = Exact<{
+  feedId: Scalars['ID'];
+  page: Scalars['Int'];
+  perPage: Scalars['Int'];
+}>;
+
+export type GetLiveProspectsQuery = { __typename?: 'Query' } & {
+  allProspects?: Maybe<
+    Array<Maybe<{ __typename?: 'Prospect' } & ProspectDataFragment>>
+  >;
+  totals?: Maybe<
+    Array<Maybe<{ __typename?: 'Prospect' } & Pick<Prospect, 'id'>>>
+  >;
+};
+
 export type GetPendingProspectsQueryVariables = Exact<{
   feedId: Scalars['ID'];
   page: Scalars['Int'];
@@ -291,6 +340,21 @@ export type GetRejectedProspectsQueryVariables = Exact<{
 }>;
 
 export type GetRejectedProspectsQuery = { __typename?: 'Query' } & {
+  allProspects?: Maybe<
+    Array<Maybe<{ __typename?: 'Prospect' } & ProspectDataFragment>>
+  >;
+  totals?: Maybe<
+    Array<Maybe<{ __typename?: 'Prospect' } & Pick<Prospect, 'id'>>>
+  >;
+};
+
+export type GetScheduledProspectsQueryVariables = Exact<{
+  feedId: Scalars['ID'];
+  page: Scalars['Int'];
+  perPage: Scalars['Int'];
+}>;
+
+export type GetScheduledProspectsQuery = { __typename?: 'Query' } & {
   allProspects?: Maybe<
     Array<Maybe<{ __typename?: 'Prospect' } & ProspectDataFragment>>
   >;
@@ -322,7 +386,11 @@ export const ProspectDataFragmentDoc = gql`
     excerpt
     feedId: feed_id
     imageUrl
+    isLive
+    isRemoved
+    isScheduled
     publisher
+    removalReason
     source: sourceName
     state
     title
@@ -378,6 +446,62 @@ export type RejectProspectMutationResult = Apollo.MutationResult<RejectProspectM
 export type RejectProspectMutationOptions = Apollo.BaseMutationOptions<
   RejectProspectMutation,
   RejectProspectMutationVariables
+>;
+export const RemoveProspectDocument = gql`
+  mutation removeProspect($id: ID!, $removalReason: String!) {
+    data: updateProspect(
+      id: $id
+      isRemoved: true
+      removalReason: $removalReason
+    ) {
+      id
+      title
+      isRemoved
+      removalReason
+    }
+  }
+`;
+export type RemoveProspectMutationFn = Apollo.MutationFunction<
+  RemoveProspectMutation,
+  RemoveProspectMutationVariables
+>;
+
+/**
+ * __useRemoveProspectMutation__
+ *
+ * To run a mutation, you first call `useRemoveProspectMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemoveProspectMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removeProspectMutation, { data, loading, error }] = useRemoveProspectMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      removalReason: // value for 'removalReason'
+ *   },
+ * });
+ */
+export function useRemoveProspectMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    RemoveProspectMutation,
+    RemoveProspectMutationVariables
+  >
+): MutationTuple<RemoveProspectMutation, RemoveProspectMutationVariables> {
+  return Apollo.useMutation<
+    RemoveProspectMutation,
+    RemoveProspectMutationVariables
+  >(RemoveProspectDocument, baseOptions);
+}
+export type RemoveProspectMutationHookResult = ReturnType<
+  typeof useRemoveProspectMutation
+>;
+export type RemoveProspectMutationResult = Apollo.MutationResult<RemoveProspectMutation>;
+export type RemoveProspectMutationOptions = Apollo.BaseMutationOptions<
+  RemoveProspectMutation,
+  RemoveProspectMutationVariables
 >;
 export const SnoozeProspectDocument = gql`
   mutation snoozeProspect($id: ID!) {
@@ -630,6 +754,76 @@ export type GetCurrentFeedQueryResult = Apollo.QueryResult<
   GetCurrentFeedQuery,
   GetCurrentFeedQueryVariables
 >;
+export const GetLiveProspectsDocument = gql`
+  query getLiveProspects($feedId: ID!, $page: Int!, $perPage: Int!) {
+    allProspects(
+      filter: { state: "APPROVED", feed_id: $feedId, isLive: true }
+      page: $page
+      perPage: $perPage
+      sortField: "createdAt"
+      sortOrder: "DESC"
+    ) {
+      ...ProspectData
+    }
+    totals: allProspects(
+      filter: { state: "APPROVED", feed_id: $feedId, isLive: true }
+    ) {
+      id
+    }
+  }
+  ${ProspectDataFragmentDoc}
+`;
+
+/**
+ * __useGetLiveProspectsQuery__
+ *
+ * To run a query within a React component, call `useGetLiveProspectsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetLiveProspectsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetLiveProspectsQuery({
+ *   variables: {
+ *      feedId: // value for 'feedId'
+ *      page: // value for 'page'
+ *      perPage: // value for 'perPage'
+ *   },
+ * });
+ */
+export function useGetLiveProspectsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetLiveProspectsQuery,
+    GetLiveProspectsQueryVariables
+  >
+): QueryResult<GetLiveProspectsQuery, GetLiveProspectsQueryVariables> {
+  return Apollo.useQuery<GetLiveProspectsQuery, GetLiveProspectsQueryVariables>(
+    GetLiveProspectsDocument,
+    baseOptions
+  );
+}
+export function useGetLiveProspectsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetLiveProspectsQuery,
+    GetLiveProspectsQueryVariables
+  >
+): QueryTuple<GetLiveProspectsQuery, GetLiveProspectsQueryVariables> {
+  return Apollo.useLazyQuery<
+    GetLiveProspectsQuery,
+    GetLiveProspectsQueryVariables
+  >(GetLiveProspectsDocument, baseOptions);
+}
+export type GetLiveProspectsQueryHookResult = ReturnType<
+  typeof useGetLiveProspectsQuery
+>;
+export type GetLiveProspectsLazyQueryHookResult = ReturnType<
+  typeof useGetLiveProspectsLazyQuery
+>;
+export type GetLiveProspectsQueryResult = Apollo.QueryResult<
+  GetLiveProspectsQuery,
+  GetLiveProspectsQueryVariables
+>;
 export const GetPendingProspectsDocument = gql`
   query getPendingProspects($feedId: ID!, $page: Int!, $perPage: Int!) {
     allProspects(
@@ -765,6 +959,79 @@ export type GetRejectedProspectsLazyQueryHookResult = ReturnType<
 export type GetRejectedProspectsQueryResult = Apollo.QueryResult<
   GetRejectedProspectsQuery,
   GetRejectedProspectsQueryVariables
+>;
+export const GetScheduledProspectsDocument = gql`
+  query getScheduledProspects($feedId: ID!, $page: Int!, $perPage: Int!) {
+    allProspects(
+      filter: { state: "APPROVED", feed_id: $feedId, isScheduled: true }
+      page: $page
+      perPage: $perPage
+      sortField: "createdAt"
+      sortOrder: "DESC"
+    ) {
+      ...ProspectData
+    }
+    totals: allProspects(
+      filter: { state: "APPROVED", feed_id: $feedId, isScheduled: true }
+    ) {
+      id
+    }
+  }
+  ${ProspectDataFragmentDoc}
+`;
+
+/**
+ * __useGetScheduledProspectsQuery__
+ *
+ * To run a query within a React component, call `useGetScheduledProspectsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetScheduledProspectsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetScheduledProspectsQuery({
+ *   variables: {
+ *      feedId: // value for 'feedId'
+ *      page: // value for 'page'
+ *      perPage: // value for 'perPage'
+ *   },
+ * });
+ */
+export function useGetScheduledProspectsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetScheduledProspectsQuery,
+    GetScheduledProspectsQueryVariables
+  >
+): QueryResult<
+  GetScheduledProspectsQuery,
+  GetScheduledProspectsQueryVariables
+> {
+  return Apollo.useQuery<
+    GetScheduledProspectsQuery,
+    GetScheduledProspectsQueryVariables
+  >(GetScheduledProspectsDocument, baseOptions);
+}
+export function useGetScheduledProspectsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetScheduledProspectsQuery,
+    GetScheduledProspectsQueryVariables
+  >
+): QueryTuple<GetScheduledProspectsQuery, GetScheduledProspectsQueryVariables> {
+  return Apollo.useLazyQuery<
+    GetScheduledProspectsQuery,
+    GetScheduledProspectsQueryVariables
+  >(GetScheduledProspectsDocument, baseOptions);
+}
+export type GetScheduledProspectsQueryHookResult = ReturnType<
+  typeof useGetScheduledProspectsQuery
+>;
+export type GetScheduledProspectsLazyQueryHookResult = ReturnType<
+  typeof useGetScheduledProspectsLazyQuery
+>;
+export type GetScheduledProspectsQueryResult = Apollo.QueryResult<
+  GetScheduledProspectsQuery,
+  GetScheduledProspectsQueryVariables
 >;
 export const GetSnoozedProspectsDocument = gql`
   query getSnoozedProspects($feedId: ID!, $page: Int!, $perPage: Int!) {

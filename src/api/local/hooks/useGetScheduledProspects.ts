@@ -4,21 +4,21 @@ import {
   ApiCallStates,
 } from '../../../models';
 import {
-  GetRejectedProspectsQueryVariables,
-  useGetRejectedProspectsQuery,
+  GetScheduledProspectsQueryVariables,
+  useGetScheduledProspectsQuery,
 } from '../generatedTypes';
 import { getPageUrls } from '../utils';
 
-export const useGetRejectedProspects = (
+export const useGetScheduledProspects = (
   vars: ProspectVariables
 ): ApiCallStates & ProspectListData => {
   const pageNumber = vars.page > 0 ? vars.page - 1 : 0;
   const variables = {
     ...vars,
     page: pageNumber,
-  } as GetRejectedProspectsQueryVariables;
+  } as GetScheduledProspectsQueryVariables;
 
-  const { loading, error, data: result } = useGetRejectedProspectsQuery({
+  const { loading, error, data: result } = useGetScheduledProspectsQuery({
     variables,
   });
 
@@ -32,7 +32,7 @@ export const useGetRejectedProspects = (
       vars.perPage,
       totalResults,
       '',
-      'prospects/rejected'
+      'newtab/scheduled'
     );
 
     data = {

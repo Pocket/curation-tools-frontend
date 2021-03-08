@@ -2,12 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { Box, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import {
-  AddStory,
-  AddStoryFormData,
-  Button,
-  HandleApiResponse,
-} from '../../components';
+import { AddStory, AddStoryFormData, Button } from '../../components';
 import { Feed } from '../../models';
 import { useCreateProspectByUrl } from '../../api';
 
@@ -40,7 +35,7 @@ export const AddStoryPage = ({
   };
 
   // prepare mutation
-  const { createProspect, loading, error } = useCreateProspectByUrl();
+  const createProspect = useCreateProspectByUrl();
 
   /**
    * Collect form data and send it to the API.
@@ -84,7 +79,6 @@ export const AddStoryPage = ({
         </Grid>
       </Box>
       <AddStory onSubmit={handleFormSubmit} />
-      <HandleApiResponse loading={loading} error={error} />
     </>
   );
 };
