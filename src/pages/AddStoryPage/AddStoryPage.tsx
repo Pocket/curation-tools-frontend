@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Box, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { AddStory, AddStoryFormData, Button } from '../../components';
+import {
+  AddStory,
+  AddStoryFormData,
+  Button,
+  Notification,
+} from '../../components';
 import { Feed } from '../../models';
 import { useCreateProspectByUrl } from '../../api';
 
@@ -26,12 +31,36 @@ export const AddStoryPage = ({
   const classes = useStyles();
   const history = useHistory();
 
+  const [open, setOpen] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>('');
+  const [hasError, setHasError] = useState<boolean>(false);
+
   /**
    * Go back to previous page if there is anything to go back to,
    * otherwise go to home page.
    */
   const handleCancelAction = () => {
     history.length > 1 ? history.goBack() : history.push('/');
+  };
+
+  /**
+   * Close the toast notification
+   */
+  const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  };
+
+  /**
+   * Show a notification to the user whether the action (such as snoozing a prospect)
+   * has completed successfully.
+   */
+  const showNotification = (message: string, isError: boolean) => {
+    setHasError(isError);
+    setMessage(message);
+    setOpen(true);
   };
 
   // prepare mutation
@@ -56,9 +85,8 @@ export const AddStoryPage = ({
           { prospect: data.data?.data }
         );
       })
-      .catch(() => {
-        // Do nothing. The errors are already destructured and shown on the frontend
-        // Yet if a catch() statement is missing an "Unhandled rejection" will break through
+      .catch((error: Error) => {
+        showNotification(error.message, true);
       });
   };
 
@@ -79,6 +107,12 @@ export const AddStoryPage = ({
         </Grid>
       </Box>
       <AddStory onSubmit={handleFormSubmit} />
+      <Notification
+        handleClose={handleClose}
+        isOpen={open}
+        message={message}
+        type={hasError ? 'error' : 'success'}
+      />
     </>
   );
 };

@@ -76,7 +76,7 @@ export const NewTabPage = ({
     page: currentPage,
   };
 
-  // Load love prospects
+  // Load live prospects
   const {
     loading: loadingLive,
     error: errorLive,

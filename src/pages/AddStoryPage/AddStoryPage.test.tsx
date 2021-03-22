@@ -18,7 +18,7 @@ describe('The AddStory page', () => {
     testUrl = 'https://www.mozilla.org/en-US/';
   });
 
-  xit('shows an error if the API call was unsuccessful', async () => {
+  it('shows an error if the API call was unsuccessful', async () => {
     const mocksWithError = [
       {
         request: {
