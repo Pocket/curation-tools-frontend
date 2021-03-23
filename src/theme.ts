@@ -44,6 +44,15 @@ const theme: Theme = createMuiTheme({
       '"Segoe UI Symbol"',
     ].join(','),
   },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 960,
+      lg: 1024,
+      xl: 1280,
+    },
+  },
 });
 
 theme.props = {

@@ -1,9 +1,24 @@
 import React, { useState } from 'react';
-import { Tabs, Tab } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import {
+  Tabs,
+  Tab,
+  Grid,
+  Container,
+  AppBar,
+  Hidden,
+  IconButton,
+  FormControl,
+  MenuItem,
+  Select,
+  OutlinedInput,
+} from '@material-ui/core';
+import MenuIcon from '@material-ui/icons/Menu';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 import { Link, useLocation } from 'react-router-dom';
-import { Button } from '../';
+import { curationPalette } from '../../theme';
+import { Button } from '../Button/Button';
 import pocketLogo from '../../assets/PKTLogoRounded_RGB.png';
+import pocketShield from '../../assets/pocket-shield.svg';
 import { Feed } from '../../models';
 
 /**
@@ -12,7 +27,25 @@ import { Feed } from '../../models';
 const GRADIENT =
   'linear-gradient(to right, #22b3a9, #49ad7b, #77a24a, #a29123, #ca7721, #da6f2e, #e8663d, #f45d4e, #f86e49, #fa7f46, #fa9045, #faa046)';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme: Theme) => ({
+  appBar: {
+    padding: '0.75rem 0',
+    backgroundColor: curationPalette.white,
+    boxShadow: '0px 4px 10px rgba(148, 148, 148, 0.3)',
+    [theme.breakpoints.down('sm')]: {
+      padding: 0,
+    },
+    [theme.breakpoints.up('md')]: {
+      padding: '0.75rem 0',
+    },
+  },
+  logo: {
+    width: '150px',
+  },
+  logoMobile: {
+    width: '20px',
+    paddingTop: '4px',
+  },
   body: {
     margin: 0,
     padding: 0,
@@ -30,9 +63,7 @@ const useStyles = makeStyles({
     paddingLeft: '10px',
     height: '70px',
   },
-  logo: {
-    width: '130px',
-  },
+
   leftContent: {
     display: 'flex',
     alignItems: 'center',
@@ -60,7 +91,36 @@ const useStyles = makeStyles({
   '&$selected': {
     color: '#black',
   },
-});
+}));
+
+const useFeedSelectStyles = makeStyles((theme: Theme) => ({
+  root: {
+    textTransform: 'uppercase',
+    fontWeight: 'bold',
+    color: theme.palette.grey['700'],
+  },
+  nativeInput: {
+    color: 'red',
+  },
+}));
+
+const useOutlinedInputStyles = makeStyles((theme) => ({
+  root: {
+    '& $notchedOutline': {
+      border: 'none',
+    },
+    '&:hover $notchedOutline': {
+      border: 'none',
+    },
+    '&$focused $notchedOutline': {
+      border: 'none',
+    },
+  },
+  focused: {
+    backgroundColor: 'inherit',
+  },
+  notchedOutline: {},
+}));
 
 interface HeaderProps {
   feed: Feed | undefined;
@@ -73,6 +133,8 @@ interface HeaderProps {
  */
 export const Header: React.FC<HeaderProps> = (props): JSX.Element => {
   const classes = useStyles();
+  const feedSelectClasses = useFeedSelectStyles();
+  const outlinedInputClasses = useOutlinedInputStyles();
   const { pathname } = useLocation();
   const currentFeed = props.feed?.name;
 
@@ -97,60 +159,121 @@ export const Header: React.FC<HeaderProps> = (props): JSX.Element => {
   };
 
   return (
-    <div className={classes.wrapper}>
-      <div className={classes.mainContainer}>
-        <div className={classes.leftContent}>
-          <img className={classes.logo} src={pocketLogo} alt="pocket-logo" />
-          {/* TODO: use `feeds` prop to display dropdown with available feeds if more than one is available */}
-          <p className={classes.locale}>{currentFeed}</p>
-        </div>
-        <div className={classes.rightContent}>
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            indicatorColor="primary"
-            textColor="primary"
-            style={{
-              display: 'flex',
-              alignSelf: 'flex-end',
-              height: '55px',
-            }}
-            centered
-            TabIndicatorProps={{
-              style: {
-                background: GRADIENT,
+    <>
+      <AppBar className={classes.appBar} position="absolute">
+        <Container maxWidth="lg" disableGutters>
+          <Grid
+            container
+            direction="row"
+            justify="flex-start"
+            alignItems="center"
+          >
+            <Hidden smDown implementation="css">
+              <Grid item sm={2}>
+                <Link to="/">
+                  <img
+                    className={classes.logo}
+                    src={pocketLogo}
+                    alt="Home Page"
+                  />
+                </Link>
+              </Grid>
+            </Hidden>
+
+            <Hidden mdUp implementation="css">
+              <Grid item xs={1}>
+                <IconButton aria-label="menu">
+                  <MenuIcon fontSize="large" />
+                </IconButton>
+              </Grid>
+            </Hidden>
+            <Hidden mdUp implementation="css">
+              <Grid item xs={1}>
+                <img className={classes.logoMobile} src={pocketShield} />
+              </Grid>
+            </Hidden>
+            <Grid item xs={4} sm={3}>
+              <FormControl variant="outlined" hiddenLabel>
+                <Select
+                  value={currentFeed}
+                  classes={feedSelectClasses}
+                  input={
+                    <OutlinedInput
+                      name="feed"
+                      id="feed"
+                      classes={outlinedInputClasses}
+                    />
+                  }
+                >
+                  <MenuItem value={currentFeed}>{currentFeed}</MenuItem>
+                  <MenuItem value="en-GB">en-GB</MenuItem>
+                  <MenuItem value="de-DE">de-DE</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+          </Grid>
+        </Container>
+      </AppBar>
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <div className={classes.wrapper}>
+        <div className={classes.mainContainer}>
+          <div className={classes.leftContent}>
+            <img className={classes.logo} src={pocketLogo} alt="pocket-logo" />
+            {/* TODO: use `feeds` prop to display dropdown with available feeds if more than one is available */}
+            <p className={classes.locale}>{currentFeed}</p>
+          </div>
+          <div className={classes.rightContent}>
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              indicatorColor="primary"
+              textColor="primary"
+              style={{
                 display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginRight: '10px',
-              },
-            }}
-          >
-            <Tab
-              className={classes.tab}
+                alignSelf: 'flex-end',
+                height: '55px',
+              }}
+              centered
+              TabIndicatorProps={{
+                style: {
+                  background: GRADIENT,
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  marginRight: '10px',
+                },
+              }}
+            >
+              <Tab
+                className={classes.tab}
+                component={Link}
+                to={`/${currentFeed}/newtab/live/`}
+                label="New Tab"
+              />
+              <Tab
+                className={classes.tab}
+                component={Link}
+                to={`/${currentFeed}/prospects/`}
+                label="Prospects"
+              />
+            </Tabs>
+            <Button
+              className={classes.button}
               component={Link}
-              to={`/${currentFeed}/newtab/live/`}
-              label="New Tab"
-            />
-            <Tab
-              className={classes.tab}
-              component={Link}
-              to={`/${currentFeed}/prospects/`}
-              label="Prospects"
-            />
-          </Tabs>
-          <Button
-            className={classes.button}
-            component={Link}
-            to={`/${currentFeed}/prospects/add/`}
-          >
-            Add Story
-          </Button>
-          <Button buttonType="hollow" size="large" className={classes.button}>
-            Log Out
-          </Button>
+              to={`/${currentFeed}/prospects/article/add/`}
+            >
+              Add Story
+            </Button>
+            <Button buttonType="hollow" size="large" className={classes.button}>
+              Log Out
+            </Button>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
