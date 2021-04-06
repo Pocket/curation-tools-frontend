@@ -33,7 +33,7 @@ export const useGetSnoozedProspects = (
       vars.page,
       vars.perPage,
       totalResults,
-      'prospects/snoozed',
+      '',
       'prospects/snoozed'
     );
 

@@ -4,21 +4,21 @@ import {
   ApiCallStates,
 } from '../../../models';
 import {
-  GetRejectedProspectsQueryVariables,
-  useGetRejectedProspectsQuery,
+  GetLiveProspectsQueryVariables,
+  useGetLiveProspectsQuery,
 } from '../generatedTypes';
 import { getPageUrls } from '../utils';
 
-export const useGetRejectedProspects = (
+export const useGetLiveProspects = (
   vars: ProspectVariables
 ): ApiCallStates & ProspectListData => {
   const pageNumber = vars.page > 0 ? vars.page - 1 : 0;
   const variables = {
     ...vars,
     page: pageNumber,
-  } as GetRejectedProspectsQueryVariables;
+  } as GetLiveProspectsQueryVariables;
 
-  const { loading, error, data: result } = useGetRejectedProspectsQuery({
+  const { loading, error, data: result } = useGetLiveProspectsQuery({
     variables,
   });
 
@@ -32,7 +32,7 @@ export const useGetRejectedProspects = (
       vars.perPage,
       totalResults,
       '',
-      'prospects/rejected'
+      'newtab/live'
     );
 
     data = {

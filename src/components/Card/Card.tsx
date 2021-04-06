@@ -13,6 +13,7 @@ import { Prospect } from '../../models';
 import {
   getMutationOptions,
   useRejectProspect,
+  useRemoveProspect,
   useSnoozeProspect,
 } from '../../api';
 
@@ -82,17 +83,32 @@ export const Card: React.FC<CardProps> = (props) => {
   const classes = useStyles();
   const { showNotification, prospect, type, url } = props;
 
+  // Figure out the label contents. The type passed through covers most use cases.
+  // No label is needed on the default Prospects tab ("pending" prospects)
+  let label: string | null;
+  label = type === 'pending' ? null : type;
+
+  // Removed items are mixed in with Live and Scheduled ones, label needs to be updated
+  label = prospect.isRemoved ? 'removed' : label;
+
+  // Show a dark green label for approved, live, scheduled prospects
   let labelColor: 'default' | 'primary' | 'secondary' = 'primary';
 
   if (type === 'snoozed') {
+    // Neutral grey for snoozed prospects
     labelColor = 'default';
-  } else if (type === 'rejected') {
+  } else if (
+    // Brick red for rejected and removed prospects
+    type === 'rejected' ||
+    (['live', 'scheduled'].includes(type) && prospect.isRemoved)
+  ) {
     labelColor = 'secondary';
   }
 
   // prepare mutations
-  const { snoozeProspect } = useSnoozeProspect();
-  const { rejectProspect } = useRejectProspect();
+  const snoozeProspect = useSnoozeProspect();
+  const rejectProspect = useRejectProspect();
+  const removeProspect = useRemoveProspect();
 
   /**
    * Snooze a prospect displayed in this card
@@ -126,6 +142,22 @@ export const Card: React.FC<CardProps> = (props) => {
       });
   };
 
+  /**
+   * Remove a prospect displayed in this card
+   */
+  const handleRemove = () => {
+    removeProspect({
+      variables: { id: prospect.id, removalReason: 'a sample reason' },
+      ...getMutationOptions(prospect, 'APPROVED'),
+    })
+      .then((data: FetchResult) => {
+        showNotification('Story removed', false);
+      })
+      .catch((error: Error) => {
+        showNotification(error.message, true);
+      });
+  };
+
   return (
     <MuiCard variant="outlined" square className={classes.root}>
       <Grid container spacing={2}>
@@ -144,7 +176,7 @@ export const Card: React.FC<CardProps> = (props) => {
             publisher={prospect.publisher ?? ''}
             title={prospect.title}
             url={prospect.url}
-            label={type === 'pending' ? null : type}
+            label={label}
             labelColor={labelColor}
           />
         </Grid>
@@ -169,8 +201,10 @@ export const Card: React.FC<CardProps> = (props) => {
               Snooze
             </Button>
           )}
-          {['live', 'scheduled'].includes(type) && (
-            <Button buttonType="negative">Remove</Button>
+          {['live', 'scheduled'].includes(type) && !prospect.isRemoved && (
+            <Button buttonType="negative" onClick={handleRemove}>
+              Remove
+            </Button>
           )}
           {['pending', 'snoozed'].includes(type) && (
             <Button

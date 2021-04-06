@@ -11,7 +11,11 @@ export const ProspectData = gql`
     excerpt
     feedId: feed_id
     imageUrl
+    isLive
+    isRemoved
+    isScheduled
     publisher
+    removalReason
     source: sourceName
     state
     title

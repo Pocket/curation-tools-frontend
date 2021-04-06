@@ -1,27 +1,29 @@
 import React from 'react';
-import { Router } from 'react-router';
+import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import { MockedProvider } from '@apollo/client/testing';
-import { render, screen, within, waitFor } from '@testing-library/react';
-import { ProspectsPage } from './ProspectsPage';
+import { render, screen, waitFor, within } from '@testing-library/react';
+import { NewTabPage } from './NewTabPage';
 import { Feed } from '../../models';
 
-describe('The Prospects page', () => {
+describe('The Edit And Approve Story page', () => {
+  let history: any;
   let mockFeed: Feed;
 
   beforeEach(() => {
-    mockFeed = { id: 'abc', name: 'en-US' };
+    mockFeed = { id: '123a-456b-789c', name: 'en-US' };
+
+    history = createMemoryHistory({
+      initialEntries: ['/en-US/newtab/live/'],
+    });
   });
 
-  it('renders with four tabs', async () => {
-    const history = createMemoryHistory({
-      initialEntries: ['/en-US/prospects/'],
-    });
+  it('renders with two tabs', async () => {
     await waitFor(() => {
       render(
         <MockedProvider>
           <Router history={history}>
-            <ProspectsPage feed={mockFeed} />
+            <NewTabPage feed={mockFeed} />
           </Router>
         </MockedProvider>
       );
@@ -31,6 +33,6 @@ describe('The Prospects page', () => {
     const tabs = within(tabNavigation).getAllByRole('tab');
 
     expect(tabNavigation).toBeInTheDocument();
-    expect(tabs.length).toEqual(4);
+    expect(tabs.length).toEqual(2);
   });
 });

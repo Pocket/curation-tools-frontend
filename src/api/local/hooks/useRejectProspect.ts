@@ -1,10 +1,15 @@
-import { useRejectProspectMutation } from '../generatedTypes';
+import { MutationFunction } from '@apollo/client';
+import {
+  RejectProspectMutation,
+  RejectProspectMutationVariables,
+  useRejectProspectMutation,
+} from '../generatedTypes';
 
-export const useRejectProspect = () => {
-  const [
-    rejectProspect,
-    { loading, error, data },
-  ] = useRejectProspectMutation();
+export const useRejectProspect = (): MutationFunction<
+  RejectProspectMutation,
+  RejectProspectMutationVariables
+> => {
+  const [rejectProspect] = useRejectProspectMutation();
 
-  return { rejectProspect, loading, error, data };
+  return rejectProspect;
 };

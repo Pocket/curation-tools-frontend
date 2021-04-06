@@ -1,10 +1,15 @@
-import { useCreateProspectByUrlMutation } from '../generatedTypes';
+import { MutationFunction } from '@apollo/client';
+import {
+  CreateProspectByUrlMutation,
+  CreateProspectByUrlMutationVariables,
+  useCreateProspectByUrlMutation,
+} from '../generatedTypes';
 
-export const useCreateProspectByUrl = () => {
-  const [
-    createProspect,
-    { loading, error, data },
-  ] = useCreateProspectByUrlMutation();
+export const useCreateProspectByUrl = (): MutationFunction<
+  CreateProspectByUrlMutation,
+  CreateProspectByUrlMutationVariables
+> => {
+  const [createProspect] = useCreateProspectByUrlMutation();
 
-  return { createProspect, loading, error, data };
+  return createProspect;
 };

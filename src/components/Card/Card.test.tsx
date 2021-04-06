@@ -17,6 +17,10 @@ describe('The Card component', () => {
       excerpt: 'A short description of this article',
       feedId: 'abcdefg',
       imageUrl: 'https://images.dog.ceo/breeds/bulldog-english/jager-2.jpg',
+      isLive: false,
+      isRemoved: false,
+      isScheduled: false,
+      removalReason: null,
       publisher: 'CNN',
       source: 'CNN',
       state: 'PENDING',
@@ -61,9 +65,15 @@ describe('The Card component', () => {
     );
 
     // buttons
-    expect(screen.getByText(/reject/i)).toBeInTheDocument();
-    expect(screen.getByText(/snooze/i)).toBeInTheDocument();
-    expect(screen.getByText(/edit & approve/i)).toBeInTheDocument();
+    expect(screen.getByText(/^reject$/i)).toBeInTheDocument();
+    expect(screen.getByText(/^snooze$/i)).toBeInTheDocument();
+    expect(screen.getByText(/^edit & approve$/i)).toBeInTheDocument();
+
+    expect(screen.queryByText(/^edit$/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/^remove$/i)).not.toBeInTheDocument();
+
+    // There shouldn't be a label for pending prospects
+    expect(screen.queryByText(/^pending$/i)).not.toBeInTheDocument();
   });
 
   it('renders correctly for Snoozed prospects', () => {
@@ -81,8 +91,15 @@ describe('The Card component', () => {
     );
 
     // buttons
-    expect(screen.getByText(/reject/i)).toBeInTheDocument();
-    expect(screen.getByText(/edit & approve/i)).toBeInTheDocument();
+    expect(screen.getByText(/^reject$/i)).toBeInTheDocument();
+    expect(screen.getByText(/^edit & approve$/i)).toBeInTheDocument();
+
+    expect(screen.queryByText(/^snooze$/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/^edit$/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/^remove$/i)).not.toBeInTheDocument();
+
+    // Check the label
+    expect(screen.getByText(/^snoozed$/i)).toBeInTheDocument();
   });
 
   it('renders correctly for Approved prospects', () => {
@@ -100,9 +117,15 @@ describe('The Card component', () => {
     );
 
     // buttons
-    expect(screen.getByText(/reject/i)).toBeInTheDocument();
-    expect(screen.getByText(/snooze/i)).toBeInTheDocument();
-    expect(screen.getByText(/edit/i)).toBeInTheDocument();
+    expect(screen.getByText(/^reject$/i)).toBeInTheDocument();
+    expect(screen.getByText(/^snooze$/i)).toBeInTheDocument();
+    expect(screen.getByText(/^edit$/i)).toBeInTheDocument();
+
+    expect(screen.queryByText(/^edit & approve$/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/^remove$/i)).not.toBeInTheDocument();
+
+    // Check the label
+    expect(screen.getByText(/^approved$/i)).toBeInTheDocument();
   });
 
   it('renders correctly for Rejected prospects', () => {
@@ -120,7 +143,15 @@ describe('The Card component', () => {
     );
 
     // buttons
-    expect(screen.getByText(/snooze/i)).toBeInTheDocument();
+    expect(screen.getByText(/^snooze$/i)).toBeInTheDocument();
+
+    expect(screen.queryByText(/^reject$/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/^edit & approve$/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/^edit$/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/^remove$/i)).not.toBeInTheDocument();
+
+    // Check the label
+    expect(screen.getByText(/^rejected$/i)).toBeInTheDocument();
   });
 
   it('renders correctly for Live prospects', () => {
@@ -138,8 +169,15 @@ describe('The Card component', () => {
     );
 
     // buttons
-    expect(screen.getByText(/remove/i)).toBeInTheDocument();
-    expect(screen.getByText(/edit/i)).toBeInTheDocument();
+    expect(screen.getByText(/^remove$/i)).toBeInTheDocument();
+    expect(screen.getByText(/^edit$/i)).toBeInTheDocument();
+
+    expect(screen.queryByText(/^reject$/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/^snooze$/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/^edit & approve$/i)).not.toBeInTheDocument();
+
+    // Check the label
+    expect(screen.getByText(/^live$/i)).toBeInTheDocument();
   });
 
   it('renders correctly for Scheduled prospects', () => {
@@ -157,7 +195,42 @@ describe('The Card component', () => {
     );
 
     // buttons
-    expect(screen.getByText(/remove/i)).toBeInTheDocument();
-    expect(screen.getByText(/edit/i)).toBeInTheDocument();
+    expect(screen.getByText(/^remove$/i)).toBeInTheDocument();
+    expect(screen.getByText(/^edit$/i)).toBeInTheDocument();
+
+    expect(screen.queryByText(/^reject$/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/^snooze$/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/^edit & approve$/i)).not.toBeInTheDocument();
+
+    // Check the label
+    expect(screen.getByText(/^scheduled$/i)).toBeInTheDocument();
+  });
+
+  it('renders correctly for Removed prospects', () => {
+    prospect.isRemoved = true;
+
+    render(
+      <MockedProvider>
+        <MemoryRouter>
+          <Card
+            prospect={prospect}
+            type="live"
+            url={baseUrl}
+            showNotification={jest.fn()}
+          />
+        </MemoryRouter>
+      </MockedProvider>
+    );
+
+    // buttons
+    expect(screen.getByText(/^edit$/i)).toBeInTheDocument();
+
+    expect(screen.queryByText(/^remove$/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/^reject$/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/^snooze$/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/^edit & approve$/i)).not.toBeInTheDocument();
+
+    // Check the label
+    expect(screen.getByText(/^removed$/i)).toBeInTheDocument();
   });
 });

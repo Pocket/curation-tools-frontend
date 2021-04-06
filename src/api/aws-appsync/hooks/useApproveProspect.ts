@@ -1,10 +1,15 @@
-import { useApproveProspectMutation } from '../generatedTypes';
+import { MutationFunction } from '@apollo/client';
+import {
+  ApproveProspectMutation,
+  ApproveProspectMutationVariables,
+  useApproveProspectMutation,
+} from '../generatedTypes';
 
-export const useApproveProspect = () => {
-  const [
-    approveProspect,
-    { loading, error, data },
-  ] = useApproveProspectMutation();
+export const useApproveProspect = (): MutationFunction<
+  ApproveProspectMutation,
+  ApproveProspectMutationVariables
+> => {
+  const [approveProspect] = useApproveProspectMutation();
 
-  return { approveProspect, loading, error, data };
+  return approveProspect;
 };

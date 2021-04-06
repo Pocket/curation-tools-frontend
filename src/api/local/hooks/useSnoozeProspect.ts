@@ -1,10 +1,15 @@
-import { useSnoozeProspectMutation } from '../generatedTypes';
+import { MutationFunction } from '@apollo/client';
+import {
+  SnoozeProspectMutation,
+  SnoozeProspectMutationVariables,
+  useSnoozeProspectMutation,
+} from '../generatedTypes';
 
-export const useSnoozeProspect = () => {
-  const [
-    snoozeProspect,
-    { loading, error, data },
-  ] = useSnoozeProspectMutation();
+export const useSnoozeProspect = (): MutationFunction<
+  SnoozeProspectMutation,
+  SnoozeProspectMutationVariables
+> => {
+  const [snoozeProspect] = useSnoozeProspectMutation();
 
-  return { snoozeProspect, loading, error, data };
+  return snoozeProspect;
 };

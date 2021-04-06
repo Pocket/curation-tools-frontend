@@ -1,7 +1,8 @@
 import React from 'react';
-import { Box, Divider, Button, TextField, Grid } from '@material-ui/core';
+import { Box, Divider, TextField, Grid } from '@material-ui/core';
 import { useForm } from 'react-hook-form';
 import { VALID_URL_REGEX } from '../../constants';
+import { Button } from '../';
 
 interface AddStoryProps {
   /**
@@ -63,7 +64,7 @@ export const AddStory: React.FC<AddStoryProps> = (props): JSX.Element => {
         </Box>
       </Grid>
       <Box display="flex" justifyContent="flex-end" mt="1rem">
-        <Button color="primary" variant="contained" type="submit">
+        <Button buttonType="positive" type="submit">
           Parse
         </Button>
       </Box>
